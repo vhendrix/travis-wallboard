@@ -1,47 +1,78 @@
 angular.module('myApp.controllers', []).
-    controller('MyCtrl1', ['$scope', '$interval', 'TravisBuilds','TravisBuild', function ($scope, $interval, TravisBuilds, TravisBuild) {
+    controller('MyCtrl1', ['$scope', '$interval', 'TravisRepos', 'TravisBuilds', 'TravisBuild', function ($scope, $interval, TravisRepos, TravisBuilds, TravisBuild) {
         // Instantiate an object to store your scope data in (Best Practices)
         $scope.data = {};
-        $scope.repos =  $scope.repos || {};
-        $scope.newRepos =  $scope.newRepos || {};
-        $scope.jobs =  $scope.jobs || {};
+        $scope.repos = $scope.repos || {};
+        $scope.newRepos = $scope.newRepos || {};
+        $scope.jobs = $scope.jobs || {};
+        $scope.builds = $scope.builds || {};
 
-        $scope.setInitialBuildsS = function() {
-            TravisBuilds.getBuilds(function (response) {
-                // Assign the response INSIDE the callback
-                angular.forEach(response.repos, function(repo, key) {
-                    $scope.repos[repo.id] = repo;
-                    $scope.jobs[repo.id] = {};
+        $scope.isFailed = function(state) {
+            return state === 'failed' || state === 'error';
+        };
+
+        $scope.isBuilding = function(state) {
+            return state === 'started' || state === 'created';
+        };
+
+        $scope.isPassing = function(state) {
+            return state === 'passed';
+        };
+
+        $scope.loadBuilds = function () {
+            angular.forEach($scope.repos, function (repo, key) {
+                var slug = repo.slug.replace(slugstart + '/', "");
+                TravisBuilds.getBuilds({slug: slug}, function (response) {
+                    var found = false;
+                    angular.forEach(response.builds, function (build, key) {
+                        if (found == false) {
+                            if (!build.pull_request) {
+                                $scope.builds[repo.id] = {};
+
+                                var blockclass = '';
+
+                                if (build.state == 'failed') {
+                                    blockclass = 'btn-danger';
+                                } else if (build.state == 'passed') {
+                                    blockclass = 'btn-success';
+                                } else if (build.state == 'started' || build.state == 'created') {
+                                    blockclass = 'btn-info';
+                                } else {
+                                    blockclass = 'btn-warning';
+                                }
+
+                                $scope.builds[repo.id]['state'] = build.state;
+                                $scope.builds[repo.id]['name'] = repo.description;
+                                $scope.builds[repo.id]['class'] = blockclass;
+                                $scope.builds[repo.id]['commit'] = response.commits[key];
+
+
+                                $scope.builds[repo.id]['build'] = build;
+                                found = true;
+                            }
+                        }
+                    });
                 });
             });
         };
 
-
-        $interval(function () {
-            TravisBuilds.getBuilds(function (response) {
-                // Assign the response INSIDE the callback
-                angular.forEach(response.repos, function(repo, key) {
-                    if (
-                        repo.active &&
-                        repo.last_build_finished_at !== null &&
-                        (typeof $scope.jobs[repo.id] == 'undefined' ||
-                        (
-                          typeof $scope.jobs[repo.id]['state'] == 'undefined' ||
-                          $scope.jobs[repo.id]['state'] != 'retrieving')
-                        )
-                        ) {
-                        $scope.jobs[repo.id]['repo'] = repo;
-                        $scope.jobs[repo.id]['state'] = 'retrieving';
-
-                        console.debug(repo.slug);
-                        console.debug(repo.last_build_id);
-                        TravisBuild.getBuild({slug: repo.slug, buildid : repo.last_build_id},function (response) {
-                            $scope.jobs[repo.id]['state'] = 'done';
-                            $scope.jobs[repo.id]['commit'] = response.commit;
-                        });
+        $scope.setInitialBuilds = function () {
+            TravisRepos.getRepos(function (response) {
+                angular.forEach(response.repos, function (repo, key) {
+                    if (repo.active) {
+                        $scope.repos[repo.id] = repo;
+                        $scope.jobs[repo.id] = {};
                     }
-
                 });
+
+                $scope.loadBuilds($scope.repos);
             });
-        }, 20000);
-    }]);
+        };
+        $scope.setInitialBuilds();
+
+        $interval(
+            $scope.loadBuilds, 60000
+        );
+    }
+    ]
+);

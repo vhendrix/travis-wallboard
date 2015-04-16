@@ -79,4 +79,5 @@ td.closed {
     margin:5px;
     text-align: center;
     height:275px;
+    border-radius: 15px;
 }
