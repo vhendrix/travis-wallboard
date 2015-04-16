@@ -1,0 +1,35 @@
+<div class="row">
+    <div ng-repeat="(key, repo) in repos" class=" col col-md-3" ng-if="repo.active">
+        <div class="{{repo.last_build_state}}{{repo.pull_request}} ablock">
+            <h2 ng-if="repo.pull_request">PR:</h2>
+
+            <h3>{{repo.description}}</h3>
+            <strong>{{repo.slug}}</strong>
+
+            <p>{{repo.last_build_state}}</p>
+
+            <p>{{repo.last_build_number}}</p>
+
+            <p>{{repo.finished_at}}</p>
+        </div>
+    </div>
+</div>
+
+
+
+<!--<div class="row">-->
+    <!--<div ng-repeat="issue in data.issues.repos" class=" col col-md-3" ng-if="last_build_id">-->
+        <!--<div class="{{issue.state}}{{issue.pull_request}} ablock">-->
+            <!--<h2 ng-if="issue.pull_request">PR:</h2>-->
+
+            <!--<h3>{{issue.description}}</h3>-->
+            <!--<strong>{{data.issues.commits[$index].author_name}}</strong>-->
+
+            <!--<p>{{issue.state}}</p>-->
+
+            <!--<p>{{data.issues.commits[$index].branch}} <b>{{issue.pull_request_title}}</b></p>-->
+
+            <!--<p>{{issue.finished_at}}</p>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
