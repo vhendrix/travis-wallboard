@@ -12,7 +12,7 @@
             <p>
                 Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
             </p>
-
+            <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
             <p>
                 <em>{{build.commit.message}}</em>
             </p>
@@ -34,7 +34,7 @@
             <p>
                BUILDING
             </p>
-
+            <span style="font-size: 30px" class="glyphicon glyphicon-hourglass"></span>
             <p>
                 <em>{{build.commit.message}}</em>
             </p>
@@ -50,7 +50,7 @@
             <p class="lead">
                 <strong>{{build.commit.branch}}</strong>
             </p>
-
+            <span style="font-size: 30px" class="glyphicon glyphicon-ok"></span>
             <p>{{build.build.finished_at}}</p>
         </div>
     </div>

@@ -32,17 +32,17 @@ angular.module('myApp.controllers', []).
                                 var blockclass = '';
 
                                 if (build.state == 'failed') {
-                                    blockclass = 'btn-danger';
+                                    blockclass = 'bg-danger text-danger';
                                 } else if (build.state == 'passed') {
-                                    blockclass = 'btn-success';
-                                } else if (build.state == 'started' || build.state == 'created') {
-                                    blockclass = 'btn-info';
+                                    blockclass = 'bg-success text-success';
+                                } else if (build.state == 'started' || build.state == 'received' || build.state == 'created') {
+                                    blockclass = 'bg-info text-info';
                                 } else {
                                     blockclass = 'btn-warning';
                                 }
 
                                 $scope.builds[repo.id]['state'] = build.state;
-                                $scope.builds[repo.id]['name'] = repo.description;
+                                $scope.builds[repo.id]['name'] = slug;
                                 $scope.builds[repo.id]['class'] = blockclass;
                                 $scope.builds[repo.id]['commit'] = response.commits[key];
 
