@@ -1,5 +1,9 @@
 /* app css stylesheet */
 
+body {
+    padding: 5px;
+}
+
 .menu {
     list-style: none;
     border-bottom: 0.1em solid black;
@@ -80,4 +84,9 @@ td.closed {
     text-align: center;
     height:275px;
     border-radius: 15px;
+    margin: 10px;
+}
+
+.col {
+    padding: 0;
 }
