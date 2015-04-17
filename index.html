@@ -7,6 +7,43 @@
     <link rel="stylesheet" href="css/app.css"/>
 
 
+    <script type="application/javascript">
+
+        function createCookie(name,value,days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime()+(days*24*60*60*1000));
+                var expires = "; expires="+date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name+"="+value+expires+"; path=/";
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        var token = readCookie('token');
+        if (token == null || token ==  '') {
+            token = prompt("Travis token");
+            createCookie('token', token, 700);
+        }
+
+        var slugstart =  readCookie('repo');
+        if (slugstart == null || slugstart == '') {
+            slugstart = prompt("Company repo");
+            createCookie('repo', slugstart, 700);
+        }
+
+    </script>
+
 </head>
 <body>
 <div ng-view></div>
@@ -16,7 +53,7 @@
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 -->
-<script src="local-config.js"></script>
+<!--<script src="local-config.js"></script>-->
 <script src="angular.js"></script>
 <script src="angular-route.js"></script>
 <script src="angular-resource.js"></script>
