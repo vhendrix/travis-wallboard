@@ -9,6 +9,17 @@ angular.module('myApp.controllers', []).
 
         $scope.building = $scope.building || {};
 
+        $scope.showModal = function () {
+            var failed = false;
+            angular.forEach($scope.builds, function (build, key) {
+                if (build.state === 'failed' || build.state === 'error' || build.state === 'started' || build.state === 'created') {
+                    failed= true;
+                    return true;
+                }
+            });
+            return failed;
+        };
+
         $scope.isFailed = function (state) {
             return state === 'failed' || state === 'error';
         };
@@ -23,38 +34,7 @@ angular.module('myApp.controllers', []).
 
         $scope.loadBuilds = function () {
             angular.forEach($scope.repos, function (repo, key) {
-                var slug = repo.slug.replace(slugstart + '/', "");
-                TravisBuilds.getBuilds({slug: slug}, function (response) {
-                    var found = false;
-                    angular.forEach(response.builds, function (build, key) {
-                        if (found == false) {
-                            if (!build.pull_request) {
-                                $scope.builds[repo.id] = {};
-
-                                var blockclass = '';
-
-                                if (build.state == 'failed') {
-                                    blockclass = 'btn-danger text-danger';
-                                } else if (build.state == 'passed') {
-                                    blockclass = 'btn-success text-success';
-                                } else if (build.state == 'started' || build.state == 'received' || build.state == 'created') {
-                                    blockclass = 'btn-info text-info';
-                                } else {
-                                    blockclass = 'btn-warning';
-                                }
-
-                                $scope.builds[repo.id]['state'] = build.state;
-                                $scope.builds[repo.id]['name'] = slug;
-                                $scope.builds[repo.id]['class'] = blockclass;
-                                $scope.builds[repo.id]['commit'] = response.commits[key];
-
-
-                                $scope.builds[repo.id]['build'] = build;
-                                found = true;
-                            }
-                        }
-                    });
-                });
+                $scope.loadBuildsForRepo(repo);
             });
         };
 
@@ -68,7 +48,6 @@ angular.module('myApp.controllers', []).
                             $scope.builds[repo.id] = {};
 
                             var blockclass = '';
-
                             if (build.state == 'failed') {
                                 blockclass = 'btn-danger text-danger';
                             } else if (build.state == 'passed') {

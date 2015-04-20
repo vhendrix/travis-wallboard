@@ -1,5 +1,6 @@
-<div class="row">
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isFailed(build.state)">
+<div class="failure" ng-if="showModal()">
+    <div class="row">
+    <div ng-repeat="(key, build) in builds" class=" col col-md-12" ng-if="isFailed(build.state)">
         <div class="{{build.class}} ablock">
             <h2 ng-if="build.build.pull_request">PR:</h2>
 
@@ -21,7 +22,7 @@
         </div>
     </div>
 
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isBuilding(build.state)">
+    <div ng-repeat="(key, build) in builds" class=" col col-md-12" ng-if="isBuilding(build.state)">
         <div class="{{build.class}} ablock">
             <h2 ng-if="build.build.pull_request">PR:</h2>
 
@@ -32,7 +33,7 @@
             </p>
 
             <p>
-               BUILDING
+                BUILDING
             </p>
             <span style="font-size: 30px" class="glyphicon glyphicon-hourglass"></span>
             <p>
@@ -40,7 +41,9 @@
             </p>
         </div>
     </div>
-
+    </div>
+</div>
+<div class="row">
     <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isPassing(build.state)">
         <div class="{{build.class}} ablock">
             <h2 ng-if="build.build.pull_request">PR:</h2>
@@ -55,21 +58,3 @@
         </div>
     </div>
 </div>
-
-
-<!--<div class="row">-->
-<!--<div ng-repeat="issue in data.issues.repos" class=" col col-md-3" ng-if="last_build_id">-->
-<!--<div class="{{issue.state}}{{issue.pull_request}} ablock">-->
-<!--<h2 ng-if="issue.pull_request">PR:</h2>-->
-
-<!--<h3>{{issue.description}}</h3>-->
-<!--<strong>{{data.issues.commits[$index].author_name}}</strong>-->
-
-<!--<p>{{issue.state}}</p>-->
-
-<!--<p>{{data.issues.commits[$index].branch}} <b>{{issue.pull_request_title}}</b></p>-->
-
-<!--<p>{{issue.finished_at}}</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
