@@ -80,9 +80,6 @@ angular.module('myApp.controllers', []).
                             $scope.builds[repo.id]['commit'] = response.commits[key];
                             $scope.builds[repo.id]['build'] = build;
 
-                            console.debug(response.commits[key].committer_email);
-                            console.debug( md5.createHash(response.commits[key].committer_email));
-
                             $scope.builds[repo.id]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
                             found = true;
                         }
