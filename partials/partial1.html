@@ -1,46 +1,50 @@
 <div class="failure" ng-if="showModal()">
     <div class="row">
-    <div ng-repeat="(key, build) in builds" class=" col col-md-12" ng-if="isFailed(build.state)">
-        <div class="{{build.class}} ablock">
-            <h2 ng-if="build.build.pull_request">PR:</h2>
+        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass()}}" ng-if="isFailed(build.state)">
+            <div class="{{build.class}} ablock ">
+                <div class="leftcol">
+                    <h2>{{build.name}}</h2>
 
-            <h2>{{build.name}}</h2>
+                    <p class="lead">
+                        <strong>{{build.commit.branch}}</strong>
+                    </p>
 
-            <p class="lead">
-                <strong>{{build.commit.branch}}</strong>
-            </p>
+                    <p>
+                        Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
+                    </p>
+                    <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
 
-            <p>
-                Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
-            </p>
-            <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
-            <p>
-                <em>{{build.commit.message}}</em>
-            </p>
-
-            <p>{{build.build.finished_at}}</p>
+                    <p>
+                        <em>{{build.commit.message}}</em> <br/>
+                        {{build.build.finished_at}}
+                    </p>
+                </div>
+                <div class="rightcol">
+                    <div>
+                        <img ng-if="build.userUrl" src="{{build.userUrl}}">
+                    </div>
+                    <div>   </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass()}}" ng-if="isBuilding(build.state)">
+            <div class="{{build.class}} ablock">
+                <h2>{{build.name}}</h2>
 
-    <div ng-repeat="(key, build) in builds" class=" col col-md-12" ng-if="isBuilding(build.state)">
-        <div class="{{build.class}} ablock">
-            <h2 ng-if="build.build.pull_request">PR:</h2>
+                <p class="lead">
+                    <strong>{{build.commit.branch}}</strong>
+                </p>
 
-            <h2>{{build.name}}</h2>
+                <p>
+                    BUILDING
+                </p>
+                <span style="font-size: 30px" class="glyphicon glyphicon-hourglass"></span>
 
-            <p class="lead">
-                <strong>{{build.commit.branch}}</strong>
-            </p>
-
-            <p>
-                BUILDING
-            </p>
-            <span style="font-size: 30px" class="glyphicon glyphicon-hourglass"></span>
-            <p>
-                <em>{{build.commit.message}}</em>
-            </p>
+                <p>
+                    <em>{{build.commit.message}}</em>
+                </p>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 <div class="row">
@@ -54,6 +58,7 @@
                 <strong>{{build.commit.branch}}</strong>
             </p>
             <span style="font-size: 30px" class="glyphicon glyphicon-ok"></span>
+
             <p>{{build.build.finished_at}}</p>
         </div>
     </div>

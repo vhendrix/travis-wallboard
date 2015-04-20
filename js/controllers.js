@@ -1,19 +1,35 @@
 angular.module('myApp.controllers', []).
-    controller('MyCtrl1', ['$scope', '$interval', 'TravisRepos', 'TravisBuilds', 'TravisBuild', function ($scope, $interval, TravisRepos, TravisBuilds, TravisBuild) {
+    controller('MyCtrl1', ['$scope', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', 'TravisBuild', function ($scope, $interval, md5, TravisRepos, TravisBuilds, TravisBuild) {
         // Instantiate an object to store your scope data in (Best Practices)
+
         $scope.data = {};
         $scope.repos = $scope.repos || {};
         $scope.newRepos = $scope.newRepos || {};
         $scope.jobs = $scope.jobs || {};
         $scope.builds = $scope.builds || {};
-
+        $scope.users = $scope.users || {};
         $scope.building = $scope.building || {};
+
+        $scope.getErrorsClass = function () {
+            var count = 0;
+            angular.forEach($scope.builds, function (build, key) {
+                if (build.state === 'failed' || build.state === 'error' || build.state === 'started' || build.state === 'created') {
+                    count++;
+                }
+            });
+
+            if (count > 3) {
+                return 'col-md-6 errors-' + count;
+            } else {
+                return 'col-md-12 errors-' + count;
+            }
+        };
 
         $scope.showModal = function () {
             var failed = false;
             angular.forEach($scope.builds, function (build, key) {
                 if (build.state === 'failed' || build.state === 'error' || build.state === 'started' || build.state === 'created') {
-                    failed= true;
+                    failed = true;
                     return true;
                 }
             });
@@ -46,6 +62,10 @@ angular.module('myApp.controllers', []).
                     if (found == false) {
                         if (!build.pull_request) {
                             $scope.builds[repo.id] = {};
+                            if (slug === 'SkillMe' || slug === 'globway-mcbgateway'|| slug === 'rtl' ) {
+                                build.state = 'started';
+                            }
+
 
                             var blockclass = '';
                             if (build.state == 'failed') {
@@ -62,8 +82,12 @@ angular.module('myApp.controllers', []).
                             $scope.builds[repo.id]['name'] = slug;
                             $scope.builds[repo.id]['class'] = blockclass;
                             $scope.builds[repo.id]['commit'] = response.commits[key];
-
                             $scope.builds[repo.id]['build'] = build;
+
+                            console.debug(response.commits[key].committer_email);
+                            console.debug( md5.createHash(response.commits[key].committer_email));
+
+                            $scope.builds[repo.id]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
                             found = true;
                         }
                     }
@@ -89,6 +113,7 @@ angular.module('myApp.controllers', []).
                 angular.forEach(response.repos, function (repo, key) {
                         if (repo.active && repo.last_build_finished_at == null) {
                             $scope.building[repo.id] = 'building';
+                            $scope.builds[repo.id]['state'] = 'started';
                             $scope.builds[repo.id]['class'] = 'btn-info text-info';
                         } else if (repo.active && $scope.building[repo.id] == 'building') {
                             $scope.building[repo.id] = 'done';
