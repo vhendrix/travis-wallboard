@@ -62,10 +62,6 @@ angular.module('myApp.controllers', []).
                     if (found == false) {
                         if (!build.pull_request) {
                             $scope.builds[repo.id] = {};
-                            if (slug === 'SkillMe' || slug === 'globway-mcbgateway'|| slug === 'rtl' ) {
-                                build.state = 'started';
-                            }
-
 
                             var blockclass = '';
                             if (build.state == 'failed') {
