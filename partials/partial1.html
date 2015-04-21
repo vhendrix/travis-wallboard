@@ -27,28 +27,28 @@
                 </div>
             </div>
         </div>
-        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass()}}" ng-if="isBuilding(build.state)">
-            <div class="{{build.class}} ablock">
-                <h2>{{build.name}}</h2>
-
-                <p class="lead">
-                    <strong>{{build.commit.branch}}</strong>
-                </p>
-
-                <p>
-                    BUILDING
-                </p>
-                <span style="font-size: 30px" class="glyphicon glyphicon-hourglass"></span>
-
-                <p>
-                    <em>{{build.commit.message}}</em>
-                </p>
-            </div>
-        </div>
     </div>
 </div>
 <div class="row">
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isPassing(build.state)">
+    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isBuilding(build.state)">
+        <div class="{{build.class}} ablock">
+            <h2>{{build.name}}</h2>
+
+            <p class="lead">
+                <strong>{{build.commit.branch}}</strong>
+            </p>
+
+            <p>
+                BUILDING
+            </p>
+            <span style="font-size: 30px" class="glyphicon glyphicon-hourglass spin"></span>
+
+            <p>
+                <em>{{build.commit.message}}</em>
+            </p>
+        </div>
+    </div>
+    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3" ng-if="isPassing(build.state)">
         <div class="{{build.class}} ablock">
             <h2 ng-if="build.build.pull_request">PR:</h2>
 

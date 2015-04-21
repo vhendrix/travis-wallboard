@@ -28,7 +28,7 @@ angular.module('myApp.controllers', []).
         $scope.showModal = function () {
             var failed = false;
             angular.forEach($scope.builds, function (build, key) {
-                if (build.state === 'failed' || build.state === 'error' || build.state === 'started' || build.state === 'created') {
+                if (build.state === 'failed' || build.state === 'error') {
                     failed = true;
                     return true;
                 }
@@ -79,7 +79,7 @@ angular.module('myApp.controllers', []).
                             $scope.builds[repo.id]['class'] = blockclass;
                             $scope.builds[repo.id]['commit'] = response.commits[key];
                             $scope.builds[repo.id]['build'] = build;
-
+                            $scope.builds[repo.id]['startedAt'] = build.started_at;
                             $scope.builds[repo.id]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
                             found = true;
                         }
@@ -106,6 +106,7 @@ angular.module('myApp.controllers', []).
                 angular.forEach(response.repos, function (repo, key) {
                         if (repo.active && repo.last_build_finished_at == null) {
                             $scope.building[repo.id] = 'building';
+                            $scope.builds[repo.id] =   $scope.builds[repo.id] || {};
                             $scope.builds[repo.id]['state'] = 'started';
                             $scope.builds[repo.id]['class'] = 'btn-info text-info';
                         } else if (repo.active && $scope.building[repo.id] == 'building') {
