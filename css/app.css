@@ -171,6 +171,7 @@ td.closed {
     width: 145px;
 }
 
+
 .spin{
     -webkit-transform-origin: 50% 58%;
     transform-origin:50% 58%;
@@ -179,4 +180,44 @@ td.closed {
     -moz-animation: spin .2s infinite linear;
     -o-animation: spin .2s infinite linear;
     animation: spin .2s infinite linear;
+}
+
+.commiter {
+    border: 10px solid #333333;
+    border-radius: 94px;
+    left: -10px;
+    position: absolute;
+    top: -10px
+}
+
+
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+    .commiter {
+        width: 80px;
+    }
+    .glyphicon {
+       font-size: 10px;
+    }
+
+    .h2, h2 {
+        margin-top: 5px;
+    }
+}
+
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 1500px) {
+    .commiter {
+        width: 109px;
+    }
+
+    .h2, h2 {
+        margin-top: 20px;
+    }
+
+    .glyphicon {
+        font-size: 30px;
+    }
 }

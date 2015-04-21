@@ -31,10 +31,10 @@ angular.module('myApp.services', ['ngResource'])
     .factory('TravisBuilds', function ($resource) {
         return $resource(
             'https://api.travis-ci.com/repos/' + slugstart + "/:slug/builds",
-            {slug: '@slug'},
+            {slug: '@slug', 'event_type': 'push'},
             {
                 'getBuilds': {
-                    params: {slug: 0},
+                    params: {slug: 0, 'event_type': 'push'},
                     method: 'GET', headers: {
                         'Authorization': "token " + token,
                         'Accept': 'application/vnd.travis-ci.2+json'

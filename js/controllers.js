@@ -13,7 +13,7 @@ angular.module('myApp.controllers', []).
         $scope.getErrorsClass = function () {
             var count = 0;
             angular.forEach($scope.builds, function (build, key) {
-                if (build.state === 'failed' || build.state === 'error' || build.state === 'started' || build.state === 'created') {
+                if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
                     count++;
                 }
             });
@@ -28,16 +28,33 @@ angular.module('myApp.controllers', []).
         $scope.showModal = function () {
             var failed = false;
             angular.forEach($scope.builds, function (build, key) {
-                if (build.state === 'failed' || build.state === 'error') {
-                    failed = true;
-                    return true;
+                if (build.state === 'failed' || build.state === 'error' ||build.state === 'errored' ) {
+                    var dt = new Date(Date.parse(build.startedAt));
+                    var now = new Date();
+
+                    var minutes = Math.floor((now.getTime() - dt.getTime()) % 60);
+                    if (minutes < 5) {
+                        failed = true;
+                        return true;
+                    }
                 }
             });
             return failed;
         };
 
+        $scope.recentError = function(startedAt) {
+            var dt = new Date(Date.parse(startedAt));
+            var now = new Date();
+
+            var minutes = Math.floor((now.getTime() - dt.getTime()) % 60);
+            if (minutes < 5) {
+                return true;
+            }
+            return false;
+        };
+
         $scope.isFailed = function (state) {
-            return state === 'failed' || state === 'error';
+            return state === 'failed' || state === 'error' || state =='errored';
         };
 
         $scope.isBuilding = function (state) {
