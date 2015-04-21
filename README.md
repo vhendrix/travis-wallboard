@@ -1,2 +1,2 @@
 # travis-wallboard
-Wallbord for travis ... more to follow
+Wallboard for travis ... more to follow
