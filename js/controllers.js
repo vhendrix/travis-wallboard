@@ -1,7 +1,8 @@
-angular.module('myApp.controllers', []).
-    controller('MyCtrl1', ['$scope', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', 'TravisBuild', function ($scope, $interval, md5, TravisRepos, TravisBuilds, TravisBuild) {
+angular.module('travisWallBoard.controllers', []).
+    controller('ReposController', ['$scope', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', 'TravisBuild', function ($scope, DisplayFunctions, $interval, md5, TravisRepos, TravisBuilds, TravisBuild) {
         // Instantiate an object to store your scope data in (Best Practices)
 
+        $scope.displayFunctions = DisplayFunctions;
         $scope.data = {};
         $scope.repos = $scope.repos || {};
         $scope.newRepos = $scope.newRepos || {};
@@ -9,44 +10,6 @@ angular.module('myApp.controllers', []).
         $scope.builds = $scope.builds || {};
         $scope.users = $scope.users || {};
         $scope.building = $scope.building || {};
-
-        $scope.getErrorsClass = function () {
-            var count = 0;
-            angular.forEach($scope.builds, function (build, key) {
-                if (build.state === 'failed' || build.state === 'error' || build.state === 'started' || build.state === 'created') {
-                    count++;
-                }
-            });
-
-            if (count > 3) {
-                return 'col-md-6 errors-' + count;
-            } else {
-                return 'col-md-12 errors-' + count;
-            }
-        };
-
-        $scope.showModal = function () {
-            var failed = false;
-            angular.forEach($scope.builds, function (build, key) {
-                if (build.state === 'failed' || build.state === 'error') {
-                    failed = true;
-                    return true;
-                }
-            });
-            return failed;
-        };
-
-        $scope.isFailed = function (state) {
-            return state === 'failed' || state === 'error';
-        };
-
-        $scope.isBuilding = function (state) {
-            return state === 'started' || state === 'created';
-        };
-
-        $scope.isPassing = function (state) {
-            return state === 'passed';
-        };
 
         $scope.loadBuilds = function () {
             angular.forEach($scope.repos, function (repo, key) {
@@ -106,7 +69,7 @@ angular.module('myApp.controllers', []).
                 angular.forEach(response.repos, function (repo, key) {
                         if (repo.active && repo.last_build_finished_at == null) {
                             $scope.building[repo.id] = 'building';
-                            $scope.builds[repo.id] =   $scope.builds[repo.id] || {};
+                            $scope.builds[repo.id] = $scope.builds[repo.id] || {};
                             $scope.builds[repo.id]['state'] = 'started';
                             $scope.builds[repo.id]['class'] = 'btn-info text-info';
                         } else if (repo.active && $scope.building[repo.id] == 'building') {
@@ -122,6 +85,64 @@ angular.module('myApp.controllers', []).
 
         $interval(
             $scope.pollRepos, 30000
+        );
+    }
+    ]
+).controller('ProjectController', ['$scope', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', 'TravisBuild', '$routeParams', function ($scope, DisplayFunctions, $interval, md5, TravisRepos, TravisBuilds, TravisBuild, routeParams) {
+        // Instantiate an object to store your scope data in (Best Practices)
+
+        $scope.displayFunctions = DisplayFunctions;
+        $scope.data = {};
+        $scope.repos = $scope.repos || {};
+        $scope.newRepos = $scope.newRepos || {};
+        $scope.jobs = $scope.jobs || {};
+        $scope.builds = $scope.builds || {};
+        $scope.users = $scope.users || {};
+        $scope.building = $scope.building || {};
+
+        $scope.loadBuildsForRepo = function () {
+
+            var slug = routeParams.slug;
+
+            console.debug(slug);
+            TravisBuilds.getBuildsForProject({slug: slug}, function (response) {
+                angular.forEach(response.builds, function (build, key) {
+                    $scope.builds[key] = {};
+
+                    var blockclass = '';
+                    if (build.state == 'failed') {
+                        blockclass = 'btn-danger text-danger';
+                    } else if (build.state == 'passed') {
+                        blockclass = 'btn-success text-success';
+                    } else if (build.state == 'started' || build.state == 'received' || build.state == 'created') {
+                        blockclass = 'btn-info text-info';
+                    } else {
+                        blockclass = 'btn-warning';
+                    }
+
+                    $scope.builds[key]['state'] = build.state;
+                    $scope.builds[key]['name'] = slug;
+                    $scope.builds[key]['class'] = blockclass;
+                    $scope.builds[key]['commit'] = response.commits[key];
+
+                    if (build.pull_request) {
+                        $scope.builds[key]['branch'] = build.pull_request_title;
+                    } else {
+                        $scope.builds[key]['branch'] = response.commits[key].branch;
+                    }
+
+                    $scope.builds[key]['build'] = build;
+                    $scope.builds[key]['startedAt'] = build.started_at;
+                    $scope.builds[key]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
+                });
+            });
+        };
+
+
+        $scope.loadBuildsForRepo();
+
+        $interval(
+            $scope.loadBuildsForRepo, 30000
         );
     }
     ]
