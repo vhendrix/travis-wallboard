@@ -49,6 +49,19 @@ angular.module('travisWallBoard.services', ['ngResource'])
                 }
             }
         )
+    }).factory('TravisToken', function ($resource) {
+        return $resource(
+            'https://api.travis-ci.com/auth/github',
+            {github_token: '@githubtoken'},
+            {
+                'getToken': {
+                    params: {github_token:'@githubtoken'},
+                    method: 'POST', headers: {
+                        'Accept': 'application/vnd.travis-ci.2+json'
+                    }
+                }
+            }
+        )
     }).factory('DisplayFunctions', function () {
         return {
             isFailed: function (state) {

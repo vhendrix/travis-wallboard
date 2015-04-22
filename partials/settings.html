@@ -1,0 +1,21 @@
+<form ng-submit="submit()">
+    <div class="form-group">
+        <label for="token">Tokenb</label>
+        <input ng-model="token" type="text" class="form-control" id="token" placeholder="Enter token">
+    </div>
+    <div class="form-group">
+        <label for="company">Repo</label>
+        <input ng-model="repo" type="text" class="form-control" id="company" placeholder="Company repo">
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+<form ng-submit="getToken()">
+    <div class="form-group">
+        <label for="token">Tokenb</label>
+        <input ng-model="githubtoken" type="text" class="form-control" id="githubtoken" placeholder="Enter github token travis token will be filled">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>

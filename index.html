@@ -2,40 +2,40 @@
 <html lang="en" ng-app="travisWallBoard">
 <head>
     <meta charset="utf-8">
-    <title>My AngularJS App</title>
+    <title>Travis-wallboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css"/>
 
     <script type="application/javascript">
 
-        function createCookie(name,value,days) {
+        function createCookie(name, value, days) {
             if (days) {
                 var date = new Date();
-                date.setTime(date.getTime()+(days*24*60*60*1000));
-                var expires = "; expires="+date.toGMTString();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
             }
             else var expires = "";
-            document.cookie = name+"="+value+expires+"; path=/";
+            document.cookie = name + "=" + value + expires + "; path=/";
         }
 
         function readCookie(name) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
-            for(var i=0;i < ca.length;i++) {
+            for (var i = 0; i < ca.length; i++) {
                 var c = ca[i];
-                while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
             }
             return null;
         }
 
         var token = readCookie('token');
-        if (token == null || token ==  '') {
+        if (token == null || token == '') {
             token = prompt("Travis token");
             createCookie('token', token, 700);
         }
 
-        var slugstart =  readCookie('repo');
+        var slugstart = readCookie('repo');
         if (slugstart == null || slugstart == '') {
             slugstart = prompt("Company repo");
             createCookie('repo', slugstart, 700);
@@ -44,10 +44,10 @@
     </script>
 
 </head>
-<body>
-<div class="container-fluid" ng-view></div>
 
-<div>Angular seed app: v<span app-version></span></div>
+<div ng-include src="'partials/menu.html'"></div>
+
+<div class="container-fluid" ng-view></div>
 
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>

@@ -1,7 +1,7 @@
 /* app css stylesheet */
 
 body {
-    padding: 5px;
+    padding: 2px 10px 10px;
     background-color: #333333;
 }
 
@@ -99,8 +99,9 @@ td.closed {
 .failure {
     width: 85%;
     height: 100%;
-    background: rgb(54, 25, 25); /* Fall-back for browsers that don't
-                                    support rgba */
+    background: rgb(54, 25, 25);
+    /* Fall-back for browsers that don't
+                                       support rgba */
     background: rgba(54, 25, 25, .5);
     position: absolute;
     z-index: 999;
@@ -171,17 +172,6 @@ td.closed {
     width: 145px;
 }
 
-
-.spin{
-    -webkit-transform-origin: 50% 58%;
-    transform-origin:50% 58%;
-    -ms-transform-origin:50% 58%; /* IE 9 */
-    -webkit-animation: spin .2s infinite linear;
-    -moz-animation: spin .2s infinite linear;
-    -o-animation: spin .2s infinite linear;
-    animation: spin .2s infinite linear;
-}
-
 .commiter {
     border: 10px solid #333333;
     border-radius: 94px;
@@ -190,15 +180,14 @@ td.closed {
     top: -10px
 }
 
-
-
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-width : 321px) {
+@media only screen and (min-width: 321px) {
     .commiter {
         width: 80px;
     }
+
     .glyphicon {
-       font-size: 10px;
+        font-size: 10px;
     }
 
     .h2, h2 {
@@ -206,9 +195,8 @@ td.closed {
     }
 }
 
-
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-width : 1500px) {
+@media only screen and (min-width: 1500px) {
     .commiter {
         width: 109px;
     }
@@ -227,23 +215,14 @@ td.closed {
     z-index: 100;
 }
 
-.commiter {
-    border: 10px solid #333333;
-    border-radius: 94px;
-    left: -10px;
-    position: absolute;
-    top: -10px
-}
-
-
-
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-width : 321px) {
+@media only screen and (min-width: 321px) {
     .commiter {
         width: 80px;
     }
+
     .glyphicon {
-       font-size: 10px;
+        font-size: 10px;
     }
 
     .h2, h2 {
@@ -251,9 +230,8 @@ td.closed {
     }
 }
 
-
 /* Smartphones (landscape) ----------- */
-@media only screen and (min-width : 1500px) {
+@media only screen and (min-width: 1500px) {
     .commiter {
         width: 109px;
     }
@@ -267,15 +245,14 @@ td.closed {
     }
 }
 
-
 .spin {
     -webkit-animation: spin 1.5s infinite linear;
     -moz-animation: spin 1.5s infinite linear;
     -o-animation: spin 1.5s infinite linear;
     animation: spin 1.5s infinite linear;
     -webkit-transform-origin: 50% 58%;
-    transform-origin:50% 58%;
-    -ms-transform-origin:50% 58%; /* IE 9 */
+    transform-origin: 50% 58%;
+    -ms-transform-origin: 50% 58%; /* IE 9 */
 }
 
 @-moz-keyframes spin {
@@ -303,4 +280,29 @@ td.closed {
     to {
         transform: rotate(360deg);
     }
+}
+
+.activator {
+    border: 1px solid black;
+    height: 3px;
+}
+
+.menubutton {
+    color: lightgray;
+    display: block;
+    font-size: 16px;
+    height: 18px;
+    margin-left: 50%;
+    position: relative;
+    z-index: 9999;
+    border: solid 1px #101010;
+    border-top: none;
+    line-height: 0.1;
+    background-color: #222;
+    width: 40px;
+    margin-top: -1px;
+}
+
+.navbar {
+    margin-bottom: 0;
 }

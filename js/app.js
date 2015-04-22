@@ -6,5 +6,6 @@ angular.module('travisWallBoard', ['angular-md5','ngRoute','travisWallBoard.filt
     config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/repos', {templateUrl: 'partials/repos.html', controller: 'ReposController'});
         $routeProvider.when('/project/:slug', {templateUrl: 'partials/project.html', controller: 'ProjectController'});
+        $routeProvider.when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsController'});
         $routeProvider.otherwise({redirectTo: '/repos'});
     }]);
