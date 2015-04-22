@@ -1,4 +1,4 @@
-angular.module('myApp.services', ['ngResource'])
+angular.module('travisWallBoard.services', ['ngResource'])
     .factory('TravisRepos', function ($resource) {
         return $resource(
             'https://api.travis-ci.com/repos/' + slugstart,
@@ -39,8 +39,71 @@ angular.module('myApp.services', ['ngResource'])
                         'Authorization': "token " + token,
                         'Accept': 'application/vnd.travis-ci.2+json'
                     }
+                },
+                'getBuildsForProject': {
+                    params: {slug: 0, 'event_type': undefined},
+                    method: 'GET', headers: {
+                        'Authorization': "token " + token,
+                        'Accept': 'application/vnd.travis-ci.2+json'
+                    }
                 }
             }
         )
+    }).factory('DisplayFunctions', function () {
+        return {
+            isFailed: function (state) {
+                return state === 'failed' || state === 'error' || state == 'errored';
+            },
+            getErrorsClass: function (builds) {
+                var count = 0;
+                angular.forEach(builds, function (build, key) {
+                    if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
+                        count++;
+                    }
+                });
+
+                if (count > 3) {
+                    return 'col-md-6 errors-' + count;
+                } else {
+                    return 'col-md-12 errors-' + count;
+                }
+            },
+
+            showModal: function (builds) {
+                var failed = false;
+                angular.forEach(builds, function (build, key) {
+                    if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
+                        var dt = new Date(Date.parse(build.startedAt));
+                        var now = new Date();
+
+                        var minutes = Math.floor((now.getTime() - dt.getTime()) % 60);
+                        if (minutes < 5) {
+                            failed = true;
+                            return true;
+                        }
+                    }
+                });
+                return failed;
+            },
+
+            recentError: function (startedAt) {
+                var dt = new Date(Date.parse(startedAt));
+                var now = new Date();
+
+                var minutes = Math.floor((now.getTime() - dt.getTime()) % 60);
+                if (minutes < 5) {
+                    return true;
+                }
+                return false;
+            },
+
+            isBuilding: function (state) {
+                return state === 'started' || state === 'created';
+            },
+
+            isPassing: function (state) {
+                return state === 'passed';
+            }
+        }
     })
     .value('version', '0.1');

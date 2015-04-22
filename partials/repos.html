@@ -1,6 +1,6 @@
-<div class="failure" ng-if="showModal()">
+<div class="failure" ng-if="displayFunctions.showModal(builds)">
     <div class="row">
-        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass()}}" ng-if="isFailed(build.state) && recentError(build.startedAt)">
+        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass(builds)}}" ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.startedAt)">
             <div class="{{build.class}} ablock ">
                 <div class="leftcol">
                     <h2>{{build.name}}</h2>
@@ -30,7 +30,7 @@
     </div>
 </div>
 <div class="row">
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isFailed(build.state) && !recentError(build.startedAt)">
+    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="displayFunctions.isFailed(build.state) && !displayFunctions.recentError(build.startedAt)">
         <div class="{{build.class}} ablock">
             <div>
                 <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="isBuilding(build.state)">
+    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="displayFunctions.isBuilding(build.state)">
         <div class="{{build.class}} ablock">
             <div>
                 <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
@@ -75,7 +75,7 @@
             </p>
         </div>
     </div>
-    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3" ng-if="isPassing(build.state)">
+    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3" ng-if="displayFunctions.isPassing(build.state)">
         <div class="{{build.class}} ablock">
             <div>
                 <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
