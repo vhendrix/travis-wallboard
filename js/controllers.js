@@ -83,9 +83,14 @@ angular.module('travisWallBoard.controllers', []).
 
         $scope.setInitialBuilds();
 
-        $interval(
+        timer = $interval(
             $scope.pollRepos, 30000
         );
+
+
+        $scope.$on('$destroy', function(e) {
+            $interval.cancel(timer);
+        });
     }
     ]
 ).controller('ProjectController', ['$scope', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', 'TravisBuild', '$routeParams', function ($scope, DisplayFunctions, $interval, md5, TravisRepos, TravisBuilds, TravisBuild, routeParams) {
@@ -140,9 +145,13 @@ angular.module('travisWallBoard.controllers', []).
 
         $scope.loadBuildsForRepo();
 
-        $interval(
+        var timer = $interval(
             $scope.loadBuildsForRepo, 30000
         );
+
+        $scope.$on('$destroy', function(e) {
+            $interval.cancel(timer);
+        });
     }
     ]
 ).controller('MenuReposController', ['$scope', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', 'TravisBuild', function ($scope, DisplayFunctions, $interval, md5, TravisRepos, TravisBuilds, TravisBuild) {
