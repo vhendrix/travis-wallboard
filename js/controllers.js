@@ -97,13 +97,7 @@ angular.module('travisWallBoard.controllers', []).
         // Instantiate an object to store your scope data in (Best Practices)
 
         $scope.displayFunctions = DisplayFunctions;
-        $scope.data = {};
-        $scope.repos = $scope.repos || {};
-        $scope.newRepos = $scope.newRepos || {};
-        $scope.jobs = $scope.jobs || {};
-        $scope.builds = $scope.builds || {};
-        $scope.users = $scope.users || {};
-        $scope.building = $scope.building || {};
+        $scope.builds = {};
 
         $scope.loadBuildsForRepo = function () {
 
@@ -111,7 +105,6 @@ angular.module('travisWallBoard.controllers', []).
 
             TravisBuilds.getBuildsForProject({slug: slug}, function (response) {
                 angular.forEach(response.builds, function (build, key) {
-                    $scope.builds[key] = {};
 
                     var blockclass = '';
                     if (build.state == 'failed') {
@@ -124,21 +117,30 @@ angular.module('travisWallBoard.controllers', []).
                         blockclass = 'btn-warning';
                     }
 
-                    $scope.builds[key]['state'] = build.state;
-                    $scope.builds[key]['name'] = slug;
-                    $scope.builds[key]['class'] = blockclass;
-                    $scope.builds[key]['commit'] = response.commits[key];
+                    var branch = '';
 
                     if (build.pull_request) {
-                        $scope.builds[key]['branch'] = build.pull_request_title;
+                        branch = build.pull_request_title;
                     } else {
-                        $scope.builds[key]['branch'] = response.commits[key].branch;
+                        branch = response.commits[key].branch;
                     }
 
-                    $scope.builds[key]['build'] = build;
-                    $scope.builds[key]['startedAt'] = build.started_at;
-                    $scope.builds[key]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
+                    if (typeof $scope.builds[branch] === 'undefined') {
+                        $scope.builds[branch] = {};
+                        $scope.builds[branch]['state'] = build.state;
+                        $scope.builds[branch]['name'] = slug;
+                        $scope.builds[branch]['class'] = blockclass;
+                        $scope.builds[branch]['commit'] = response.commits[key];
+
+                        $scope.builds[branch]['branch'] = branch;
+
+                        $scope.builds[branch]['build'] = build;
+                        $scope.builds[branch]['startedAt'] = build.started_at;
+                        $scope.builds[branch]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
+                    }
                 });
+
+                console.debug($scope.builds);
             });
         };
 
