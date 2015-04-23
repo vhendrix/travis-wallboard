@@ -104,6 +104,8 @@ angular.module('travisWallBoard.controllers', []).
             var slug = routeParams.slug;
 
             TravisBuilds.getBuildsForProject({slug: slug}, function (response) {
+                $scope.builds = {};
+
                 angular.forEach(response.builds, function (build, key) {
 
                     var blockclass = '';
@@ -139,8 +141,6 @@ angular.module('travisWallBoard.controllers', []).
                         $scope.builds[branch]['userUrl'] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[key].committer_email) + '?s=200';
                     }
                 });
-
-                console.debug($scope.builds);
             });
         };
 
