@@ -9,7 +9,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 script:
   - karma start karma.config.js --browsers Firefox --single-run
-  - grunt test
+  - grunt test -v
 branches:
   only:
     - master
