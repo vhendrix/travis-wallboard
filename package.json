@@ -4,9 +4,7 @@
     "url": "git://github.com/aterlamia/travis-wallboard.git"
   },
   "devDependencies": {
-    "karma": "~0.8"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/karma start karma.config.js --single-run --browsers FireFox"
+    "karma": "^0.12.28",
+    "karma-chrome-launcher": "^0.1.7"
   }
 }

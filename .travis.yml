@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-  - 0.8
+  - 0.12
 before_script:
+  - npm install -g karma-cli
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-
+scripts:
+- karma start karma.conf.js --single-run
 branches:
   only:
     - master
