@@ -14,15 +14,19 @@ module.exports = function (config) {
 
       // list of files / patterns to load in the browser
       files: [
-        'js/Libraries/Angular/*.js',
-        'js/Libraries/Angular/Plugins/*.js',
-        'js/app.js',
-        'js/services.js',
-        'js/controllers.js',
-        'js/filters.js',
-        'js/directives.js',
-        'js/*.js',
-        'Tests/**/*Spec.js'
+        './js/Libraries/Angular/*.js',
+        './js/Libraries/Angular/Plugins/*.js',
+        './js/app.js',
+        './js/services.js',
+        './js/Controllers/controllers.js',
+        './js/Controllers/RepoController.js',
+        './js/Controllers/ProjectController.js',
+        './js/Controllers/SettingsController.js',
+        './js/Controllers/MenuController.js',
+        './js/filters.js',
+        './js/directives.js',
+        './js/*.js',
+        './Tests/**/*Spec.js'
       ],
 
       // list of files to exclude
