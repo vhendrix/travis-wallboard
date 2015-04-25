@@ -1,7 +1,8 @@
 angular.module('travisWallBoard.controllers').controller(
   'MenuReposController',
-  [ '$scope', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', function (
+  [ '$scope', 'twsettings', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', function (
     $scope,
+    twsettings,
     DisplayFunctions,
     $interval,
     md5,
@@ -22,7 +23,7 @@ angular.module('travisWallBoard.controllers').controller(
           angular.forEach(
             response.repos, function (repo, key) {
               if ( repo.active ) {
-                var slug = repo.slug.replace(slugstart + '/', "");
+                var slug = repo.slug.replace(twsettings.data.slug + '/', "");
                 $scope.repos[ repo.id ] = slug;
               }
             }

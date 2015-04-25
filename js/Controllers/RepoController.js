@@ -1,7 +1,8 @@
 angular.module('travisWallBoard.controllers').controller(
   'ReposController',
-  [ '$scope', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', function (
+  [ '$scope','twsettings', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', function (
     $scope,
+    twsettings,
     DisplayFunctions,
     $interval,
     md5,
@@ -28,7 +29,7 @@ angular.module('travisWallBoard.controllers').controller(
     };
 
     $scope.loadBuildsForRepo = function (repo) {
-      var slug = repo.slug.replace(slugstart + '/', "");
+      var slug = repo.slug.replace(twsettings.data.slug + '/', "");
       TravisBuilds.getBuilds(
         {slug: slug}, function (response) {
           var found = false;
