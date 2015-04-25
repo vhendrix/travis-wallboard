@@ -14,6 +14,7 @@ module.exports = function (config) {
 
       // list of files / patterns to load in the browser
       files: [
+        './js/Libraries/Jquery/*.js',
         './js/Libraries/Angular/*.js',
         './js/Libraries/Angular/Plugins/*.js',
         './js/app.js',
@@ -23,6 +24,7 @@ module.exports = function (config) {
         './js/Controllers/ProjectController.js',
         './js/Controllers/SettingsController.js',
         './js/Controllers/MenuController.js',
+        './js/Controllers/TestController.js',
         './js/filters.js',
         './js/directives.js',
         './js/*.js',
