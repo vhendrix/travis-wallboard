@@ -21,7 +21,7 @@ angular.module('travisWallBoard.controllers').controller(
       TravisRepos.getRepos(
         function (response) {
           angular.forEach(
-            response.repos, function (repo, key) {
+            response.repos, function (repo) {
               if ( repo.active ) {
                 var slug = repo.slug.replace(twsettings.data.slug + '/', "");
                 $scope.repos[ repo.id ] = slug;

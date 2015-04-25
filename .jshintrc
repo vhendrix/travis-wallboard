@@ -1,16 +1,20 @@
 {
-    "validthis" : true
-  , "multistr"  : true
-  , "laxcomma"  : true
-  , "laxbreak"  : true
-  , "browser"   : true
-  , "eqeqeq"    : false
-  , "eqnull"    : true
-  , "debug"     : true
-  , "devel"     : true
-  , "curly"     : false
-  , "boss"      : true
-  , "expr"      : true
-  , "asi"       : true
-  , "supernew"  : true
+  "node": true,
+  "jasmine": true,
+  "multistr": true,
+  "browser": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "curly": true,
+  "expr": true,
+  "undef": true,
+  "unused": true,
+  "jquery" : true,
+  "maxdepth": 4,
+  "predef": [
+    "angular",
+    "token",
+    "slugstart",
+    "inject"
+  ]
 }

@@ -1,6 +1,6 @@
 angular.module('travisWallBoard.controllers').controller(
   'ReposController',
-  [ '$scope','twsettings', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', function (
+  [ '$scope', 'twsettings', 'DisplayFunctions', '$interval', 'md5', 'TravisRepos', 'TravisBuilds', function (
     $scope,
     twsettings,
     DisplayFunctions,
@@ -22,7 +22,7 @@ angular.module('travisWallBoard.controllers').controller(
 
     $scope.loadBuilds = function () {
       angular.forEach(
-        $scope.repos, function (repo, key) {
+        $scope.repos, function (repo) {
           $scope.loadBuildsForRepo(repo);
         }
       );
@@ -35,28 +35,28 @@ angular.module('travisWallBoard.controllers').controller(
           var found = false;
           angular.forEach(
             response.builds, function (build, key) {
-              if ( found == false ) {
+              if ( found === false ) {
                 if ( !build.pull_request ) {
                   $scope.builds[ repo.id ] = {};
 
                   var blockclass = '';
-                  if ( build.state == 'failed' ) {
+                  if ( build.state === 'failed' ) {
                     blockclass = 'btn-danger text-danger';
-                  } else if ( build.state == 'passed' ) {
+                  } else if ( build.state === 'passed' ) {
                     blockclass = 'btn-success text-success';
-                  } else if ( build.state == 'started' || build.state == 'received' || build.state == 'created' ) {
+                  } else if ( build.state === 'started' || build.state === 'received' || build.state === 'created' ) {
                     blockclass = 'btn-info text-info';
                   } else {
                     blockclass = 'btn-warning';
                   }
 
-                  $scope.builds[ repo.id ][ 'state' ] = build.state;
-                  $scope.builds[ repo.id ][ 'name' ] = slug;
-                  $scope.builds[ repo.id ][ 'class' ] = blockclass;
-                  $scope.builds[ repo.id ][ 'commit' ] = response.commits[ key ];
-                  $scope.builds[ repo.id ][ 'build' ] = build;
-                  $scope.builds[ repo.id ][ 'startedAt' ] = build.started_at;
-                  $scope.builds[ repo.id ][ 'userUrl' ] = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[ key ].committer_email) + '?s=200';
+                  $scope.builds[ repo.id ].state = build.state;
+                  $scope.builds[ repo.id ].name = slug;
+                  $scope.builds[ repo.id ].class = blockclass;
+                  $scope.builds[ repo.id ].commit = response.commits[ key ];
+                  $scope.builds[ repo.id ].build = build;
+                  $scope.builds[ repo.id ].startedAt = build.started_at;
+                  $scope.builds[ repo.id ].userUrl = "https://www.gravatar.com/avatar/" + md5.createHash(response.commits[ key ].committer_email) + '?s=200';
                   found = true;
                 }
               }
@@ -70,7 +70,7 @@ angular.module('travisWallBoard.controllers').controller(
       TravisRepos.getRepos(
         function (response) {
           angular.forEach(
-            response.repos, function (repo, key) {
+            response.repos, function (repo) {
               if ( repo.active ) {
                 $scope.repos[ repo.id ] = repo;
                 $scope.jobs[ repo.id ] = {};
@@ -87,31 +87,31 @@ angular.module('travisWallBoard.controllers').controller(
       TravisRepos.getRepos(
         function (response) {
           angular.forEach(
-            response.repos, function (repo, key) {
+            response.repos, function (repo) {
               if ( repo.active && repo.last_build_finished_at == null ) {
                 $scope.building[ repo.id ] = 'building';
                 $scope.builds[ repo.id ] = $scope.builds[ repo.id ] || {};
-                $scope.builds[ repo.id ][ 'state' ] = 'started';
+                $scope.builds[ repo.id ].state = 'started';
                 $scope.builds[ repo.id ][ 'class' ] = 'btn-info text-info';
-              } else if ( repo.active && $scope.building[ repo.id ] == 'building' ) {
+              } else if ( repo.active && $scope.building[ repo.id ] === 'building' ) {
                 $scope.building[ repo.id ] = 'done';
                 $scope.loadBuildsForRepo(repo);
               }
             }
-          )
+          );
         }
       );
     };
 
     $scope.setInitialBuilds();
 
-    timer = $interval(
+    var pollTimer = $interval(
       $scope.pollRepos, 30000
     );
 
     $scope.$on(
-      '$destroy', function (e) {
-        $interval.cancel(timer);
+      '$destroy', function () {
+        $interval.cancel(pollTimer);
       }
     );
   }
