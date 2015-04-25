@@ -1,6 +1,10 @@
 {
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aterlamia/travis-wallboard.git"
+  },
   "devDependencies": {
-    "karma": "~0.10"
+    "karma": "~0.8"
   },
   "scripts": {
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
