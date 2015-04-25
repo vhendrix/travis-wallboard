@@ -1,12 +1,12 @@
 /*
-checker spec checks if the test environment still works.
+ checker spec checks if the test environment still works.
  */
 describe(
   'TestController', function () {
     var scope;//we'll use this scope in our tests
 
     //mock Application to allow us to inject our own dependencies
-      beforeEach(module('travisWallBoard.controllers'));
+    beforeEach(module('travisWallBoard.controllers'));
 
     var $controller;
 
