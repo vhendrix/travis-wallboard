@@ -6,6 +6,7 @@
   "eqeqeq": true,
   "eqnull": true,
   "curly": true,
+  "devel": false,
   "expr": true,
   "undef": true,
   "unused": true,
