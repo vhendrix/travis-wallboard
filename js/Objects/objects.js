@@ -10,7 +10,6 @@ angular.module('travisWallBoard.objects', [])
       opensource_uri: 'https://api.travis-ci.org/',
 
       getUri: function ($endpoint) {
-        console.debug;
         if ( this.useMocks ) {
           return '/Mocks/MockServer.php/?endpoint=' + $endpoint + '&slug=';
         } else if ( this.private ) {

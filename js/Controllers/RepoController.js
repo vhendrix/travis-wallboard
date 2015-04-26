@@ -27,7 +27,7 @@ angular.module('travisWallBoard.controllers').controller(
       var slug = repo.slug.replace(twsettings.data.slug + '/', "");
       TravisBuilds.getBuilds(
         {slug: slug}, function (response) {
-          $scope.builds = $travisWallboardService.getBuildsForRepo(slug, repo, response);
+          $scope.builds = $travisWallboardService.getBuildsForRepo(slug, repo.id, response);
         }
       );
     };

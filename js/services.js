@@ -9,7 +9,7 @@
        * Will parse the response and return active repositories from
        * travis.
        *
-       * @param response
+       * @param $response
        * @returns {{}}
        */
       this.getReposFromResponse = function ($response) {
@@ -35,63 +35,58 @@
               $building[ $repo.id ] = 'done';
             }
 
-            console.debug($repo.active );
-            console.debug($repo.slug);
-            console.debug($repo.last_build_finished_at);
-            console.debug($building[ $repo.id ]);
-            console.debug('--------------------');
             if ( $repo.active && $repo.last_build_finished_at == null && $building[ $repo.id ] !== 'building' ) {
               $building[ $repo.id ] = 'building';
-              $updatedRepos [$repo.id] = $repo;
+              $updatedRepos [ $repo.id ] = $repo;
             } else if ( $repo.active && $repo.last_build_finished_at !== null && $building[ $repo.id ] === 'building' ) {
               $building[ $repo.id ] = 'done';
-              $updatedRepos [$repo.id] = $repo;
+              $updatedRepos [ $repo.id ] = $repo;
             }
-            console.debug('--------------------');
           }
         );
-
-        console.debug($building);
-        console.debug($updatedRepos);
 
         return $updatedRepos;
       };
 
-      this.getBuildsForRepo = function ($slug, $repo, $response) {
+      /**
+       * Parses the builds returned from the service.
+       *
+       * @param {String} $slug The slug of the project (project name on git)
+       * @param {int} $repoId Id of the repositiory.
+       * @param {Object} $response Response we got from the service.
+       * @returns {{}}
+       */
+      this.getBuildsForRepo = function ($slug, $repoId, $response) {
         var $found = false;
         var $builds = {};
         var $blockclass = '';
 
-        console.debug($response);
         angular.forEach(
           $response.builds, function ($build, $key) {
             if ( $found === false ) {
-              //if ( !$build.pull_request ) {
-                $builds[ $repo.id ] = {};
+              $builds[ $repoId ] = {};
 
-                // @todo see if ican make this a directive.
-                if ( $build.state === 'failed' ) {
-                  $blockclass = 'btn-danger text-danger';
-                } else if ( $build.state === 'passed' ) {
-                  $blockclass = 'btn-success text-success';
-                } else if ( $build.state === 'started' || $build.state === 'received' || $build.state === 'created' ) {
-                  $blockclass = 'btn-info text-info';
-                } else {
-                  $blockclass = 'btn-warning';
-                }
-
-                $builds[ $repo.id ].state = $build.state;
-                $builds[ $repo.id ].name = $slug;
-                $builds[ $repo.id ].class = $blockclass;
-                $builds[ $repo.id ].commit = $response.commits[ $key ];
-                $builds[ $repo.id ].build = $build;
-                $builds[ $repo.id ].startedAt = $build.started_at;
-                $builds[ $repo.id ].userUrl = "https://www.gravatar.com/avatar/" + md5.createHash($response.commits[ $key ].committer_email) + '?s=200';
-                $found = true;
+              // @todo see if i can make this a directive.
+              if ( $build.state === 'failed' ) {
+                $blockclass = 'btn-danger text-danger';
+              } else if ( $build.state === 'passed' ) {
+                $blockclass = 'btn-success text-success';
+              } else if ( $build.state === 'started' || $build.state === 'received' || $build.state === 'created' ) {
+                $blockclass = 'btn-info text-info';
+              } else {
+                $blockclass = 'btn-warning';
               }
-            //}
-          }
 
+              $builds[ $repoId ].state = $build.state;
+              $builds[ $repoId ].name = $slug;
+              $builds[ $repoId ].class = $blockclass;
+              $builds[ $repoId ].commit = $response.commits[ $key ];
+              $builds[ $repoId ].build = $build;
+              $builds[ $repoId ].startedAt = $build.started_at;
+              $builds[ $repoId ].userUrl = "https://www.gravatar.com/avatar/" + md5.createHash($response.commits[ $key ].committer_email) + '?s=200';
+              $found = true;
+            }
+          }
         );
         return $builds;
       };
