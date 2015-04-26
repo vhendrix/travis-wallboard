@@ -1,74 +1,100 @@
 (function () {
   'use strict';
-  angular.module('travisWallBoard.services', [ 'ngResource' ])
-    .factory(
-    'TravisRepos', function ($resource, twsettings) {
-      return $resource(
-        'https://api.travis-ci.com/repos/' + twsettings.data.slug,
-        {},
-        {
-          'getRepos': {
-            method: 'GET', headers: {
-              'Authorization': "token " + twsettings.data.token,
-              'Accept': 'application/vnd.travis-ci.2+json'
+  angular.module('travisWallBoard.services', [ 'angular-md5' ])
+    .service(
+    'TravisWallboardService', function (TravisRepos, md5) {
+
+      var $building = {};
+      /**
+       * Will parse the response and return active repositories from
+       * travis.
+       *
+       * @param response
+       * @returns {{}}
+       */
+      this.getReposFromResponse = function ($response) {
+        var $repos = {};
+
+        angular.forEach(
+          $response.repos, function ($repo) {
+            if ( $repo.active ) {
+              $repos[ $repo.id ] = $repo;
             }
           }
-        }
-      );
-    }
-  ).factory(
-    'TravisBuild', function ($resource, twsettings) {
-      return $resource(
-        'https://api.travis-ci.com/repos/' + twsettings.data.slug + "/:slug/builds/:buildid",
-        {slug: '@slug', buildid: '@buildid'},
-        {
-          'getBuild': {
-            params: {slug: 0, buildid: 0},
-            method: 'GET', headers: {
-              'Authorization': "token " + twsettings.data.token,
-              'Accept': 'application/vnd.travis-ci.2+json'
+        );
+
+        return $repos;
+      };
+
+      this.getUpdatedReposFromResponse = function ($repos, $response) {
+        var $updatedRepos = {};
+
+        angular.forEach(
+          $response.repos, function ($repo) {
+            if ( typeof $building[ $repo.id ] === "undefined" ) {
+              $building[ $repo.id ] = 'done';
             }
+
+            console.debug($repo.active );
+            console.debug($repo.slug);
+            console.debug($repo.last_build_finished_at);
+            console.debug($building[ $repo.id ]);
+            console.debug('--------------------');
+            if ( $repo.active && $repo.last_build_finished_at == null && $building[ $repo.id ] !== 'building' ) {
+              $building[ $repo.id ] = 'building';
+              $updatedRepos [$repo.id] = $repo;
+            } else if ( $repo.active && $repo.last_build_finished_at !== null && $building[ $repo.id ] === 'building' ) {
+              $building[ $repo.id ] = 'done';
+              $updatedRepos [$repo.id] = $repo;
+            }
+            console.debug('--------------------');
           }
-        }
-      );
-    }
-  ).factory(
-    'TravisBuilds', function ($resource, twsettings) {
-      return $resource(
-        'https://api.travis-ci.com/repos/' + twsettings.data.slug + "/:slug/builds",
-        {slug: '@slug', 'event_type': 'push'},
-        {
-          'getBuilds': {
-            params: {slug: 0, 'event_type': 'push'},
-            method: 'GET', headers: {
-              'Authorization': "token " + twsettings.data.token,
-              'Accept': 'application/vnd.travis-ci.2+json'
-            }
-          },
-          'getBuildsForProject': {
-            params: {slug: 0, 'event_type': undefined},
-            method: 'GET', headers: {
-              'Authorization': "token " + twsettings.data.token,
-              'Accept': 'application/vnd.travis-ci.2+json'
-            }
+        );
+
+        console.debug($building);
+        console.debug($updatedRepos);
+
+        return $updatedRepos;
+      };
+
+      this.getBuildsForRepo = function ($slug, $repo, $response) {
+        var $found = false;
+        var $builds = {};
+        var $blockclass = '';
+
+        console.debug($response);
+        angular.forEach(
+          $response.builds, function ($build, $key) {
+            if ( $found === false ) {
+              //if ( !$build.pull_request ) {
+                $builds[ $repo.id ] = {};
+
+                // @todo see if ican make this a directive.
+                if ( $build.state === 'failed' ) {
+                  $blockclass = 'btn-danger text-danger';
+                } else if ( $build.state === 'passed' ) {
+                  $blockclass = 'btn-success text-success';
+                } else if ( $build.state === 'started' || $build.state === 'received' || $build.state === 'created' ) {
+                  $blockclass = 'btn-info text-info';
+                } else {
+                  $blockclass = 'btn-warning';
+                }
+
+                $builds[ $repo.id ].state = $build.state;
+                $builds[ $repo.id ].name = $slug;
+                $builds[ $repo.id ].class = $blockclass;
+                $builds[ $repo.id ].commit = $response.commits[ $key ];
+                $builds[ $repo.id ].build = $build;
+                $builds[ $repo.id ].startedAt = $build.started_at;
+                $builds[ $repo.id ].userUrl = "https://www.gravatar.com/avatar/" + md5.createHash($response.commits[ $key ].committer_email) + '?s=200';
+                $found = true;
+              }
+            //}
           }
-        }
-      );
-    }
-  ).factory(
-    'TravisToken', function ($resource) {
-      return $resource(
-        'https://api.travis-ci.com/auth/github',
-        {github_token: '@githubtoken'},
-        {
-          'getToken': {
-            params: {github_token: '@githubtoken'},
-            method: 'POST', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json'
-            }
-          }
-        }
-      );
+
+        );
+        return $builds;
+      };
     }
   ).factory(
     'DisplayFunctions', function () {
@@ -134,4 +160,5 @@
     }
   )
     .value('version', '0.1');
-})();
+})
+();

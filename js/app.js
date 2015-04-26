@@ -10,7 +10,8 @@
       'travisWallBoard.filters',
       'travisWallBoard.services',
       'travisWallBoard.directives',
-      'travisWallBoard.controllers'
+      'travisWallBoard.controllers',
+      'travisWallBoard.resources'
     ]
   )
     .config(

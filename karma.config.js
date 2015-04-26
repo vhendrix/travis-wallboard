@@ -17,8 +17,10 @@ module.exports = function (config) {
         './js/Libraries/Jquery/*.js',
         './js/Libraries/Angular/*.js',
         './js/Libraries/Angular/Plugins/*.js',
+        './js/Objects/objects.js',
         './js/app.js',
         './js/services.js',
+        './js/resources.js',
         './js/Controllers/controllers.js',
         './js/Controllers/RepoController.js',
         './js/Controllers/ProjectController.js',
@@ -32,7 +34,10 @@ module.exports = function (config) {
       ],
 
       // list of files to exclude
-      exclude: [],
+      exclude: [
+        './js/Libraries/Angular/*.min.js',
+        './js/Libraries/Angular/Plugins/*.min.js'
+      ],
 
       // preprocess matching files before serving them to the browser
       // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor

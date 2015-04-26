@@ -2,9 +2,22 @@ angular.module('travisWallBoard.objects', [])
   .provider(
   'twsettings', function () {
     var data = {
-      token: 'a',
-      slug: 'v',
-      private: false
+      token: '',
+      slug: '',
+      private: false,
+      useMocks: false,
+      private_uri: 'https://api.travis-ci.com/',
+      opensource_uri: 'https://api.travis-ci.org/',
+
+      getUri: function ($endpoint) {
+        if ( this.useMocks ) {
+          return '/Mocks/MockServer.php/?endpoint=' + $endpoint + '&slug=';
+        } else if ( this.private ) {
+          return this.private_uri + $endpoint + '/';
+        } else {
+          return this.opensource_uri + $endpoint + '/';
+        }
+      }
     };
 
     var readCookie = function (name) {

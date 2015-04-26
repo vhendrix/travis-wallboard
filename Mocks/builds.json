@@ -1,0 +1,1050 @@
+{
+  "builds": [
+    {
+      "id": 60015883,
+      "repository_id": 4588623,
+      "commit_id": 17158538,
+      "number": "23",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "npm install -g grunt-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": [
+          "karma start karma.config.js --browsers Firefox --single-run",
+          "grunt test"
+        ],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "passed",
+      "started_at": "2015-04-26T12:23:05Z",
+      "finished_at": "2015-04-26T12:23:34Z",
+      "duration": 29,
+      "job_ids": [60015884]
+    },
+    {
+      "id": 59999304,
+      "repository_id": 4588623,
+      "commit_id": 17154170,
+      "number": "22",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "npm install -g grunt-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": [
+          "karma start karma.config.js --browsers Firefox --single-run",
+          "grunt test"
+        ],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T11:32:19Z",
+      "finished_at": "2015-04-25T11:32:42Z",
+      "duration": 23,
+      "job_ids": [59999305]
+    },
+    {
+      "id": 59999227,
+      "repository_id": 4588623,
+      "commit_id": 17154147,
+      "number": "21",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "npm install -g grunt-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": [
+          "karma start karma.config.js --browsers Firefox --single-run",
+          "grunt test"
+        ],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T11:31:07Z",
+      "finished_at": "2015-04-25T11:31:34Z",
+      "duration": 27,
+      "job_ids": [59999228]
+    },
+    {
+      "id": 59997545,
+      "repository_id": 4588623,
+      "commit_id": 17153705,
+      "number": "20",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g jasmine",
+          "npm install -g karma",
+          "npm install -g karma-cli",
+          "npm install -g karma-chrome-launcher",
+          "npm install -g karma-firefox-launcher",
+          "npm install -g karma-jasmine",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.config.js --browsers Firefox --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "passed",
+      "started_at": "2015-04-25T10:57:18Z",
+      "finished_at": "2015-04-25T10:57:59Z",
+      "duration": 41,
+      "job_ids": [59997546]
+    },
+    {
+      "id": 59996288,
+      "repository_id": 4588623,
+      "commit_id": 17153384,
+      "number": "19",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g jasmine",
+          "npm install -g karma",
+          "npm install -g karma-cli",
+          "npm install -g karma-chrome-launcher",
+          "npm install -g karma-firefox-launcher",
+          "npm install -g karma-jasmine",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.config.js --browsers Firefox --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T10:33:59Z",
+      "finished_at": "2015-04-25T10:34:32Z",
+      "duration": 33,
+      "job_ids": [59996289]
+    },
+    {
+      "id": 59995954,
+      "repository_id": 4588623,
+      "commit_id": 17153339,
+      "number": "18",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g jasmine",
+          "npm install -g karma",
+          "npm install -g karma-cli",
+          "npm install -g karma-chrome-launcher",
+          "npm install -g karma-firefox-launcher",
+          "npm install -g karma-jasmine",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.config.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T10:30:57Z",
+      "finished_at": "2015-04-25T10:31:38Z",
+      "duration": 41,
+      "job_ids": [59995955]
+    },
+    {
+      "id": 59995401,
+      "repository_id": 4588623,
+      "commit_id": 17153209,
+      "number": "17",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g jasmine",
+          "npm install -g karma",
+          "npm install -g karma-chrome-launcher",
+          "npm install -g karma-firefox-launcher",
+          "npm install -g karma-jasmine",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.config.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T10:22:01Z",
+      "finished_at": "2015-04-25T10:22:30Z",
+      "duration": 29,
+      "job_ids": [59995402]
+    },
+    {
+      "id": 59995237,
+      "repository_id": 4588623,
+      "commit_id": 17153165,
+      "number": "16",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "npm install -g karma-chrome-launcher",
+          "npm install -g karma-firefox-launcher",
+          "npm install -g jasmine-core",
+          "npm install -g karma-jasmine",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.config.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T10:19:12Z",
+      "finished_at": "2015-04-25T10:19:48Z",
+      "duration": 36,
+      "job_ids": [59995238]
+    },
+    {
+      "id": 59995037,
+      "repository_id": 4588623,
+      "commit_id": 17153108,
+      "number": "15",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.config.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T10:15:38Z",
+      "finished_at": "2015-04-25T10:15:55Z",
+      "duration": 17,
+      "job_ids": [59995038]
+    },
+    {
+      "id": 59994949,
+      "repository_id": 4588623,
+      "commit_id": 17153080,
+      "number": "14",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.conf.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T10:14:44Z",
+      "finished_at": "2015-04-25T10:15:05Z",
+      "duration": 21,
+      "job_ids": [59994950]
+    },
+    {
+      "id": 59994858,
+      "repository_id": 4588623,
+      "commit_id": 17153057,
+      "number": "13",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "sudo": false,
+        "node_js": [0.1],
+        "before_script": [
+          "npm install -g karma-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "script": ["karma start karma.conf.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "errored",
+      "started_at": "2015-04-25T10:11:43Z",
+      "finished_at": "2015-04-25T10:11:52Z",
+      "duration": 9,
+      "job_ids": [59994859]
+    },
+    {
+      "id": 59994558,
+      "repository_id": 4588623,
+      "commit_id": 17152976,
+      "number": "12",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.12],
+        "before_script": [
+          "npm install -g karma-cli",
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "scripts": ["karma start karma.conf.js --single-run"],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "passed",
+      "started_at": "2015-04-25T10:06:29Z",
+      "finished_at": "2015-04-25T10:06:51Z",
+      "duration": 22,
+      "job_ids": [59994559]
+    },
+    {
+      "id": 59994150,
+      "repository_id": 4588623,
+      "commit_id": 17152862,
+      "number": "11",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "before_script": [
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T09:59:01Z",
+      "finished_at": "2015-04-25T09:59:28Z",
+      "duration": 27,
+      "job_ids": [59994151]
+    },
+    {
+      "id": 59993796,
+      "repository_id": 4588623,
+      "commit_id": 17152777,
+      "number": "10",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "before_script": [
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb start"
+        ],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T09:53:22Z",
+      "finished_at": "2015-04-25T09:53:42Z",
+      "duration": 20,
+      "job_ids": [59993797]
+    },
+    {
+      "id": 59993721,
+      "repository_id": 4588623,
+      "commit_id": 17152749,
+      "number": "9",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "before_script": [
+          "export DISPLAY=:99.0",
+          "sh -e /etc/init.d/xvfb star"
+        ],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "errored",
+      "started_at": "2015-04-25T09:51:49Z",
+      "finished_at": "2015-04-25T09:52:14Z",
+      "duration": 25,
+      "job_ids": [59993722]
+    },
+    {
+      "id": 59993456,
+      "repository_id": 4588623,
+      "commit_id": 17152694,
+      "number": "8",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T09:48:16Z",
+      "finished_at": "2015-04-25T09:48:37Z",
+      "duration": 21,
+      "job_ids": [59993458]
+    },
+    {
+      "id": 59993353,
+      "repository_id": 4588623,
+      "commit_id": 17152665,
+      "number": "7",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T09:46:34Z",
+      "finished_at": "2015-04-25T09:46:57Z",
+      "duration": 23,
+      "job_ids": [59993354]
+    },
+    {
+      "id": 59993220,
+      "repository_id": 4588623,
+      "commit_id": 17152628,
+      "number": "6",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T09:44:37Z",
+      "finished_at": "2015-04-25T09:45:03Z",
+      "duration": 26,
+      "job_ids": [59993222]
+    },
+    {
+      "id": 59993098,
+      "repository_id": 4588623,
+      "commit_id": 17152592,
+      "number": "5",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-25T09:42:09Z",
+      "finished_at": "2015-04-25T09:42:29Z",
+      "duration": 20,
+      "job_ids": [59993099]
+    },
+    {
+      "id": 59992884,
+      "repository_id": 4588623,
+      "commit_id": 17152535,
+      "number": "4",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "language": "node_js",
+        "node_js": [0.8],
+        "branches": {
+          "only": [
+            "master",
+            "develop",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "os": "linux"
+      },
+      "state": "errored",
+      "started_at": "2015-04-25T09:37:48Z",
+      "finished_at": "2015-04-25T09:39:58Z",
+      "duration": 130,
+      "job_ids": [59992885]
+    },
+    {
+      "id": 59937531,
+      "repository_id": 4588623,
+      "commit_id": 17138786,
+      "number": "3",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "branches": {
+          "only": [
+            "master",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "language": "ruby",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-24T20:39:44Z",
+      "finished_at": "2015-04-24T20:39:51Z",
+      "duration": 7,
+      "job_ids": [59937532]
+    },
+    {
+      "id": 59897411,
+      "repository_id": 4588623,
+      "commit_id": 17127288,
+      "number": "2",
+      "pull_request": true,
+      "pull_request_title": "Fix for menu button",
+      "pull_request_number": 8,
+      "config": {
+        "branches": {
+          "only": [
+            "master",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "language": "ruby",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-24T15:32:20Z",
+      "finished_at": "2015-04-24T15:32:25Z",
+      "duration": 5,
+      "job_ids": [59897412]
+    },
+    {
+      "id": 59860949,
+      "repository_id": 4588623,
+      "commit_id": 17117214,
+      "number": "1",
+      "pull_request": false,
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "config": {
+        "branches": {
+          "only": [
+            "master",
+            "/^deploy-.*$/"
+          ]
+        },
+        ".result": "configured",
+        "language": "ruby",
+        "os": "linux"
+      },
+      "state": "failed",
+      "started_at": "2015-04-24T10:59:07Z",
+      "finished_at": "2015-04-24T10:59:13Z",
+      "duration": 6,
+      "job_ids": [59860950]
+    }
+  ],
+  "commits": [
+    {
+      "id": 17158538,
+      "sha": "7af21317b16ad14f018c8ad792188394b774320d",
+      "branch": "develop",
+      "message": "Hintify the *beep* out of things.",
+      "committed_at": "2015-04-25T15:28:34Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/98db408ab89d...7af21317b16a",
+      "pull_request_number": null
+    },
+    {
+      "id": 17154170,
+      "sha": "98db408ab89d95126056246a3c76c124fc4b8be3",
+      "branch": "develop",
+      "message": "Add jshintrc",
+      "committed_at": "2015-04-25T11:32:03Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/abc2ef601ff9...98db408ab89d",
+      "pull_request_number": null
+    },
+    {
+      "id": 17154147,
+      "sha": "abc2ef601ff9fa4074af630c943748fb05e67b1a",
+      "branch": "develop",
+      "message": "Add jshint",
+      "committed_at": "2015-04-25T11:30:52Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/9e758d6ca3e3...abc2ef601ff9",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153705,
+      "sha": "9e758d6ca3e3c883f7999eaa97d27afb5e4daddd",
+      "branch": "develop",
+      "message": "Added the TestController and test therefor as a sanity check if Travis works for me as i expect",
+      "committed_at": "2015-04-25T10:56:59Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/dd1ebb210226...9e758d6ca3e3",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153384,
+      "sha": "dd1ebb210226b4cb1e207499083f6856502fd220",
+      "branch": "develop",
+      "message": "Looks promising at leas travis is trying to start a browser. Lets see if firefox works",
+      "committed_at": "2015-04-25T10:33:38Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/29a6764cf788...dd1ebb210226",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153339,
+      "sha": "29a6764cf788387aff4205baa0e9b71984f42723",
+      "branch": "develop",
+      "message": "Maybe they need to be avalable globbaly",
+      "committed_at": "2015-04-25T10:30:37Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/9a5e163ce0fc...29a6764cf788",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153209,
+      "sha": "9a5e163ce0fc8fb4b08c604477a6c9dda3bee03e",
+      "branch": "develop",
+      "message": "Cannot find jasmine ? the script realy install is so lets try again",
+      "committed_at": "2015-04-25T10:21:39Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/a3658f076df3...9a5e163ce0fc",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153165,
+      "sha": "a3658f076df36ea671e832b587f64bdc438ac33e",
+      "branch": "develop",
+      "message": "Add extra node  dependecies",
+      "committed_at": "2015-04-25T10:18:48Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/0cbcfb3ac15e...a3658f076df3",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153108,
+      "sha": "0cbcfb3ac15eb1466a06202acd42c4ee7a55fecd",
+      "branch": "develop",
+      "message": "Ok conf to config is this the solution",
+      "committed_at": "2015-04-25T10:15:14Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/d12b63c5708a...0cbcfb3ac15e",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153080,
+      "sha": "d12b63c5708a8c8cf737e1894b385092f736f102",
+      "branch": "develop",
+      "message": ".",
+      "committed_at": "2015-04-25T10:12:48Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/04d5732b4091...d12b63c5708a",
+      "pull_request_number": null
+    },
+    {
+      "id": 17153057,
+      "sha": "04d5732b4091f7daa01696c440286cda213fb4db",
+      "branch": "develop",
+      "message": "Wish i could test this easier but an another try",
+      "committed_at": "2015-04-25T10:11:16Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/4f72ffde3b66...04d5732b4091",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152976,
+      "sha": "4f72ffde3b66e28ddd3d89038de5fcaba49feb94",
+      "branch": "develop",
+      "message": "See how this works",
+      "committed_at": "2015-04-25T10:05:59Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/3471ea1239fa...4f72ffde3b66",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152862,
+      "sha": "3471ea1239fa338585a82de2894462b74076545d",
+      "branch": "develop",
+      "message": "Update testfile with new paths",
+      "committed_at": "2015-04-25T09:58:45Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/85f180876b1a...3471ea1239fa",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152777,
+      "sha": "85f180876b1a559242c333106bfc7245ad9c08d1",
+      "branch": "develop",
+      "message": "typo",
+      "committed_at": "2015-04-25T09:53:03Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/0b61a146b7a8...85f180876b1a",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152749,
+      "sha": "0b61a146b7a89de94302fd03201c7bf65deaf0c2",
+      "branch": "develop",
+      "message": "Like this then ?",
+      "committed_at": "2015-04-25T09:51:34Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/28c227bf23de...0b61a146b7a8",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152694,
+      "sha": "28c227bf23de2b58ccfaf00a51499a475d03ec19",
+      "branch": "develop",
+      "message": "I do need a full path ?",
+      "committed_at": "2015-04-25T09:47:56Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/de9b2e97c56a...28c227bf23de",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152665,
+      "sha": "de9b2e97c56a2405967fd45aff1d6a1651e87a89",
+      "branch": "develop",
+      "message": "We are getting there",
+      "committed_at": "2015-04-25T09:46:14Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/5735fcc70bf3...de9b2e97c56a",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152628,
+      "sha": "5735fcc70bf311a98c6369f5e39b1587fc04d270",
+      "branch": "develop",
+      "message": "We are getting there",
+      "committed_at": "2015-04-25T09:44:12Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/3a8006a5ee7b...5735fcc70bf3",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152592,
+      "sha": "3a8006a5ee7ba56a16351ad4020a423511f7aee9",
+      "branch": "develop",
+      "message": "And another try.",
+      "committed_at": "2015-04-25T09:41:41Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/ea5f34586e75...3a8006a5ee7b",
+      "pull_request_number": null
+    },
+    {
+      "id": 17152535,
+      "sha": "ea5f34586e7585e0f546ef31f8d032dde7bf3fca",
+      "branch": "develop",
+      "message": "See if i can get karma running on travis",
+      "committed_at": "2015-04-25T09:37:19Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/3526296cbe68...ea5f34586e75",
+      "pull_request_number": null
+    },
+    {
+      "id": 17138786,
+      "sha": "a168ff76fd866d04e9acdcbbd035bef88ecbb148",
+      "branch": "master",
+      "message": "Some cleanup of file and order in the chaos",
+      "committed_at": "2015-04-24T20:38:41Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/372c6d774c36...a168ff76fd86",
+      "pull_request_number": null
+    },
+    {
+      "id": 17127288,
+      "sha": "4732a0fcc0fdc48ebf2516f66bb4a504ce2be3fe",
+      "branch": "master",
+      "message": "Update controllers.js\n\nHide the menubutton when the navbar is visible and visa versa.",
+      "committed_at": "2015-04-24T15:28:55Z",
+      "author_name": "P. de Nooijer",
+      "author_email": "pdenooijer@users.noreply.github.com",
+      "committer_name": "P. de Nooijer",
+      "committer_email": "pdenooijer@users.noreply.github.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/pull/8",
+      "pull_request_number": 8
+    },
+    {
+      "id": 17117214,
+      "sha": "372c6d774c3602feec986709f6eb66ee54aff71b",
+      "branch": "master",
+      "message": "Add travis file",
+      "committed_at": "2015-04-24T10:58:12Z",
+      "author_name": "melvin",
+      "author_email": "aterlamia@gmail.com",
+      "committer_name": "melvin",
+      "committer_email": "aterlamia@gmail.com",
+      "compare_url": "https://github.com/aterlamia/travis-wallboard/compare/f93a73c8e030...372c6d774c36",
+      "pull_request_number": null
+    }
+  ]
+}
