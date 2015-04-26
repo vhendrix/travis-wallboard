@@ -16,6 +16,7 @@
     "angular",
     "token",
     "slugstart",
-    "inject"
+    "inject",
+    "-console"
   ]
 }

@@ -10,6 +10,7 @@ module.exports = function (grunt) {
           "Gruntfile.js",
           "js/*.js",
           "js/Controllers/*.js",
+          "js/Objects/*.js",
           "Tests/**/*.js"
         ],
         options: {
