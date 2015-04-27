@@ -75,8 +75,15 @@
               $builds[ $repoId ].name = $slug;
               $builds[ $repoId ].state = $build.state;
               $builds[ $repoId ].commit = $response.commits[ $key ];
-              $builds[ $repoId ].build = $build;
-              $builds[ $repoId ].startedAt = $build.started_at;
+              $builds[ $repoId ].branch = $response.commits[ $key ].branch;
+              $builds[ $repoId ].commit_message = $response.commits[ $key ].message;
+              $builds[ $repoId ].committer_name = $response.commits[ $key ].committer_name;
+              $builds[ $repoId ].committer_email = $response.commits[ $key ].committer_email;
+              $builds[ $repoId ].finished_at = $build.finished_at;
+              $builds[ $repoId ].started_at = $build.started_at;
+              $builds[ $repoId ].is_pr = $build.pull_request;
+
+              console.debug($builds);
               $found = true;
             }
           }

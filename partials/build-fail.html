@@ -1,23 +1,22 @@
 <div class="{{build.state | stateClass}} ablock">
     <div>
-        <img class="commiter" src="http://www.gravatar.com/avatar/{{ build.commit.author_email | gravatar }}">
+        <img class="commiter" src="http://www.gravatar.com/avatar/{{ build.committer_email | gravatar }}">
     </div>
-
+    <h2 ng-if="build.is_pr">PR:</h2>
     <h2>{{build.name}}</h2>
 
     <p class="lead">
-        <strong>{{build.commit.branch}}</strong>
+        <strong>{{build.branch}}</strong>
     </p>
 
     <p>
-        Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
+        Build broken with state: {{build.state}} by {{build.committer_name}}
     </p>
     <span class="glyphicon glyphicon-remove"></span>
 
     <p>
-        <em>{{build.commit.message}}</em>
+        <em>{{build.commit_message}}</em>
     </p>
 
-    <p>{{build.build.finished_at}}</p>
-
+    <p>{{build.finished_at}}</p>
 </div>
