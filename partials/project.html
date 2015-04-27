@@ -1,6 +1,7 @@
 <div class="failure" ng-if="displayFunctions.showModal(builds)">
     <div class="row">
-        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass(builds)}}" ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.startedAt)">
+        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass(builds)}}"
+             ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.startedAt)">
             <div class="{{build.class}} ablock ">
                 <div class="leftcol">
                     <h2>{{build.name}}</h2>
@@ -23,7 +24,7 @@
                     <div>
                         <img ng-if="build.userUrl" src="{{build.userUrl}}">
                     </div>
-                    <div>   </div>
+                    <div></div>
                 </div>
             </div>
         </div>
@@ -31,20 +32,8 @@
 </div>
 <div class="row">
     <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3">
-        <div class="{{build.class}} ablock">
-            <div>
-                <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
-            </div>
-            <h2 ng-if="build.build.pull_request">PR:</h2>
-
-            <h2>{{build.name}}</h2>
-
-            <p class="lead">
-                <strong>{{build.branch}}</strong>
-            </p>
-            <span class="glyphicon glyphicon-ok"></span>
-
-            <p>{{build.build.finished_at}}</p>
-        </div>
+        <div travis-build type="fail" ng-if="displayFunctions.isFailed(build.state)"></div>
+        <div travis-build type="success" ng-if="displayFunctions.isPassing(build.state)"></div>
+        <div travis-build type="building" ng-if="displayFunctions.isBuilding(build.state)"></div>
     </div>
 </div>

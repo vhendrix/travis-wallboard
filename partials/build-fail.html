@@ -1,0 +1,22 @@
+<div class="{{build.class}} ablock">
+    <div>
+        <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
+    </div>
+
+    <h2>{{build.name}}</h2>
+
+    <p class="lead">
+        <strong>{{build.commit.branch}}</strong>
+    </p>
+
+    <p>
+        Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
+    </p>
+    <span class="glyphicon glyphicon-remove"></span>
+
+    <p>
+        <em>{{build.commit.message}}</em>
+    </p>
+
+    <p>{{build.build.finished_at}}</p>
+</div>

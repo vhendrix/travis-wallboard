@@ -1,6 +1,7 @@
 <div class="failure" ng-if="displayFunctions.showModal(builds)">
     <div class="row">
-        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass(builds)}}" ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.startedAt)">
+        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass(builds)}}"
+             ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.startedAt)">
             <div class="{{build.class}} ablock ">
                 <div class="leftcol">
                     <h2>{{build.name}}</h2>
@@ -23,73 +24,24 @@
                     <div>
                         <img ng-if="build.userUrl" src="{{build.userUrl}}">
                     </div>
-                    <div>   </div>
+                    <div></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="displayFunctions.isFailed(build.state) && !displayFunctions.recentError(build.startedAt)">
-        <div class="{{build.class}} ablock">
-            <div>
-                <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
-            </div>
-
-            <h2>{{build.name}}</h2>
-
-            <p class="lead">
-                <strong>{{build.commit.branch}}</strong>
-            </p>
-
-            <p>
-                Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
-            </p>
-            <span class="glyphicon glyphicon-remove"></span>
-            <p>
-                <em>{{build.commit.message}}</em>
-            </p>
-
-            <p>{{build.build.finished_at}}</p>
-        </div>
+    <div ng-repeat="(key, build) in builds" class=" col col-md-3"
+         ng-if="displayFunctions.isFailed(build.state) && !displayFunctions.recentError(build.startedAt)">
+        <div travis-build type="fail"></div>
     </div>
 
     <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="displayFunctions.isBuilding(build.state)">
-        <div class="{{build.class}} ablock">
-            <div>
-                <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
-            </div>
-            <h2>{{build.name}}</h2>
-
-            <p class="lead">
-                <strong>{{build.commit.branch}}</strong>
-            </p>
-
-            <p>
-                BUILDING
-            </p>
-            <span class="glyphicon glyphicon-hourglass spin"></span>
-
-            <p>
-                <em>{{build.commit.message}}</em>
-            </p>
-        </div>
+        <div travis-build type="building"></div>
     </div>
-    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3" ng-if="displayFunctions.isPassing(build.state)">
-        <div class="{{build.class}} ablock">
-            <div>
-                <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
-            </div>
-            <h2 ng-if="build.build.pull_request">PR:</h2>
 
-            <h2>{{build.name}}</h2>
-
-            <p class="lead">
-                <strong>{{build.commit.branch}}</strong>
-            </p>
-            <span class="glyphicon glyphicon-ok"></span>
-
-            <p>{{build.build.finished_at}}</p>
-        </div>
+    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3"
+         ng-if="displayFunctions.isPassing(build.state)">
+        <div travis-build type="success"></div>
     </div>
 </div>

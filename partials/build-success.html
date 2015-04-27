@@ -1,0 +1,15 @@
+<div class="{{build.class}} ablock">
+    <div>
+        <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
+    </div>
+    <h2 ng-if="build.build.pull_request">PR:</h2>
+
+    <h2>{{build.name}}</h2>
+
+    <p class="lead">
+        <strong>{{build.commit.branch}}</strong>
+    </p>
+    <span class="glyphicon glyphicon-ok"></span>
+
+    <p>{{build.build.finished_at}}</p>
+</div>
