@@ -4,6 +4,23 @@
 
   angular.module('travisWallBoard.filters', [])
     .filter(
+    'stateClass', function () {
+      return function (state) {
+        var blockClass = '';
+        if ( state === 'failed' ) {
+          blockClass = 'btn-danger text-danger';
+        } else if ( state === 'passed' ) {
+          blockClass = 'btn-success text-success';
+        } else if ( state === 'started' || state === 'received' || state === 'created' ) {
+          blockClass = 'btn-info text-info';
+        } else {
+          blockClass = 'btn-warning';
+        }
+
+        return blockClass;
+      };
+    }
+  ).filter(
     'orderObjectByReverse', function () {
       return function (input, attribute) {
         if ( !angular.isObject(input) ) {

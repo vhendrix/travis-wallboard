@@ -73,21 +73,8 @@
           $response.builds, function ($build, $key) {
             if ( $found === false ) {
               $builds[ $repoId ] = {};
-
-              // @todo see if i can make this a directive.
-              if ( $build.state === 'failed' ) {
-                $blockclass = 'btn-danger text-danger';
-              } else if ( $build.state === 'passed' ) {
-                $blockclass = 'btn-success text-success';
-              } else if ( $build.state === 'started' || $build.state === 'received' || $build.state === 'created' ) {
-                $blockclass = 'btn-info text-info';
-              } else {
-                $blockclass = 'btn-warning';
-              }
-
-              $builds[ $repoId ].state = $build.state;
               $builds[ $repoId ].name = $slug;
-              $builds[ $repoId ].class = $blockclass;
+              $builds[ $repoId ].state = $build.state;
               $builds[ $repoId ].commit = $response.commits[ $key ];
               $builds[ $repoId ].build = $build;
               $builds[ $repoId ].startedAt = $build.started_at;
