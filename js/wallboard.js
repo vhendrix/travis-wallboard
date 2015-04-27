@@ -12,8 +12,7 @@
 
     if ( isNaN(minutes) ) {
       return 1 + ' Seconds';
-    } else if ( minutes === 0 )
-    {
+    } else if ( minutes === 0 ) {
       var seconds = Math.floor((diff / (1000)));
       return seconds + ' Seconds';
     } else if ( minutes > 1440 ) {
@@ -34,6 +33,10 @@
         function () {
           $('.time').each(
             function () {
+
+              if ( typeof $(this).data('finished_at') === 'undefined' ) {
+                $(this).data('finished_at', Date('Now'));
+              }
               $(this).text(getAgo($(this).data('finished_at')));
             }
           );
