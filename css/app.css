@@ -315,3 +315,7 @@ td.closed {
     border-bottom: 1px solid white;
 }
 
+.twmenu {
+    top: -53px;
+    opacity: 0.25;
+}
