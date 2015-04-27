@@ -1,8 +1,8 @@
 (function () {
   'use strict';
-  angular.module('travisWallBoard.services', [ 'angular-md5' ])
+  angular.module('travisWallBoard.services', [])
     .service(
-    'TravisWallboardService', function (TravisRepos, md5) {
+    'TravisWallboardService', function () {
 
       var $building = {};
       /**
@@ -91,7 +91,6 @@
               $builds[ $repoId ].commit = $response.commits[ $key ];
               $builds[ $repoId ].build = $build;
               $builds[ $repoId ].startedAt = $build.started_at;
-              $builds[ $repoId ].userUrl = "https://www.gravatar.com/avatar/" + md5.createHash($response.commits[ $key ].committer_email) + '?s=200';
               $found = true;
             }
           }

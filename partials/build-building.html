@@ -1,6 +1,6 @@
 <div class="{{build.class}} ablock">
     <div>
-        <img class="commiter" ng-if="build.userUrl" src="{{build.userUrl}}">
+        <img class="commiter" src="http://www.gravatar.com/avatar/{{ build.commit.author_email | gravatar }}">
     </div>
     <h2>{{build.name}}</h2>
 
