@@ -67,7 +67,6 @@
       this.getBuildsForRepo = function ($slug, $repoId, $response) {
         var $found = false;
         var $builds = {};
-        var $blockclass = '';
 
         angular.forEach(
           $response.builds, function ($build, $key) {
