@@ -46,14 +46,13 @@ describe(
                 "last_build_finished_at": null
               }
             ]
-
           };
         }
       )
     );
 
     describe(
-      'GetReposFromResponse', function () {
+      'Get repos from response funcion', function () {
         it(
           'OnlyReturns active repos', function () {
             var repos = TravisWallboardService.getReposFromResponse(mockResponse);
@@ -111,6 +110,93 @@ describe(
                 }
               }
             );
+          }
+        );
+        it(
+          'should return the repo that changed only once for one change', function () {
+
+            var repos = {
+              1: {
+                "id": 1,
+                "slug": "testRepo1",
+                "active": true,
+                "last_build_finished_at": "2015-04-26T12:23:34Z"
+              },
+              4: {
+                "id": 4,
+                "slug": "testRepo4",
+                "active": true,
+                "last_build_finished_at": "2015-04-26T12:23:34Z"
+              }
+            };
+
+            var updated = TravisWallboardService.getUpdatedReposFromResponse(repos, mockResponse);
+
+            expect(updated).toEqual(
+              {
+                4: {
+                  "id": 4,
+                  "slug": "testRepo4",
+                  "active": true,
+                  "last_build_finished_at": null
+                }
+              }
+            );
+
+            updated = TravisWallboardService.getUpdatedReposFromResponse(repos, mockResponse);
+
+            for (var i = 0; i < 10; i++) {
+              expect(updated).toEqual({});
+            }
+          }
+        );
+
+        it(
+          'should return the repo once for build state and once for done state', function () {
+
+            var repos = {
+              1: {
+                "id": 1,
+                "slug": "testRepo1",
+                "active": true,
+                "last_build_finished_at": "2015-04-26T12:23:34Z"
+              },
+              4: {
+                "id": 4,
+                "slug": "testRepo4",
+                "active": true,
+                "last_build_finished_at": "2015-04-26T12:23:34Z"
+              }
+            };
+
+            var updated = TravisWallboardService.getUpdatedReposFromResponse(repos, mockResponse);
+
+            expect(updated).toEqual(
+              {
+                4: {
+                  "id": 4,
+                  "slug": "testRepo4",
+                  "active": true,
+                  "last_build_finished_at": null
+                }
+              }
+            );
+
+            expect(TravisWallboardService.getUpdatedReposFromResponse(repos, mockResponse)).toEqual({});
+
+            mockResponse.repos[ 3 ].last_build_finished_at = "2015-04-26T12:23:34Z";
+            expect(TravisWallboardService.getUpdatedReposFromResponse(repos, mockResponse)).toEqual(
+              {
+                4: {
+                  "id": 4,
+                  "slug": "testRepo4",
+                  "active": true,
+                  "last_build_finished_at": "2015-04-26T12:23:34Z"
+                }
+              }
+            );
+
+            expect(TravisWallboardService.getUpdatedReposFromResponse(repos, mockResponse)).toEqual({});
           }
         );
       }
