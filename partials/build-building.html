@@ -17,5 +17,5 @@
     <p>
         <em>{{build.commit_message}}</em>
     </p>
-    <p>Build started {{build.started_at | timeAgo}} ago.</p>
+    <p>Build started  <span class="time" data-finished_at="{{build.started_at}}">{{build.started_at | timeAgo}}</span> ago.</p>
 </div>

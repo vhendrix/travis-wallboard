@@ -18,5 +18,5 @@
         <em>{{build.commit_message}}</em>
     </p>
 
-    <p>Build broke {{build.finished_at | timeAgo}} ago.</p>
+    <p>Build broke  <span class="time" data-finished_at="{{build.finished_at}}">{{build.finished_at | timeAgo}}</span> ago.</p>
 </div>

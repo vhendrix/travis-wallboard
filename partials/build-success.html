@@ -16,5 +16,5 @@
 
     <span class="glyphicon glyphicon-ok"></span>
 
-    <p>Build passed {{build.finished_at | timeAgo}} ago.</p>
+    <p>Build passed <span class="time" data-finished_at="{{build.finished_at}}">{{build.finished_at | timeAgo}}</span> ago.</p>
 </div>
