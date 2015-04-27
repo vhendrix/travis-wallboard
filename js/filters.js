@@ -26,8 +26,6 @@
         var dt = new Date(Date.parse(dateString));
         var now = new Date();
 
-        console.debug(now.toString());
-        console.debug(dt.toString());
         var diff = now.getTime() - dt.getTime();
 
         var minutes = Math.floor((diff / (60000)));
