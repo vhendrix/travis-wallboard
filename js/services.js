@@ -5,6 +5,27 @@
     'TravisWallboardService', function () {
 
       var $building = {};
+
+      var getBuildData = function ($name, $commit, $build) {
+        var $buildData = {};
+        $buildData.name = $name;
+        $buildData.state = $build.state;
+        $buildData.finished_at = $build.finished_at;
+        $buildData.started_at = $build.started_at;
+        $buildData.is_pr = $build.pull_request;
+
+        if ( $build.pull_request ) {
+          $buildData.branch = $build.pull_request_title;
+        } else {
+          $buildData.branch = $commit.branch;
+        }
+
+        $buildData.commit_message = $commit.message;
+        $buildData.committer_name = $commit.committer_name;
+        $buildData.committer_email = $commit.committer_email;
+
+        return $buildData;
+      };
       /**
        * Will parse the response and return active repositories from
        * travis.
@@ -65,29 +86,33 @@
        * @returns {{}}
        */
       this.getBuildsForRepo = function ($slug, $repoId, $response) {
-        var $found = false;
+        var $builds = {};
+
+        var $latestBuild = $response.builds[ 0 ];
+        var $latestCommit = $response.commits[ 0 ];
+
+        $builds[ $repoId ] = getBuildData($slug, $latestCommit, $latestBuild);
+
+        return $builds;
+      };
+
+      /**
+       * Parses the builds returned from the service for the project view.
+       *
+       * @param {String} $slug The slug of the project (project name on git)
+       * @param {int} $repoId Id of the repositiory.
+       * @param {Object} $response Response we got from the service.
+       * @returns {{}}
+       */
+      this.getBuildsForProject = function ($slug, $response) {
         var $builds = {};
 
         angular.forEach(
-          $response.builds, function ($build, $key) {
-            if ( $found === false ) {
-              $builds[ $repoId ] = {};
-              $builds[ $repoId ].name = $slug;
-              $builds[ $repoId ].state = $build.state;
-              $builds[ $repoId ].commit = $response.commits[ $key ];
-              $builds[ $repoId ].branch = $response.commits[ $key ].branch;
-              $builds[ $repoId ].commit_message = $response.commits[ $key ].message;
-              $builds[ $repoId ].committer_name = $response.commits[ $key ].committer_name;
-              $builds[ $repoId ].committer_email = $response.commits[ $key ].committer_email;
-              $builds[ $repoId ].finished_at = $build.finished_at;
-              $builds[ $repoId ].started_at = $build.started_at;
-              $builds[ $repoId ].is_pr = $build.pull_request;
-
-              console.debug($builds);
-              $found = true;
-            }
+          $response.builds, function (build, key) {
+            $builds[ key ] = getBuildData($slug, $response.commits[ key ], build);
           }
         );
+
         return $builds;
       };
     }
@@ -119,10 +144,13 @@
           angular.forEach(
             builds, function (build) {
               if ( build.state === 'failed' || build.state === 'error' || build.state === 'errored' ) {
-                var dt = new Date(Date.parse(build.startedAt));
+                var dt = new Date(Date.parse(build.finished_at));
                 var now = new Date();
 
-                var minutes = Math.floor((now.getTime() - dt.getTime()) % 60);
+                var diff = now.getTime() - dt.getTime();
+
+                var minutes = Math.floor((diff / (60000)));
+
                 if ( minutes < 5 ) {
                   failed = true;
                   return true;

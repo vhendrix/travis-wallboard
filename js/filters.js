@@ -21,6 +21,29 @@
       };
     }
   ).filter(
+    'timeAgo', function () {
+      return function (dateString) {
+        var dt = new Date(Date.parse(dateString));
+        var now = new Date();
+
+        console.debug(now.toString());
+        console.debug(dt.toString());
+        var diff = now.getTime() - dt.getTime();
+
+        var minutes = Math.floor((diff / (60000)));
+
+        if ( minutes > 1440 ) {
+          return Math.floor((diff / 86400000)) + ' Days';
+        } else if ( minutes > 60 ) {
+          var hours = Math.floor((diff / 3600000));
+          minutes = Math.floor(((diff % 3600000) / 60000));
+          return hours + ' Hours and ' + minutes + ' Minutes';
+        } else {
+          return minutes + ' Minutes';
+        }
+      };
+    }
+  ).filter(
     'orderObjectByReverse', function () {
       return function (input, attribute) {
         if ( !angular.isObject(input) ) {

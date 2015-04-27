@@ -9,7 +9,12 @@
     <p class="lead">
         <strong>{{build.branch}}</strong>
     </p>
+
+    <p>
+        Last successfull build by {{build.committer_name}}
+    </p>
+
     <span class="glyphicon glyphicon-ok"></span>
 
-    <p>{{build.build.finished_at}}</p>
+    <p>Build passed {{build.finished_at | timeAgo}} ago.</p>
 </div>
