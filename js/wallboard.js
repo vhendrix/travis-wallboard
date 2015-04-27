@@ -35,7 +35,7 @@
             function () {
 
               if ( typeof $(this).data('finished_at') === 'undefined' ) {
-                $(this).atrr('data-finished_at', Date('Now').toString());
+                $(this).attr('data-finished_at', Date('Now').toString());
               }
               $(this).text(getAgo($(this).data('finished_at')));
             }
