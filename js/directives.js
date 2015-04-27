@@ -10,5 +10,13 @@
         }
       };
     }
+  ).directive(
+    'travisBuildModal', function () {
+      return {
+        templateUrl: function () {
+          return 'partials/build-recent-failed.html';
+        }
+      };
+    }
   );
 })();

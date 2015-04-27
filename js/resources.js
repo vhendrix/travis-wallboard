@@ -10,7 +10,8 @@
           'getRepos': {
             params: {active: true},
             method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json'
+              'Accept': 'application/vnd.travis-ci.2+json',
+              'Authorization': twsettings.data.getToken()
             }
           }
         }
@@ -25,7 +26,8 @@
           'getBuild': {
             params: {slug: 0, buildid: 0},
             method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json'
+              'Accept': 'application/vnd.travis-ci.2+json',
+              'Authorization': twsettings.data.getToken()
             }
           }
         }
@@ -35,12 +37,13 @@
     'TravisBuilds', function ($resource, twsettings) {
       return $resource(
         twsettings.data.getUri('repos') + twsettings.data.slug + "/:slug/builds",
-        {slug: '@slug'},
+        {slug: '@slug', 'event_type': 'push'},
         {
           'getBuilds': {
-            params: {slug: 0},
+            params: {slug: 0, 'event_type': 'push'},
             method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json'
+              'Accept': 'application/vnd.travis-ci.2+json',
+              'Authorization': twsettings.data.getToken()
             }
           },
           'getBuildsForProject': {

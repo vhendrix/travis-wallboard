@@ -21,6 +21,7 @@
       function ($routeProvider, twsettings) {
         twsettings.loadSlug();
         twsettings.loadToken();
+        twsettings.loadPrivate();
 
         $routeProvider.when('/repos', {templateUrl: 'partials/repos.html', controller: 'ReposController'});
         $routeProvider.when(

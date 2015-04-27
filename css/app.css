@@ -306,3 +306,12 @@ td.closed {
 .navbar {
     margin-bottom: 0;
 }
+
+.settingsForm {
+    color: lightgray;
+}
+
+.settingsForm h3{
+    border-bottom: 1px solid white;
+}
+

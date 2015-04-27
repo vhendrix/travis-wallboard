@@ -21,6 +21,16 @@
       };
     }
   ).filter(
+    'getSlugName', [
+      'twsettings',
+      function (twsettings) {
+        return function (string) {
+          var slug = string.replace(twsettings.data.slug + '/', "");
+          return slug;
+        };
+      }
+    ]
+  ).filter(
     'timeAgo', function () {
       return function (dateString) {
         var dt = new Date(Date.parse(dateString));
@@ -30,7 +40,13 @@
 
         var minutes = Math.floor((diff / (60000)));
 
-        if ( minutes > 1440 ) {
+        if ( isNaN(minutes) ) {
+          return 1 + ' Seconds';
+        } else if ( minutes === 0 )
+        {
+          var seconds = Math.floor((diff / (1000)));
+          return seconds + ' Seconds';
+        } else if ( minutes > 1440 ) {
           return Math.floor((diff / 86400000)) + ' Days';
         } else if ( minutes > 60 ) {
           var hours = Math.floor((diff / 3600000));
@@ -72,4 +88,5 @@
       };
     }
   );
-})();
+})
+();

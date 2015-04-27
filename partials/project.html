@@ -1,37 +1,7 @@
-<div class="failure" ng-if="displayFunctions.showModal(builds)">
-    <div class="row">
-        <div ng-repeat="(key, build) in builds" class=" col {{getErrorsClass(builds)}}"
-             ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.startedAt)">
-            <div class="{{build.class}} ablock ">
-                <div class="leftcol">
-                    <h2>{{build.name}}</h2>
+<div class="failure" travis-build-modal ng-if="displayFunctions.showModal(builds)"></div>
 
-                    <p class="lead">
-                        <strong>{{build.branch}}</strong>
-                    </p>
-
-                    <p>
-                        Build broken with state: {{build.build.state}} by {{build.commit.author_name}}
-                    </p>
-                    <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
-
-                    <p>
-                        <em>{{build.commit.message}}</em> <br/>
-                        {{build.build.finished_at}}
-                    </p>
-                </div>
-                <div class="rightcol">
-                    <div>
-                        <img ng-if="build.userUrl" src="{{build.userUrl}}">
-                    </div>
-                    <div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="row">
-    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'startedAt'" class=" col col-md-3">
+    <div ng-repeat="(key, build) in builds | orderObjectByReverse:'finished_at'" class="col col-md-3">
         <div travis-build type="fail" ng-if="displayFunctions.isFailed(build.state)"></div>
         <div travis-build type="success" ng-if="displayFunctions.isPassing(build.state)"></div>
         <div travis-build type="building" ng-if="displayFunctions.isBuilding(build.state)"></div>

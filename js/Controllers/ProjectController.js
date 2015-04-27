@@ -5,10 +5,8 @@ angular.module('travisWallBoard.controllers').controller(
     'twsettings',
     'TravisWallboardService',
     'DisplayFunctions',
-    '$interval', 'md5',
-    'TravisRepos',
+    '$interval',
     'TravisBuilds',
-    'TravisBuild',
     '$routeParams',
     function (
       $scope,
@@ -16,10 +14,7 @@ angular.module('travisWallBoard.controllers').controller(
       $travisWallboardService,
       DisplayFunctions,
       $interval,
-      md5,
-      TravisRepos,
       TravisBuilds,
-      TravisBuild,
       routeParams
     ) {
       /**

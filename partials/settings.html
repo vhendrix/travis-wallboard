@@ -1,21 +1,32 @@
-<form ng-submit="submit()">
-    <div class="form-group">
-        <label for="token">Tokenb</label>
-        <input ng-model="token" type="text" class="form-control" id="token" placeholder="Enter token">
-    </div>
-    <div class="form-group">
-        <label for="company">Repo</label>
-        <input ng-model="repo" type="text" class="form-control" id="company" placeholder="Company repo">
-    </div>
+<section class="settingsForm">
+    <h3>Base settings:</h3>
 
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+    <form ng-submit="submit()">
+        <div class="form-group">
+            <label for="company">Name of the repository eg travis-ci.org/{{name}}/project:</label>
+            <input ng-model="repo" type="text" class="form-control" id="company" placeholder="Repo">
+        </div>
+        <div class="form-group">
+            <label for="company">Is this a private repo (token required):</label>
+            <input type="checkbox" ng-true-value="'YES'" ng-false-value="'NO'" ng-model="private" class="form-control" id="private">
+        </div>
+        <div class="form-group">
+            <label for="token">Travis api token: (only needed when using a private repo)</label>
+            <input ng-model="token" type="text" class="form-control" id="token" placeholder="Enter token">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    <br/>
+    <br/>
 
+    <h3>If You do not have a travis token you can enter your github token here to generate one for you:</h3>
 
-<form ng-submit="getToken()">
-    <div class="form-group">
-        <label for="token">Tokenb</label>
-        <input ng-model="githubtoken" type="text" class="form-control" id="githubtoken" placeholder="Enter github token travis token will be filled">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+    <form ng-submit="getToken()">
+        <div class="form-group">
+            <label for="token">Github token</label>
+            <input ng-model="githubtoken" type="text" class="form-control" id="githubtoken"
+                   placeholder="Enter github token travis token will be filled">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</section>

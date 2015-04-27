@@ -4,15 +4,22 @@ angular.module('travisWallBoard.objects', [])
     var data = {
       token: '',
       slug: '',
-      private: false,
+      private: 'NO',
       useMocks: false,
       private_uri: 'https://api.travis-ci.com/',
       opensource_uri: 'https://api.travis-ci.org/',
 
+      getToken: function () {
+        if ( this.private === "YES" ) {
+          return 'token ' + this.token;
+        } else {
+          return null;
+        }
+      },
       getUri: function ($endpoint) {
         if ( this.useMocks ) {
           return '/Mocks/MockServer.php/?endpoint=' + $endpoint + '&slug=';
-        } else if ( this.private ) {
+        } else if ( this.private === "YES" ) {
           return this.private_uri + $endpoint + '/';
         } else {
           return this.opensource_uri + $endpoint + '/';
@@ -42,6 +49,9 @@ angular.module('travisWallBoard.objects', [])
       },
       loadToken: function () {
         data.token = readCookie('token');
+      },
+      loadPrivate: function () {
+        data.private = readCookie('private');
       },
       $get: function () {
         return {

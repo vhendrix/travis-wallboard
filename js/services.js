@@ -86,14 +86,10 @@
        * @returns {{}}
        */
       this.getBuildsForRepo = function ($slug, $repoId, $response) {
-        var $builds = {};
-
         var $latestBuild = $response.builds[ 0 ];
         var $latestCommit = $response.commits[ 0 ];
 
-        $builds[ $repoId ] = getBuildData($slug, $latestCommit, $latestBuild);
-
-        return $builds;
+        return getBuildData($slug, $latestCommit, $latestBuild);
       };
 
       /**
@@ -127,7 +123,15 @@
           angular.forEach(
             builds, function (build) {
               if ( build.state === 'failed' || build.state === 'error' || build.state === 'errored' ) {
-                count++;
+                var dt = new Date(Date.parse(build.finished_at));
+                var now = new Date();
+
+                var diff = now.getTime() - dt.getTime();
+
+                var minutes = Math.floor((diff / (60000)));
+                if ( minutes < 5 ) {
+                  count++;
+                }
               }
             }
           );
@@ -150,7 +154,6 @@
                 var diff = now.getTime() - dt.getTime();
 
                 var minutes = Math.floor((diff / (60000)));
-
                 if ( minutes < 5 ) {
                   failed = true;
                   return true;
@@ -165,7 +168,10 @@
           var dt = new Date(Date.parse(finishedAt));
           var now = new Date();
 
-          var minutes = Math.floor((now.getTime() - dt.getTime()) % 60);
+          var diff = now.getTime() - dt.getTime();
+
+          var minutes = Math.floor((diff / (60000)));
+
           if ( minutes < 5 ) {
             return true;
           }
