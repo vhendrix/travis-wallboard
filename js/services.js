@@ -26,6 +26,14 @@
         return $repos;
       };
 
+      /**
+       * Get all repositories that have a changed state compared to the previous
+       * check.
+       *
+       * @param $repos
+       * @param $response
+       * @returns {{}}
+       */
       this.getUpdatedReposFromResponse = function ($repos, $response) {
         var $updatedRepos = {};
 
