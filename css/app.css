@@ -319,3 +319,7 @@ td.closed {
     top: -53px;
     opacity: 0.25;
 }
+
+.text-canceled {
+    background-color: #B8B8B8;
+}

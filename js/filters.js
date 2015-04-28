@@ -13,6 +13,8 @@
           blockClass = 'btn-success text-success';
         } else if ( state === 'started' || state === 'received' || state === 'created' ) {
           blockClass = 'btn-info text-info';
+        } else if ( state === 'canceled' ) {
+          blockClass = 'btn-info text-info text-canceled';
         } else {
           blockClass = 'btn-warning';
         }
@@ -42,8 +44,7 @@
 
         if ( isNaN(minutes) ) {
           return 1 + ' Seconds';
-        } else if ( minutes === 0 )
-        {
+        } else if ( minutes === 0 ) {
           var seconds = Math.floor((diff / (1000)));
           return seconds + ' Seconds';
         } else if ( minutes > 1440 ) {

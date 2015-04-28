@@ -51,7 +51,7 @@ angular.module('travisWallBoard.controllers').controller(
         TravisToken.getToken(
           {githubtoken: $scope.githubtoken}, function (response) {
             $scope.token = response.access_token;
-            $scope.createCookie('token', $scope.token, 700);
+            $scope.createCookie('token', $scope.token);
             twsettings.data.token = $scope.token;
             window.location.reload();
           }
