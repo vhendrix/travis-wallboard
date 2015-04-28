@@ -13,6 +13,7 @@ angular.module('travisWallBoard.controllers').controller(
     '$interval',
     'TravisRepos',
     'TravisBuilds',
+    '$routeParams',
     function (
       $scope,
       twsettings,
@@ -20,8 +21,17 @@ angular.module('travisWallBoard.controllers').controller(
       DisplayFunctions,
       $interval,
       TravisRepos,
-      TravisBuilds
+      TravisBuilds,
+      routeParams
     ) {
+
+      if ( angular.isDefined(routeParams.repo) ) {
+        twsettings.data.setPrivate('NO');
+        twsettings.data.setRepo(routeParams.repo);
+        //poormans redirect.
+        window.location.href = '/';
+      }
+
       /**
        * Holds the display funcions from the service.
        * @todo see if i can call this direcly from the view one way or the other.

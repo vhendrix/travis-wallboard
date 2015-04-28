@@ -9,14 +9,32 @@ angular.module('travisWallBoard.objects', [])
       private_uri: 'https://api.travis-ci.com/',
       opensource_uri: 'https://api.travis-ci.org/',
 
+      setToken: function (token) {
+        this.token = token;
+      },
+      setRepo: function (slug) {
+        this.slug = slug;
+        createCookie('repo', slug);
+      },
+      setPrivate: function (isPrivate) {
+        this.private = isPrivate;
+        createCookie('private', isPrivate);
+      },
       getToken: function () {
+
         if ( this.private === "YES" ) {
           return 'token ' + this.token;
         } else {
           return null;
         }
       },
+
+      getSlug: function () {
+        return this.slug;
+      },
+
       getUri: function ($endpoint) {
+
         if ( this.useMocks ) {
           return '/Mocks/MockServer.php/?endpoint=' + $endpoint + '&slug=';
         } else if ( this.private === "YES" ) {
@@ -25,6 +43,20 @@ angular.module('travisWallBoard.objects', [])
           return this.opensource_uri + $endpoint + '/';
         }
       }
+    };
+
+    var createCookie = function (name, value, days) {
+      var expires;
+
+      if ( days ) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString();
+      }
+      else {
+        expires = "";
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
     };
 
     var readCookie = function (name) {

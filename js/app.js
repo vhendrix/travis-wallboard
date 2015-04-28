@@ -24,6 +24,7 @@
         twsettings.loadPrivate();
 
         $routeProvider.when('/repos', {templateUrl: 'partials/repos.html', controller: 'ReposController'});
+        $routeProvider.when('/showmyrepos/:repo', {templateUrl: 'partials/repos.html', controller: 'ReposController'});
         $routeProvider.when(
           '/project/:slug', {
             templateUrl: 'partials/project.html',

@@ -186,7 +186,7 @@
         },
 
         isPassing: function (state) {
-          return state === 'passed' || 'canceled';
+          return state === 'passed' || state === 'canceled';
         }
       };
     }
