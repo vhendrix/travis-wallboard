@@ -1,0 +1,22 @@
+{
+  "node": true,
+  "jasmine": true,
+  "multistr": true,
+  "browser": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "curly": true,
+  "devel": false,
+  "expr": true,
+  "undef": true,
+  "unused": true,
+  "jquery" : true,
+  "maxdepth": 4,
+  "predef": [
+    "angular",
+    "token",
+    "slugstart",
+    "inject",
+    "-console"
+  ]
+}

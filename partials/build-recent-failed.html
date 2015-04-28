@@ -1,0 +1,31 @@
+<div class="row">
+    <div ng-repeat="(key, build) in builds" class=" col {{displayFunctions.getErrorsClass(builds)}}"
+         ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.finished_at)">
+        <div class="{{build.state | stateClass}} ablock ">
+            <div class="leftcol">
+                <h2>{{build.name}}</h2>
+
+                <p class="lead">
+                    <strong>{{build.branch}}</strong>
+                </p>
+
+                <p>
+                    Build broken with state: {{build.state}} by {{build.committer_name}}
+                </p>
+                <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
+
+                <p>
+                    <em>{{build.commit_message}}</em> <br/>
+
+                <p>Build broke {{build.finished_at | timeAgo}} ago.</p>
+                </p>
+            </div>
+            <div class="rightcol">
+                <div>
+                    <img src="http://www.gravatar.com/avatar/{{ build.committer_email | gravatar }}">
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>

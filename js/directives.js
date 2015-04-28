@@ -1,19 +1,22 @@
-'use strict';
+(function () {
+  'use strict';
 
-/* Directives */
-
-angular.module('travisWallBoard.directives', []).
-    directive('appVersion', ['version', function (version) {
-        return function (scope, elm, attrs) {
-            elm.text(version);
-        };
+  /* Directives */
+  angular.module('travisWallBoard.directives', []).directive(
+    'travisBuild', function () {
+      return {
+        templateUrl: function (elem, attr) {
+          return 'partials/build-' + attr.type + '.html';
+        }
+      };
     }
-    ]
-).
-    directive('toggleHidden', [function () {
-        return function (scope, elm, attrs) {
-            console.debug('test');
-        };
+  ).directive(
+    'travisBuildModal', function () {
+      return {
+        templateUrl: function () {
+          return 'partials/build-recent-failed.html';
+        }
+      };
     }
-    ]
-);
+  );
+})();
