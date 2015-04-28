@@ -49,7 +49,8 @@
           'getBuildsForProject': {
             params: {slug: 0, 'event_type': undefined},
             method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json'
+              'Accept': 'application/vnd.travis-ci.2+json',
+              'Authorization': twsettings.data.getToken()
             }
           }
         }
