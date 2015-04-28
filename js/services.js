@@ -105,7 +105,10 @@
 
         angular.forEach(
           $response.builds, function (build, key) {
-            $builds[ key ] = getBuildData($slug, $response.commits[ key ], build);
+            var $data = getBuildData($slug, $response.commits[ key ], build);
+            if(typeof  $builds[ $data.branch ] === "undefined") {
+              $builds[ $data.branch ] = $data;
+            }
           }
         );
 
@@ -179,7 +182,7 @@
         },
 
         isBuilding: function (state) {
-          return state === 'started' || state === 'created';
+          return state === 'started' || state === 'created' || state === 'received';
         },
 
         isPassing: function (state) {
