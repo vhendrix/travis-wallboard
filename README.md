@@ -11,7 +11,6 @@ https://magnum.travis-ci.com/repoid/slugid
 and your travis token
 !!IMPORTANT this is an api token not the one you can find in your settings. See below for more details.
 
-
 You can also skip them and add them trough the settings screen.
 
 Settings will allow you to generate your travis token from a github token.
