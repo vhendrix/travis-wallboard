@@ -86,29 +86,44 @@ angular.module('travisWallBoard.controllers').controller(
         angular.forEach(
           twsettings.data.users,
           function ($user) {
-            console.debug($user);
             TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
               function (response) {
-                $scope.repos = $travisWallboardService.getReposFromResponse(response);
+                var newRepos =  $travisWallboardService.getReposFromResponse(response);
+                $scope.repos = merge_options($scope.repos, newRepos);
 
-                $scope.loadBuilds($scope.repos, $user);
+                $scope.loadBuilds(newRepos, $user);
               }
             );
           }
         );
       };
 
+      function merge_options(obj1, obj2) {
+        var obj3 = {};
+        for (var attrname in obj1) {
+          obj3[ attrname ] = obj1[ attrname ];
+        }
+        for (var attrname in obj2) {
+          obj3[ attrname ] = obj2[ attrname ];
+        }
+        return obj3;
+      };
+
       /**
        * Poll the repos to see if there are any changes.
        */
       $scope.pollRepos = function () {
-        TravisRepos.resource().getRepos(
-          function (response) {
-            var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
-
-            angular.forEach(
-              $updatedRepos, function ($repo) {
-                $scope.loadBuildsForRepo($repo);
+        angular.forEach(
+          twsettings.data.users,
+          function ($user) {
+            TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
+              function (response) {
+                var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
+                angular.forEach(
+                  $updatedRepos, function ($repo) {
+                    $scope.loadBuildsForRepo($repo, $user);
+                  }
+                );
               }
             );
           }
