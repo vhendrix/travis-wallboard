@@ -9,6 +9,7 @@ describe(
     beforeEach(module('travisWallBoard.services'));
     beforeEach(module('travisWallBoard.resources'));
     beforeEach(module('angular-md5'));
+    beforeEach(module('ngRoute'));
 
     var
       $controller,
