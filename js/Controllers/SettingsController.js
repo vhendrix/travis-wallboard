@@ -6,6 +6,8 @@ angular.module('travisWallBoard.controllers').controller(
     'md5',
     'TravisToken',
     function ($scope, twsettings, md5, TravisToken) {
+      $scope.users = twsettings.data.users;
+
       // Instantiate an object to store your scope data in (Best Practices)
       $scope.createCookie = function (name, value, days) {
         var expires;
@@ -38,13 +40,7 @@ angular.module('travisWallBoard.controllers').controller(
       };
 
       $scope.submit = function () {
-        $scope.createCookie('repo', $scope.repo);
-        $scope.createCookie('token', $scope.token);
-        $scope.createCookie('private', $scope.private);
-        twsettings.data.token = $scope.token;
-        twsettings.data.slug = $scope.repo;
-        twsettings.data.private = $scope.private;
-        window.location.reload();
+        twsettings.data.setUsers($scope.users);
       };
 
       $scope.getToken = function () {

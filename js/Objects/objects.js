@@ -2,26 +2,16 @@ angular.module('travisWallBoard.objects', [])
   .provider(
   'twsettings', function () {
     var data = {
-      token: '',
-      slug: '',
-      private: 'NO',
       useMocks: false,
       private_uri: 'https://api.travis-ci.com/',
       opensource_uri: 'https://api.travis-ci.org/',
+      users: [],
 
-      setToken: function (token) {
-        this.token = token;
-      },
-      setRepo: function (slug) {
-        this.slug = slug;
-        createCookie('repo', slug);
-      },
-      setPrivate: function (isPrivate) {
-        this.private = isPrivate;
-        createCookie('private', isPrivate);
+      setUsers: function ($users) {
+        this.users = $users;
+        createCookie('userData', JSON.stringify($users));
       },
       getToken: function () {
-
         if ( this.private === "YES" ) {
           return 'token ' + this.token;
         } else {
@@ -34,7 +24,6 @@ angular.module('travisWallBoard.objects', [])
       },
 
       getUri: function ($endpoint) {
-
         if ( this.useMocks ) {
           return '/Mocks/MockServer.php/?endpoint=' + $endpoint + '&slug=';
         } else if ( this.private === "YES" ) {
@@ -76,14 +65,8 @@ angular.module('travisWallBoard.objects', [])
     };
 
     return {
-      loadSlug: function () {
-        data.slug = readCookie('repo');
-      },
-      loadToken: function () {
-        data.token = readCookie('token');
-      },
-      loadPrivate: function () {
-        data.private = readCookie('private');
+      loadUserData: function () {
+        data.users = JSON.parse(readCookie('userData'));
       },
       $get: function () {
         return {
