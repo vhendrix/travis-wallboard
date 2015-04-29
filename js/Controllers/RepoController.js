@@ -57,10 +57,10 @@ angular.module('travisWallBoard.controllers').controller(
        *
        * @param {Object} $repos Object with all repos.
        */
-      $scope.loadBuilds = function ($repos) {
+      $scope.loadBuilds = function ($repos, $user) {
         angular.forEach(
           $repos, function (repo) {
-            $scope.loadBuildsForRepo(repo);
+            $scope.loadBuildsForRepo(repo, $user);
           }
         );
       };
@@ -70,9 +70,9 @@ angular.module('travisWallBoard.controllers').controller(
        *
        * @param {Object} $repo
        */
-      $scope.loadBuildsForRepo = function ($repo) {
-        var slug = $repo.slug.replace(twsettings.data.slug + '/', "");
-        TravisBuilds.getBuilds(
+      $scope.loadBuildsForRepo = function ($repo, $user) {
+        var slug = $repo.slug.replace($user.name + '/', "");
+        TravisBuilds.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getBuilds(
           {slug: slug}, function ($response) {
             $scope.builds[ $repo.id ] = $travisWallboardService.getBuildsForRepo(slug, $repo.id, $response);
           }
@@ -83,11 +83,17 @@ angular.module('travisWallBoard.controllers').controller(
        * Load initial repos from the travis service.
        */
       $scope.loadRepos = function () {
-        TravisRepos.getRepos(
-          function (response) {
-            $scope.repos = $travisWallboardService.getReposFromResponse(response);
+        angular.forEach(
+          twsettings.data.users,
+          function ($user) {
+            console.debug($user);
+            TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
+              function (response) {
+                $scope.repos = $travisWallboardService.getReposFromResponse(response);
 
-            $scope.loadBuilds($scope.repos);
+                $scope.loadBuilds($scope.repos, $user);
+              }
+            );
           }
         );
       };
@@ -96,7 +102,7 @@ angular.module('travisWallBoard.controllers').controller(
        * Poll the repos to see if there are any changes.
        */
       $scope.pollRepos = function () {
-        TravisRepos.getRepos(
+        TravisRepos.resource().getRepos(
           function (response) {
             var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
 

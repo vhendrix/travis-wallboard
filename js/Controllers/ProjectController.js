@@ -40,7 +40,7 @@ angular.module('travisWallBoard.controllers').controller(
       $scope.loadBuildsForRepo = function () {
         var slug = routeParams.slug;
 
-        TravisBuilds.getBuildsForProject(
+        TravisBuilds.resource().getBuildsForProject(
           {slug: slug}, function (response) {
             $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
           }

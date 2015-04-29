@@ -3,58 +3,70 @@
   angular.module('travisWallBoard.resources', [ 'ngResource' ])
     .factory(
     'TravisRepos', function ($resource, twsettings) {
-      return $resource(
-        twsettings.data.getUri('repos') + twsettings.data.slug,
-        {},
-        {
-          'getRepos': {
-            params: {active: true},
-            method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json',
-              'Authorization': twsettings.data.getToken()
+      return {
+        resource: function (name, uri, isPrivate, token) {
+          return $resource(
+            uri + 'repos/' + name,
+            {},
+            {
+              'getRepos': {
+                params: {active: true},
+                method: 'GET', headers: {
+                  'Accept': 'application/vnd.travis-ci.2+json',
+                  'Authorization': twsettings.data.getToken(isPrivate, token)
+                }
+              }
             }
-          }
+          );
         }
-      );
+      };
     }
   ).factory(
     'TravisBuild', function ($resource, twsettings) {
-      return $resource(
-        twsettings.data.getUri('repos') + twsettings.data.slug + "/:slug/builds/:buildid",
-        {slug: '@slug', buildid: '@buildid'},
-        {
-          'getBuild': {
-            params: {slug: 0, buildid: 0},
-            method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json',
-              'Authorization': twsettings.data.getToken()
+      return {
+        resource: function () {
+          return $resource(
+            twsettings.data.getUri('repos') + twsettings.data.slug + "/:slug/builds/:buildid",
+            {slug: '@slug', buildid: '@buildid'},
+            {
+              'getBuild': {
+                params: {slug: 0, buildid: 0},
+                method: 'GET', headers: {
+                  'Accept': 'application/vnd.travis-ci.2+json',
+                  'Authorization': twsettings.data.getToken()
+                }
+              }
             }
-          }
+          );
         }
-      );
+      };
     }
   ).factory(
     'TravisBuilds', function ($resource, twsettings) {
-      return $resource(
-        twsettings.data.getUri('repos') + twsettings.data.slug + "/:slug/builds",
-        {slug: '@slug', 'event_type': 'push'},
-        {
-          'getBuilds': {
-            params: {slug: 0, 'event_type': 'push'},
-            method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json',
-              'Authorization': twsettings.data.getToken()
+      return {
+        resource: function (name, uri, isPrivate, token) {
+          return $resource(
+            uri + 'repos/' + name + "/:slug/builds",
+            {slug: '@slug', 'event_type': 'push'},
+            {
+              'getBuilds': {
+                params: {slug: 0, 'event_type': 'push'},
+                method: 'GET', headers: {
+                  'Accept': 'application/vnd.travis-ci.2+json',
+                  'Authorization': twsettings.data.getToken(isPrivate, token)
+                }
+              },
+              'getBuildsForProject': {
+                params: {slug: 0, 'event_type': undefined},
+                method: 'GET', headers: {
+                  'Accept': 'application/vnd.travis-ci.2+json',
+                  'Authorization': twsettings.data.getToken(isPrivate, token)
+                }
+              }
             }
-          },
-          'getBuildsForProject': {
-            params: {slug: 0, 'event_type': undefined},
-            method: 'GET', headers: {
-              'Accept': 'application/vnd.travis-ci.2+json',
-              'Authorization': twsettings.data.getToken()
-            }
-          }
+          );
         }
-      );
+      };
     }
   ).factory(
     'TravisToken', function ($resource) {

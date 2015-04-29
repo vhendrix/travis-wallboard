@@ -11,9 +11,9 @@ angular.module('travisWallBoard.objects', [])
         this.users = $users;
         createCookie('userData', JSON.stringify($users));
       },
-      getToken: function () {
-        if ( this.private === "YES" ) {
-          return 'token ' + this.token;
+      getToken: function (isPrivate, token) {
+        if ( isPrivate === "YES" ) {
+          return 'token ' + token;
         } else {
           return null;
         }
@@ -23,13 +23,13 @@ angular.module('travisWallBoard.objects', [])
         return this.slug;
       },
 
-      getUri: function ($endpoint) {
+      getUri: function ($user) {
         if ( this.useMocks ) {
-          return '/Mocks/MockServer.php/?endpoint=' + $endpoint + '&slug=';
-        } else if ( this.private === "YES" ) {
-          return this.private_uri + $endpoint + '/';
+          return '/Mocks/MockServer.php/?slug=';
+        } else if ( $user.isPrivate === "YES" ) {
+          return this.private_uri;
         } else {
-          return this.opensource_uri + $endpoint + '/';
+          return this.opensource_uri;
         }
       }
     };

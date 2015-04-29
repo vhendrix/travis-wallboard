@@ -88,6 +88,26 @@
         return array;
       };
     }
+  ).filter(
+    'orderObjectParam', function () {
+      return function (input, attribute) {
+        if ( !angular.isObject(input) ) {
+          return input;
+        }
+
+        var array = [];
+        for (var objectKey in input) {
+          array.push(input[ objectKey ]);
+        }
+
+        array.sort(
+          function (a, b) {
+            return a[ attribute ].localeCompare(b[ attribute ]);
+          }
+        );
+        return array;
+      };
+    }
   );
 })
 ();
