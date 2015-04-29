@@ -2,6 +2,7 @@
 
 ---------
 ### Introduction
+
 Wallboard for travis.
 Travis Wallboard is exactly what the name implies a wallboard for your travis builds and repos.
 This project was born from the irritation of having a wallboard that shows to often an error for builds while nothing is realy wrong but we use travis to test our pull requests so we can keep working without having to wait for our develop environments to finish. 
