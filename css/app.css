@@ -323,3 +323,12 @@ td.closed {
 .text-canceled {
     background-color: #B8B8B8;
 }
+
+.truncate {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-bottom: 10px;
+    font-style: italic;
+}

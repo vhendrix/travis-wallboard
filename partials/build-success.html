@@ -16,5 +16,9 @@
 
     <span class="glyphicon glyphicon-ok"></span>
 
+    <div class="truncate">
+        {{build.commit_message}}
+    </div>
+    
     <p>Build passed <span class="time" data-finished_at="{{build.finished_at}}">{{build.finished_at | timeAgo}}</span> ago.</p>
 </div>
