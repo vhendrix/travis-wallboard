@@ -29,7 +29,7 @@ angular.module('travisWallBoard.controllers').controller(
         twsettings.data.setPrivate('NO');
         twsettings.data.setRepo(routeParams.repo);
         //poormans redirect.
-        window.location.href = '/';
+        window.location.href = '/travis-wallboard';
       }
 
       /**
