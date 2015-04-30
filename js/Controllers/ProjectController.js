@@ -17,6 +17,11 @@ angular.module('travisWallBoard.controllers').controller(
       TravisBuilds,
       routeParams
     ) {
+      console.debug(twsettings.data.repos);
+      console.debug(routeParams.user + '/' + routeParams.slug);
+      console.debug(twsettings.data.repos[routeParams.user + '/' + routeParams.slug]);
+
+      //name, uri, isPrivate, token
       /**
        * Holds the display funcions from the service.
        * @todo see if i can call this direcly from the view one way or the other.

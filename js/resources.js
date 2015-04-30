@@ -4,7 +4,10 @@
     .factory(
     'TravisRepos', function ($resource, twsettings) {
       return {
+        requested:false,
         resource: function (name, uri, isPrivate, token) {
+          console.debug(this.requested);
+          this.requested = true;
           return $resource(
             uri + 'repos/' + name,
             {},

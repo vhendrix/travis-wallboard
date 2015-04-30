@@ -28,8 +28,6 @@ angular.module('travisWallBoard.controllers').controller(
       if ( angular.isDefined(routeParams.repo) ) {
         twsettings.data.setPrivate('NO');
         twsettings.data.setRepo(routeParams.repo);
-        //poormans redirect.
-        window.location.href = '/';
       }
 
       /**
@@ -86,27 +84,17 @@ angular.module('travisWallBoard.controllers').controller(
         angular.forEach(
           twsettings.data.users,
           function ($user) {
-            TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
-              function (response) {
-                var newRepos =  $travisWallboardService.getReposFromResponse(response);
-                $scope.repos = merge_options($scope.repos, newRepos);
-
-                $scope.loadBuilds(newRepos, $user);
-              }
-            );
+            if ( !TW.helpers.isEmpty($user.name) ) {
+              TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
+                function (response) {
+                  var newRepos = $travisWallboardService.getReposFromResponse(response);
+                  $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos);
+                  $scope.loadBuilds(newRepos, $user);
+                }
+              );
+            }
           }
         );
-      };
-
-      function merge_options(obj1, obj2) {
-        var obj3 = {};
-        for (var attrname in obj1) {
-          obj3[ attrname ] = obj1[ attrname ];
-        }
-        for (var attrname in obj2) {
-          obj3[ attrname ] = obj2[ attrname ];
-        }
-        return obj3;
       };
 
       /**
