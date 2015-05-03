@@ -2,7 +2,7 @@ angular.module('travisWallBoard.objects', [])
   .provider(
   'twsettings', function () {
     var data = {
-      useMocks: true,
+      useMocks: false,
       private_uri: 'https://api.travis-ci.com/',
       opensource_uri: 'https://api.travis-ci.org/',
       users: [],

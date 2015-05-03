@@ -17,11 +17,6 @@ angular.module('travisWallBoard.controllers').controller(
       TravisBuilds,
       routeParams
     ) {
-      console.debug(twsettings.data.repos);
-      console.debug(routeParams.user + '/' + routeParams.slug);
-      console.debug(twsettings.data.repos[routeParams.user + '/' + routeParams.slug]);
-
-      //name, uri, isPrivate, token
       /**
        * Holds the display funcions from the service.
        * @todo see if i can call this direcly from the view one way or the other.
@@ -44,15 +39,28 @@ angular.module('travisWallBoard.controllers').controller(
 
       $scope.loadBuildsForRepo = function () {
         var slug = routeParams.slug;
+        var userData = twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ];
 
-        TravisBuilds.resource().getBuildsForProject(
+        TravisBuilds.resource(userData.name,  twsettings.data.getUri(userData), userData.isPrivate, userData.token).getBuildsForProject(
           {slug: slug}, function (response) {
             $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
           }
         );
       };
 
-      $scope.loadBuildsForRepo();
+      if ( twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ] ) {
+        $scope.loadBuildsForRepo();
+      }
+
+      var initialBuildRepoTimer = $interval(
+        function() {
+          if ( twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ] ) {
+            $scope.loadBuildsForRepo();
+            $interval.cancel(initialBuildRepoTimer);
+          }
+        },
+        2000
+      );
 
       var buildRepoTimer = $interval(
         $scope.loadBuildsForRepo, 30000

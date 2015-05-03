@@ -1,3 +1,4 @@
+/*jshint -W079 */
 var TW = TW || {};
 
 TW.helpers = {

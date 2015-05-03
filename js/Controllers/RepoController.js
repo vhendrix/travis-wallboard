@@ -26,8 +26,7 @@ angular.module('travisWallBoard.controllers').controller(
     ) {
 
       if ( angular.isDefined(routeParams.repo) ) {
-        twsettings.data.setPrivate('NO');
-        twsettings.data.setRepo(routeParams.repo);
+        twsettings.data.setUsers([{isPrivate:'NO', name:routeParams.repo}]);
       }
 
       /**
@@ -85,10 +84,11 @@ angular.module('travisWallBoard.controllers').controller(
           twsettings.data.users,
           function ($user) {
             if ( !TW.helpers.isEmpty($user.name) ) {
-              TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
+              var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
+              resource.getRepos(
                 function (response) {
                   var newRepos = $travisWallboardService.getReposFromResponse(response);
-                  $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos);
+                  $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos)  ;
                   $scope.loadBuilds(newRepos, $user);
                 }
               );
