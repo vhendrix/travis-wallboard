@@ -3,7 +3,7 @@
          ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.finished_at)">
         <div class="{{build.state | stateClass}} ablock ">
             <div class="leftcol">
-                <h2>{{build.name}}</h2>
+                <h2><span ng-if="build.is_pr">PR: </span>{{build.name}}</h2>
 
                 <p class="lead">
                     <strong>{{build.branch}}</strong>
@@ -14,11 +14,11 @@
                 </p>
                 <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
 
-                <p>
-                    <em>{{build.commit_message}}</em> <br/>
+                <div class="truncate">
+                    {{build.commit_message}}
+                </div>
 
                 <p>Build broke {{build.finished_at | timeAgo}} ago.</p>
-                </p>
             </div>
             <div class="rightcol">
                 <div>
