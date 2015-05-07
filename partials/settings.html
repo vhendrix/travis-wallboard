@@ -1,35 +1,51 @@
 <section class="settingsForm">
     <h3>Base settings:</h3>
 
+
     <form ng-submit="submit()" class="form-inline">
+        <button ng-click="users.push({name:null,isPrivate:null,token:null})">
+            Add new user
+        </button>
+        <br/>
+        <br/>
         <div ng-repeat="user in users">
             <div class="form-group">
                 <label for="reponame{{$index}}">Name</label>
-                <input  ng-model="users[$index].name" type="text" class="form-control" id="reponame{{$index}}" placeholder="User name">
+                <input ng-model="users[$index].name" type="text" class="form-control" id="reponame{{$index}}"
+                       placeholder="User name">
             </div>
             <div class="form-group">
                 <label for="token{{$index}}">Email</label>
-                <input ng-model="users[$index].token" type="text" class="form-control" id="token{{$index}}" placeholder="Token">
+                <input ng-model="users[$index].token" type="text" class="form-control" id="token{{$index}}"
+                       placeholder="Token">
             </div>
             <div class="form-group">
                 <label for="private{{$index}}">Private</label>
-                <input ng-model="users[$index].isPrivate" type="checkbox" ng-true-value="'YES'" ng-false-value="'NO'" ng-model="private" class="form-control" id="private{{$index}}">
+                <input ng-model="users[$index].isPrivate" type="checkbox" ng-true-value="'YES'" ng-false-value="'NO'"
+                       ng-model="private" class="form-control" id="private{{$index}}">
             </div>
-           </div>
+            <div class="form-group">
+                <button ng-click="remove($index)">
+                    x
+                </button>
+            </div>
+        </div>
+        <br/>
+        <br/>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 
-    <button ng-click="users.push({name:null,isPrivate:null,token:null})">
-        Increment
-    </button>
+
     <h3>If You do not have a travis token you can enter your github token here to generate one for you:</h3>
 
     <form ng-submit="getToken()">
         <div class="form-group">
             <label for="token">Github token</label>
             <input ng-model="githubtoken" type="text" class="form-control" id="githubtoken"
-                   placeholder="Enter github token travis token will be filled">
+                   placeholder="Enter github token travis token will be generated">
         </div>
+        <span>{{generatedtoken}}</span>
+        <br/>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 </section>

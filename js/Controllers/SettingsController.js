@@ -12,16 +12,20 @@ angular.module('travisWallBoard.controllers').controller(
         twsettings.data.setUsers($scope.users);
       };
 
+      $scope.remove = function (idx) {
+
+        $scope.users.splice(idx,1);
+      };
       $scope.getToken = function () {
         TravisToken.getToken(
           {githubtoken: $scope.githubtoken}, function (response) {
-            $scope.token = response.access_token;
-            twsettings.data.token = $scope.token;
+            $scope.generatedtoken = response.access_token;
           }
         );
       };
 
       $scope.githubtoken = null;
+      $scope.generatedtoken = null;
     }
   ]
 );
