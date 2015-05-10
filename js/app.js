@@ -19,14 +19,12 @@
       '$routeProvider',
       'twsettingsProvider',
       function ($routeProvider, twsettings) {
-        twsettings.loadSlug();
-        twsettings.loadToken();
-        twsettings.loadPrivate();
+        twsettings.loadUserData();
 
         $routeProvider.when('/repos', {templateUrl: 'partials/repos.html', controller: 'ReposController'});
         $routeProvider.when('/showmyrepos/:repo', {templateUrl: 'partials/repos.html', controller: 'ReposController'});
         $routeProvider.when(
-          '/project/:slug', {
+          '/project/:user/:slug', {
             templateUrl: 'partials/project.html',
             controller: 'ProjectController'
           }

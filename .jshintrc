@@ -17,6 +17,7 @@
     "token",
     "slugstart",
     "inject",
-    "-console"
+    "-console",
+    "TW"
   ]
 }

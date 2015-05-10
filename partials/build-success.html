@@ -2,9 +2,7 @@
     <div>
         <img class="commiter" src="http://www.gravatar.com/avatar/{{ build.committer_email | gravatar }}">
     </div>
-    <h2 ng-if="build.is_pr">PR:</h2>
-
-    <h2>{{build.name}}</h2>
+    <h2><span ng-if="build.is_pr">PR: </span>{{build.name}}</h2>
 
     <p class="lead">
         <strong>{{build.branch}}</strong>
@@ -15,6 +13,10 @@
     </p>
 
     <span class="glyphicon glyphicon-ok"></span>
+
+    <div class="truncate">
+        {{build.commit_message}}
+    </div>
 
     <p>Build passed <span class="time" data-finished_at="{{build.finished_at}}">{{build.finished_at | timeAgo}}</span> ago.</p>
 </div>

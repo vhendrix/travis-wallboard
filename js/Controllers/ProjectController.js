@@ -39,15 +39,28 @@ angular.module('travisWallBoard.controllers').controller(
 
       $scope.loadBuildsForRepo = function () {
         var slug = routeParams.slug;
+        var userData = twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ];
 
-        TravisBuilds.getBuildsForProject(
+        TravisBuilds.resource(userData.name,  twsettings.data.getUri(userData), userData.isPrivate, userData.token).getBuildsForProject(
           {slug: slug}, function (response) {
             $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
           }
         );
       };
 
-      $scope.loadBuildsForRepo();
+      if ( twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ] ) {
+        $scope.loadBuildsForRepo();
+      }
+
+      var initialBuildRepoTimer = $interval(
+        function() {
+          if ( twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ] ) {
+            $scope.loadBuildsForRepo();
+            $interval.cancel(initialBuildRepoTimer);
+          }
+        },
+        2000
+      );
 
       var buildRepoTimer = $interval(
         $scope.loadBuildsForRepo, 30000

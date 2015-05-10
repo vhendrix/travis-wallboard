@@ -2,7 +2,7 @@
  checker spec checks if the test environment still works.
  */
 describe(
-  'PrivateRpositoryTest', function () {
+  'RepositoryTest', function () {
     //mock Application to allow us to inject our own dependencies
     beforeEach(module('travisWallBoard.controllers'));
     beforeEach(module('travisWallBoard.objects'));
@@ -40,12 +40,18 @@ describe(
           $controller = _$controller_;
 
           twsettings = _twsettings_;
+          twsettings.data.users = [{name:'test'}];
+
           mockRepoService = {
-            getRepos: function () {
-              queryDeferred = $q.defer();
-              queryDeferred.resolve({id: 1, name: 'test'});
-              return queryDeferred;
-            }
+              resource: function (  ) {
+                return {
+                  getRepos: function () {
+                    queryDeferred = $q.defer();
+                    queryDeferred.resolve({id: 1, name: 'test'});
+                    return queryDeferred;
+                  }
+                };
+              }
           };
         }
       )
@@ -54,30 +60,21 @@ describe(
     describe(
       'Repository initalizes test', function () {
         it(
-          'Initialisation of controller will call TravisRepo service', function () {
-            spyOn(mockRepoService, 'getRepos');
-
-            $controller('ReposController', {$scope: $scope, TravisRepos: mockRepoService, twsettings: twsettings});
-
-            expect(mockRepoService.getRepos).toHaveBeenCalled();
-          }
-        );
-
-        it(
           'Load builds  calls loadBuildsForRepo', function () {
             $controller('ReposController', {$scope: $scope, TravisRepos: mockRepoService, twsettings: twsettings});
 
             $scope.loadBuildsForRepo = jasmine.createSpy('loadBuildsForRepo');
-            $scope.loadBuilds({1: 1, 2: 2, 3: 3, 4: 4});
+            $scope.loadBuilds({1: 1, 2: 2, 3: 3, 4: 4}, 'testuser');
 
-            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(1);
-            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(2);
-            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(3);
-            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(4);
+            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(1, 'testuser');
+            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(2, 'testuser');
+            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(3, 'testuser');
+            expect($scope.loadBuildsForRepo).toHaveBeenCalledWith(4, 'testuser');
           }
         );
       }
     );
 
   }
-);
+)
+;

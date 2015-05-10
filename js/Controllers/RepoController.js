@@ -26,10 +26,7 @@ angular.module('travisWallBoard.controllers').controller(
     ) {
 
       if ( angular.isDefined(routeParams.repo) ) {
-        twsettings.data.setPrivate('NO');
-        twsettings.data.setRepo(routeParams.repo);
-        //poormans redirect.
-        window.location.href = '/';
+        twsettings.data.setUsers([{isPrivate:'NO', name:routeParams.repo}]);
       }
 
       /**
@@ -57,10 +54,10 @@ angular.module('travisWallBoard.controllers').controller(
        *
        * @param {Object} $repos Object with all repos.
        */
-      $scope.loadBuilds = function ($repos) {
+      $scope.loadBuilds = function ($repos, $user) {
         angular.forEach(
           $repos, function (repo) {
-            $scope.loadBuildsForRepo(repo);
+            $scope.loadBuildsForRepo(repo, $user);
           }
         );
       };
@@ -70,9 +67,9 @@ angular.module('travisWallBoard.controllers').controller(
        *
        * @param {Object} $repo
        */
-      $scope.loadBuildsForRepo = function ($repo) {
-        var slug = $repo.slug.replace(twsettings.data.slug + '/', "");
-        TravisBuilds.getBuilds(
+      $scope.loadBuildsForRepo = function ($repo, $user) {
+        var slug = $repo.slug.replace($user.name + '/', "");
+        TravisBuilds.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getBuilds(
           {slug: slug}, function ($response) {
             $scope.builds[ $repo.id ] = $travisWallboardService.getBuildsForRepo(slug, $repo.id, $response);
           }
@@ -83,11 +80,19 @@ angular.module('travisWallBoard.controllers').controller(
        * Load initial repos from the travis service.
        */
       $scope.loadRepos = function () {
-        TravisRepos.getRepos(
-          function (response) {
-            $scope.repos = $travisWallboardService.getReposFromResponse(response);
-
-            $scope.loadBuilds($scope.repos);
+        angular.forEach(
+          twsettings.data.users,
+          function ($user) {
+            if ( !TW.helpers.isEmpty($user.name) ) {
+              var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
+              resource.getRepos(
+                function (response) {
+                  var newRepos = $travisWallboardService.getReposFromResponse(response);
+                  $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos)  ;
+                  $scope.loadBuilds(newRepos, $user);
+                }
+              );
+            }
           }
         );
       };
@@ -96,13 +101,17 @@ angular.module('travisWallBoard.controllers').controller(
        * Poll the repos to see if there are any changes.
        */
       $scope.pollRepos = function () {
-        TravisRepos.getRepos(
-          function (response) {
-            var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
-
-            angular.forEach(
-              $updatedRepos, function ($repo) {
-                $scope.loadBuildsForRepo($repo);
+        angular.forEach(
+          twsettings.data.users,
+          function ($user) {
+            TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
+              function (response) {
+                var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
+                angular.forEach(
+                  $updatedRepos, function ($repo) {
+                    $scope.loadBuildsForRepo($repo, $user);
+                  }
+                );
               }
             );
           }

@@ -32,6 +32,7 @@ The token needs the following rights set:
 *  "repo_deployment"
 *  "repo:status"
 *  "write:repo_hook"
+
 Make sure you save this token somewhere as github will only show it to you once.
 
 See the documentation at http://docs.travis-ci.com/api/#with-a-github-token if you want to know more.
@@ -43,7 +44,7 @@ If you want to link people directly to your repos without having to let them fil
 
 use `#/showmyrepos/xxx` 
 So for example:
-`http://aterlamia.github.io/#/showmyrepos/aterlamia` 
+`http://aterlamia.github.io/travis-wallboard/#/showmyrepos/aterlamia`
 will link directly to my repos.
 
 ###Features
@@ -59,26 +60,32 @@ This view can be handy if you sit with multiple teams in one room and you don't 
 There are 5 distinct build views.
 
 *Passed:*
+
 Passed will show a green area with a photo of the committer that initiated that build.
 It will show how long ago that build was made and the name of the branch.
 
 *Failed*
+
 Failed will show a red area with a photo of the committer that initiated that build.
 It will show how long ago that build  failed and the name of the branch. It will also show the commit message.
 
 *Errored*
+
 Errored will show an orange area with a photo of the committer that initiated that build.
 It will show how long ago that build errored and the name of the branch. It will also show the commit message.
 
 *Cancelled*
+
 Cancelled show an gray area with a photo of the committer that initiated that build.
 It will show how long ago that build was Cancelled.
 
 *Building*
+
 Building show an blue area with a photo of the committer that initiated that build.
 It will show how long ago that build was started.
 
 ***Projects view***
+
 The projects view will retrieve all your builds for one project and show them. It will only show the last build for each branch. It will also show all pull request. This view will be handy for places where you sit with on team for one project as you will have constant feedback of branches that are building/failing or passing.
 
 The build views are the same as for repositories with the differnce that a build will show a text "pr" to show a branch is a pull request.  

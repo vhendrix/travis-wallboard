@@ -48,6 +48,27 @@
       };
 
       /**
+       * Will parse the response and return active repositories from
+       * travis.
+       *
+       * @param $response
+       * @returns {{}}
+       */
+      this.getReposForUsersFromResponse = function ($response, $user) {
+        var $repos = {};
+
+        angular.forEach(
+          $response.repos, function ($repo) {
+            if ( $repo.active ) {
+              $repos[ $repo.slug ] = $user;
+            }
+          }
+        );
+
+        return $repos;
+      };
+
+      /**
        * Get all repositories that have a changed state compared to the previous
        * check.
        *
