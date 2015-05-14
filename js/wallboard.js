@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var menuTimer;
+  var isMenuHidden = true;
 
   var getAgo = function (dateString) {
     var dt = new Date(Date.parse(dateString));
@@ -26,55 +26,69 @@
     }
   };
 
-  $(document).ready(
-    //double functionalty lets see how we can do this in angular.
-    function () {
-      setInterval(
-        function () {
-          $('.time').each(
-            function () {
-
-              if ( typeof $(this).data('finished_at') === 'undefined' ) {
-                $(this).attr('data-finished_at', Date('Now').toString());
-              }
-              $(this).text(getAgo($(this).data('finished_at')));
+  //Double functionality lets see how we can do this in angular.
+  $(document).ready(function () {
+    setInterval(
+      function () {
+        $('.time').each(
+          function () {
+            if ( typeof $(this).data('finished_at') === 'undefined' ) {
+              $(this).attr('data-finished_at', Date('Now').toString());
             }
-          );
-        }, 1000
-      );
-
-      $("body").mousemove(
-        function () {
-
-          if ( typeof menuTimer !== "undefined" ) {
-            window.clearInterval(menuTimer);
+            $(this).text(getAgo($(this).data('finished_at')));
           }
+        );
+      },
+      1000
+    );
 
-          $('.twmenu').removeClass('hidden');
-          $(".twmenu").animate(
-            {
-              opacity: 1,
-              top: "0"
-            }, 1000, function () {
-            }
-          );
-
-          menuTimer = setInterval(
-            function () {
-              $(".twmenu").animate(
-                {
-                  opacity: 0.25,
-                  top: "-52"
-                }, 1000, function () {
-                  $('.twmenu').addClass('hidden');
-                }
-              );
-
-            }, 5000
-          );
-        }
-      );
+    function showMenu() {
+      if (isMenuHidden) {
+        isMenuHidden = false;
+        $('.tw-menu').animate(
+          {
+            opacity: 1,
+            top: 0
+          },
+          1000
+        );
+        $('.board').animate(
+          {
+            top: 52
+          },
+          1000
+        );
+      }
     }
-  );
+
+    function hideMenu() {
+      if (!isMenuHidden) {
+        isMenuHidden = true;
+        $('.tw-menu').animate(
+          {
+            opacity: 0.25,
+            top: -52
+          },
+          2000
+        );
+        $('.board').animate(
+          {
+            top: 0
+          },
+          2000
+        );
+      }
+    }
+
+    $("body").mousemove(
+      function (event) {
+        if (event.pageY < 72) {
+          showMenu();
+        } else {
+          hideMenu();
+        }
+      }
+    );
+  });
 })
 ($);
