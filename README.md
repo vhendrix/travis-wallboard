@@ -27,11 +27,10 @@ You can create a **Github personal access token** here:
 `https://github.com/settings/tokens`
 
 The token needs the following rights set:
-*  "read:org"
+*  "repo"
 *  "user:email"
-*  "repo_deployment"
-*  "repo:status"
 *  "write:repo_hook"
+*  "read:org"
 
 Make sure you save this token somewhere as github will only show it to you once.
 
