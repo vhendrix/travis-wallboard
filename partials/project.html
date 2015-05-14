@@ -1,6 +1,6 @@
 <div class="failure" travis-build-modal ng-if="displayFunctions.showModal(builds)"></div>
 
-<div class="row">
+<div class="container-fluid row">
     <div ng-repeat="(key, build) in builds | orderObjectByReverse:'finished_at'" class="col col-md-3">
         <div travis-build type="fail" ng-if="displayFunctions.isFailed(build.state)"></div>
         <div travis-build type="success" ng-if="displayFunctions.isPassing(build.state)"></div>
