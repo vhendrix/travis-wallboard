@@ -1,8 +1,23 @@
 /* app css stylesheet */
 
 body {
-    padding: 2px 10px 10px;
+    overflow-x: hidden;
     background-color: #333333;
+}
+
+.tw-menu {
+    position: absolute;
+    top: -52px;
+    width: 100%;
+    padding: 0 10px;
+    opacity: 0.25;
+}
+
+.board {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 2px 10px 0;
 }
 
 .menu {
@@ -313,11 +328,6 @@ td.closed {
 
 .settingsForm h3{
     border-bottom: 1px solid white;
-}
-
-.twmenu {
-    top: -53px;
-    opacity: 0.25;
 }
 
 .text-canceled {

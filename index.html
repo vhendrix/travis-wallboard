@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
-<div ng-include src="'partials/menu.html'"></div>
+<div class="tw-menu">
+    <div ng-include src="'partials/menu.html'"></div>
+</div>
 
-<div class="container-fluid" ng-view></div>
+<div class="board">
+    <div ng-view></div>
+</div>
 
 <script src="js/Libraries/Jquery/jquery-2.1.3.min.js"></script>
 <script src="js/Libraries/Bootstrap/bootstrap.min.js"></script>
