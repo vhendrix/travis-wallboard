@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   var isMenuHidden = true;
+  var isMenuAnimating = false;
 
   var getAgo = function (dateString) {
     var dt = new Date(Date.parse(dateString));
@@ -43,52 +44,60 @@
     );
 
     function showMenu() {
-      if (isMenuHidden) {
-        isMenuHidden = false;
-        $('.tw-menu').animate(
-          {
-            opacity: 1,
-            top: 0
-          },
-          1000
-        );
-        $('.board').animate(
-          {
-            top: 52
-          },
-          1000
-        );
-      }
+      $('.tw-menu').animate(
+        {
+          opacity: 1,
+          top: 0
+        },
+        1000,
+        function () {
+          isMenuAnimating = false;
+        }
+      );
+      $('.board').animate(
+        {
+          top: 52
+        },
+        1000
+      );
     }
 
     function hideMenu() {
-      if (!isMenuHidden) {
-        isMenuHidden = true;
-        $('.tw-menu').animate(
-          {
-            opacity: 0.25,
-            top: -52
-          },
-          2000
-        );
-        $('.board').animate(
-          {
-            top: 0
-          },
-          2000
-        );
-      }
+      $('.tw-menu').animate(
+        {
+          opacity: 0.25,
+          top: -52
+        },
+        2000,
+        function () {
+          isMenuAnimating = false;
+        }
+      );
+      $('.board').animate(
+        {
+          top: 0
+        },
+        2000
+      );
     }
 
     $(".board").mousemove(
       function (event) {
-        if (event.pageY < 72) {
+        if (event.pageY < 72 &&
+            !isMenuAnimating &&
+            isMenuHidden) {
+          isMenuAnimating = true;
+          isMenuHidden = false;
           showMenu();
-        } else {
-          // Check if we are not in the settings page and the nav-bar has no open drop-down menu.
-          if (window.location.hash.indexOf('settings') == -1 && !$('ul.nav.navbar-nav').find('li').hasClass('open')) {
-            hideMenu();
-          }
+        }
+        // Check if we are not in the settings page and the nav-bar has no open drop-down menu.
+        else if(window.location.hash.indexOf('settings') == -1 &&
+            !$('ul.nav.navbar-nav').find('li').hasClass('open') &&
+            !isMenuAnimating &&
+            !isMenuHidden) {
+          isMenuAnimating = true;
+          isMenuHidden = true;
+          hideMenu();
         }
       }
     );
