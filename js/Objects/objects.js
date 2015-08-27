@@ -6,6 +6,7 @@ angular.module('travisWallBoard.objects', [])
       private_uri: 'https://api.travis-ci.com/',
       opensource_uri: 'https://api.travis-ci.org/',
       users: [],
+      projects: {},
       //holds what repos use what connection data.
       repos: {},
 
@@ -13,6 +14,12 @@ angular.module('travisWallBoard.objects', [])
         this.users = $users;
         TW.helpers.setCookie('userData', JSON.stringify($users), 750);
       },
+
+      setProjects: function ($projects) {
+        this.projects = $projects;
+        TW.helpers.setCookie('projectData', JSON.stringify($projects), 750);
+      },
+
       getToken: function (isPrivate, token) {
         if ( isPrivate === "YES" ) {
           return 'token ' + token;
@@ -40,6 +47,9 @@ angular.module('travisWallBoard.objects', [])
     return {
       loadUserData: function () {
         data.users = JSON.parse(TW.helpers.getCookie('userData'));
+      },
+      loadProjectData: function () {
+        data.projects = JSON.parse(TW.helpers.getCookie('projectData'));
       },
       $get: function () {
         return {

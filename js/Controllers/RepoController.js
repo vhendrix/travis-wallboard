@@ -87,7 +87,7 @@ angular.module('travisWallBoard.controllers').controller(
               var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
               resource.getRepos(
                 function (response) {
-                  var newRepos = $travisWallboardService.getReposFromResponse(response);
+                  var newRepos = $travisWallboardService.getReposFromResponse(response, $user.name);
                   $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos)  ;
                   $scope.loadBuilds(newRepos, $user);
                 }

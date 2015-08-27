@@ -34,7 +34,7 @@ angular.module('travisWallBoard.controllers').controller(
                 function (response) {
                   $scope.repos = TW.helpers.mergeObjects(
                     $scope.repos,
-                    $travisWallboardService.getReposFromResponse(response)
+                    $travisWallboardService.getReposFromResponse(response, $user.name)
                   );
 
                   twsettings.data.repos = TW.helpers.mergeObjects(
