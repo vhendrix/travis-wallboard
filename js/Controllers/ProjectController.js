@@ -86,7 +86,7 @@ angular.module('travisWallBoard.controllers').controller(
       );
 
       var buildRepoTimer = $interval(
-        $scope.loadBuildsForRepo, 3000
+        $scope.loadBuildsForRepo, 30000
       );
 
       $scope.$on(
