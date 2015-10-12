@@ -1,5 +1,7 @@
 <div class="failure" travis-build-modal ng-if="displayFunctions.showModal(builds)"></div>
 
+<div class="failure" travis-server-error ng-if="errorScreen"></div>
+
 <div class="container-fluid row">
     <div ng-repeat="(key, build) in builds" class=" col col-md-3"
          ng-if="displayFunctions.isFailed(build.state) && !displayFunctions.recentError(build.finished_at)">
