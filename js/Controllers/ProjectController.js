@@ -17,6 +17,8 @@ angular.module('travisWallBoard.controllers').controller(
       TravisBuilds,
       routeParams
     ) {
+      errors = 0;
+
       /**
        * Holds the display funcions from the service.
        * @todo see if i can call this direcly from the view one way or the other.
@@ -37,14 +39,35 @@ angular.module('travisWallBoard.controllers').controller(
        */
       $scope.builds = {};
 
+      $scope.errorScreen = false;
+
+      $scope.handleErrors = function(response) {
+
+        if (typeof errors === "undefined" ) {
+          errors = 0;
+          $scope.errorScreen = false;
+        } else {
+          errors += 1;
+        }
+        if (errors > 10) {
+          $scope.errorScreen = true;
+        }
+      };
+
       $scope.loadBuildsForRepo = function () {
         var slug = routeParams.slug;
         var userData = twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ];
 
-        TravisBuilds.resource(userData.name,  twsettings.data.getUri(userData), userData.isPrivate, userData.token).getBuildsForProject(
+        TravisBuilds.resource(
+            userData.name,
+            twsettings.data.getUri(userData),
+            userData.isPrivate,
+            userData.token
+        ).getBuildsForProject(
           {slug: slug}, function (response) {
             $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
-          }
+          },
+          $scope.handleErrors
         );
       };
 

@@ -18,5 +18,13 @@
         }
       };
     }
-  );
+  ).directive(
+      'travisServerError', function () {
+        return {
+          templateUrl: function () {
+            return 'partials/server-error.html';
+          }
+        };
+      }
+  );;
 })();

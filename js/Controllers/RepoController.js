@@ -24,7 +24,7 @@ angular.module('travisWallBoard.controllers').controller(
       TravisBuilds,
       routeParams
     ) {
-
+      errors = 0;
       if ( angular.isDefined(routeParams.repo) ) {
         twsettings.data.setUsers([{isPrivate:'NO', name:routeParams.repo}]);
       }
@@ -49,6 +49,8 @@ angular.module('travisWallBoard.controllers').controller(
        */
       $scope.builds = {};
 
+      $scope.errorScreen = false;
+
       /**
        * Loads the builds for the given repos
        *
@@ -72,7 +74,9 @@ angular.module('travisWallBoard.controllers').controller(
         TravisBuilds.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getBuilds(
           {slug: slug}, function ($response) {
             $scope.builds[ $repo.id ] = $travisWallboardService.getBuildsForRepo(slug, $repo.id, $response);
-          }
+            errors = 0;
+          },
+          $scope.handleErrors
         );
       };
 
@@ -87,10 +91,12 @@ angular.module('travisWallBoard.controllers').controller(
               var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
               resource.getRepos(
                 function (response) {
+                  errors = 0;
                   var newRepos = $travisWallboardService.getReposFromResponse(response, $user.name);
                   $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos)  ;
                   $scope.loadBuilds(newRepos, $user);
-                }
+                },
+                $scope.handleErrors
               );
             }
           }
@@ -106,16 +112,32 @@ angular.module('travisWallBoard.controllers').controller(
           function ($user) {
             TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
               function (response) {
+                errors = 0;
+                $scope.errorScreen = false;
                 var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
                 angular.forEach(
                   $updatedRepos, function ($repo) {
                     $scope.loadBuildsForRepo($repo, $user);
                   }
                 );
-              }
+              },
+              $scope.handleErrors
             );
           }
         );
+      };
+
+      $scope.handleErrors = function(response) {
+
+        if (typeof errors === "undefined" ) {
+          errors = 0;
+          $scope.errorScreen = false;
+        } else {
+          errors += 1;
+        }
+        if (errors > 10) {
+          $scope.errorScreen = true;
+        }
       };
 
       $scope.loadRepos();

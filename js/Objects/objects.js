@@ -50,6 +50,9 @@ angular.module('travisWallBoard.objects', [])
       },
       loadProjectData: function () {
         data.projects = JSON.parse(TW.helpers.getCookie('projectData'));
+        if (data.projects == null) {
+          data.projects = {};
+        }
       },
       $get: function () {
         return {
