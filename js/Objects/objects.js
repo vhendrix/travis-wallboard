@@ -16,7 +16,6 @@ angular.module('travisWallBoard.objects', [])
       },
 
       setProjects: function ($projects) {
-        console.debug($projects);
         this.projects = $projects;
         TW.helpers.setCookie('projectData', JSON.stringify($projects), 750);
       },

@@ -51,7 +51,6 @@
                 };
 
                 this.getProjectsFromResponse = function ($response) {
-                    console.debug(twsettings);
                     var $repos = {};
 
                     angular.forEach(
