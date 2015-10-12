@@ -120,7 +120,7 @@ angular.module('travisWallBoard.controllers').controller(
               $user.lastupdate = 0;
               $scope.loadRepo($user);
             } else {
-              $user.lastupdate += 1000;
+              $user.lastupdate += interval;
             }
 
           }
