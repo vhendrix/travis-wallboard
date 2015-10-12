@@ -14,8 +14,8 @@ angular.module('travisWallBoard.controllers').controller(
                 twsettings.data.setProjects($scope.repos);
                 jQuery('#repo-success').show(1000);
                 setTimeout(function () {
-                        jQuery('#repo-success').hide(1000);
-                    }, 10000);
+                    jQuery('#repo-success').hide(1000);
+                }, 10000);
             };
 
             /**
