@@ -44,7 +44,10 @@ angular.module('travisWallBoard.controllers').controller(
 
       $scope.errorScreen = false;
 
-      $scope.handleErrors = function(response) {
+      /**
+       * Handle errors to be able to show error screen.
+       */
+      $scope.handleErrors = function() {
 
         if (typeof errors === "undefined" ) {
           errors = 0;

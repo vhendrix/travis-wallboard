@@ -91,7 +91,7 @@
           showMenu();
         }
         // Check if we are not in the settings page and the nav-bar has no open drop-down menu.
-        else if(window.location.hash.indexOf('settings') == -1 &&
+        else if(window.location.hash.indexOf('settings') === -1 &&
             !$('ul.nav.navbar-nav').find('li').hasClass('open') &&
             !isMenuAnimating &&
             !isMenuHidden) {
