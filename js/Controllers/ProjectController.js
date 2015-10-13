@@ -17,7 +17,10 @@ angular.module('travisWallBoard.controllers').controller(
       TravisBuilds,
       routeParams
     ) {
-      errors = 0;
+      // Standard interval 1 second (1000 milisecond).
+      var interval = 1000;
+
+      var errors = 0;
 
       /**
        * Holds the display funcions from the service.
@@ -41,7 +44,10 @@ angular.module('travisWallBoard.controllers').controller(
 
       $scope.errorScreen = false;
 
-      $scope.handleErrors = function(response) {
+      /**
+       * Handle errors to be able to show error screen.
+       */
+      $scope.handleErrors = function() {
 
         if (typeof errors === "undefined" ) {
           errors = 0;
@@ -56,18 +62,27 @@ angular.module('travisWallBoard.controllers').controller(
 
       $scope.loadBuildsForRepo = function () {
         var slug = routeParams.slug;
-        var userData = twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ];
+        var $user = twsettings.data.repos[ routeParams.user + '/' + routeParams.slug ];
+        var timer = $user.polling || 30;
+        if (typeof $user.lastupdate === "undefined" || $user.lastupdate >= (timer * interval) ) {
+          $user.lastupdate = 0;
+          $scope.loadBuild($user, slug);
+        } else {
+          $user.lastupdate += interval;
+        }
+      };
 
+      $scope.loadBuild = function($user, slug) {
         TravisBuilds.resource(
-            userData.name,
-            twsettings.data.getUri(userData),
-            userData.isPrivate,
-            userData.token
+            $user.name,
+            twsettings.data.getUri($user),
+            $user.isPrivate,
+            $user.token
         ).getBuildsForProject(
-          {slug: slug}, function (response) {
-            $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
-          },
-          $scope.handleErrors
+            {slug: slug}, function (response) {
+              $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
+            },
+            $scope.handleErrors
         );
       };
 
@@ -86,7 +101,7 @@ angular.module('travisWallBoard.controllers').controller(
       );
 
       var buildRepoTimer = $interval(
-        $scope.loadBuildsForRepo, 30000
+        $scope.loadBuildsForRepo, interval
       );
 
       $scope.$on(

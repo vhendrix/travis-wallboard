@@ -14,8 +14,8 @@ angular.module('travisWallBoard.controllers').controller(
                 twsettings.data.setProjects($scope.repos);
                 jQuery('#repo-success').show(1000);
                 setTimeout(function () {
-                        jQuery('#repo-success').hide(1000);
-                    }, 10000);
+                    jQuery('#repo-success').hide(1000);
+                }, 10000);
             };
 
             /**
@@ -31,8 +31,8 @@ angular.module('travisWallBoard.controllers').controller(
                                 function (response) {
                                     var newRepos = $travisWallboardService.getProjectsFromResponse(response);
 
-                                    if (TW.helpers.isEmpty($scope.repos[$user['name']])) {
-                                        $scope.repos[$user['name']] = newRepos;
+                                    if (TW.helpers.isEmpty($scope.repos[$user.name])) {
+                                        $scope.repos[$user.name] = newRepos;
                                     }
                                 }
                             );

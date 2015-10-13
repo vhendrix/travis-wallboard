@@ -24,14 +24,18 @@ angular.module('travisWallBoard.controllers').controller(
       TravisBuilds,
       routeParams
     ) {
-      errors = 0;
+      // Number of errors counted.
+      var errors = 0;
+
+      // Standard interval 1 second (1000 milisecond).
+      var interval = 1000;
       if ( angular.isDefined(routeParams.repo) ) {
         twsettings.data.setUsers([{isPrivate:'NO', name:routeParams.repo}]);
       }
 
       /**
-       * Holds the display funcions from the service.
-       * @todo see if i can call this direcly from the view one way or the other.
+       * Holds the display functions from the service.
+       * @todo see if i can call this directly from the view one way or the other.
        * @type DisplayFunctions
        */
       $scope.displayFunctions = DisplayFunctions;
@@ -49,6 +53,7 @@ angular.module('travisWallBoard.controllers').controller(
        */
       $scope.builds = {};
 
+      // Should the error screen be shown.
       $scope.errorScreen = false;
 
       /**
@@ -110,24 +115,38 @@ angular.module('travisWallBoard.controllers').controller(
         angular.forEach(
           twsettings.data.users,
           function ($user) {
-            TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
-              function (response) {
-                errors = 0;
-                $scope.errorScreen = false;
-                var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
-                angular.forEach(
-                  $updatedRepos, function ($repo) {
-                    $scope.loadBuildsForRepo($repo, $user);
-                  }
-                );
-              },
-              $scope.handleErrors
-            );
+            var timer = $user.polling || 30;
+            if (typeof $user.lastupdate === "undefined" || $user.lastupdate >= (timer * interval) ) {
+              $user.lastupdate = 0;
+              $scope.loadRepo($user);
+            } else {
+              $user.lastupdate += interval;
+            }
+
           }
         );
       };
 
-      $scope.handleErrors = function(response) {
+      $scope.loadRepo = function ($user) {
+        TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getRepos(
+            function (response) {
+              errors = 0;
+              $scope.errorScreen = false;
+              var $updatedRepos = $travisWallboardService.getUpdatedReposFromResponse($scope.repos, response);
+              angular.forEach(
+                  $updatedRepos, function ($repo) {
+                    $scope.loadBuildsForRepo($repo, $user);
+                  }
+              );
+            },
+            $scope.handleErrors
+        );
+      };
+
+      /**
+       * Handle errors to be able to show error screen.
+       */
+      $scope.handleErrors = function() {
 
         if (typeof errors === "undefined" ) {
           errors = 0;
@@ -144,7 +163,7 @@ angular.module('travisWallBoard.controllers').controller(
 
       //Start a interval timer to keep
       var pollTimer = $interval(
-        $scope.pollRepos, 30000
+        $scope.pollRepos, interval
       );
 
       // When the controller gets destroyed also remove the timer otherwise we will
