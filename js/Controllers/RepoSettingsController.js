@@ -31,8 +31,13 @@ angular.module('travisWallBoard.controllers').controller(
                                 function (response) {
                                     var newRepos = $travisWallboardService.getProjectsFromResponse(response);
 
-                                    if (TW.helpers.isEmpty($scope.repos[$user.name])) {
-                                        $scope.repos[$user.name] = newRepos;
+                                    var name = $user.name;
+
+                                    if($user.isPrivate) {
+                                        name += ' private';
+                                    }
+                                    if (TW.helpers.isEmpty($scope.repos[name])) {
+                                        $scope.repos[name] = newRepos;
                                     }
                                 }
                             );

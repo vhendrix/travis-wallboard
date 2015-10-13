@@ -41,7 +41,12 @@
                     var projects = twsettings.data.projects;
                     angular.forEach(
                         $response.repos, function ($repo) {
-                            if ($repo.active && (typeof projects[$user] === "undefined" || typeof projects[$user][$repo.id] === 'undefined' || projects[$user][$repo.id].enabled === "YES" )) {
+                            var name = $user.name;
+                            if($user.isPrivate) {
+                                name += ' private';
+                            }
+
+                            if ($repo.active && (typeof projects[name] === "undefined" || typeof projects[name][$repo.id] === 'undefined' || projects[name][$repo.id].enabled === "YES" )) {
                                 $repos[$repo.id] = $repo;
                             }
                         }
@@ -80,7 +85,12 @@
 
                     angular.forEach(
                         $response.repos, function ($repo) {
-                            if ($repo.active && (typeof projects[$user.name] === "undefined" || typeof projects[$user.name][$repo.id] === 'undefined' || projects[$user.name][$repo.id] === "YES" )) {
+                            var name = $user.name;
+                            if($user.isPrivate) {
+                                name += ' private';
+                            }
+
+                            if ($repo.active && (typeof projects[name] === "undefined" || typeof projects[name][$repo.id] === 'undefined' || projects[name][$repo.id] === "YES" )) {
                                 $repos[$repo.slug] = $user;
                             }
                         }
