@@ -42,7 +42,7 @@
                     angular.forEach(
                         $response.repos, function ($repo) {
                             var name = $user.name;
-                            if($user.isPrivate) {
+                            if ($user.isPrivate) {
                                 name += ' private';
                             }
 
@@ -86,7 +86,7 @@
                     angular.forEach(
                         $response.repos, function ($repo) {
                             var name = $user.name;
-                            if($user.isPrivate) {
+                            if ($user.isPrivate) {
                                 name += ' private';
                             }
 
