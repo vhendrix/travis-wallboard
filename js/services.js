@@ -13,6 +13,10 @@
                     var $buildData = {};
                     $buildData.name = $name;
 
+                    if (typeof($build) === "undefined") {
+                        return $buildData;
+                    }
+
                     if (typeof($build.state) !== 'undefined') {
                         $buildData.state = $build.state;
                     } else {
