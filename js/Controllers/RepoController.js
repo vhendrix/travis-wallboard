@@ -69,7 +69,7 @@ angular.module('travisWallBoard.controllers').controller(
             $scope.loadBuilds = function ($repos, $user) {
                 angular.forEach(
                     $repos, function (repo) {
-                        $scope.loadBuildsForRepo(repo, $user);
+                        $scope.loadBuildsForRepo(repo, $user, true);
                     }
                 );
             };
@@ -84,9 +84,11 @@ angular.module('travisWallBoard.controllers').controller(
             $scope.checkUpdateFinished = function (newbuild, $repoid, $repo) {
                 if (typeof $scope.builds[$repo.id] !== "undefined") {
                     if (
+                        typeof(newbuild.state) !== "undefined" &&
                         newbuild.state == $scope.builds[$repoid].state &&
                         newbuild.started_at === $scope.builds[$repoid].started_at &&
                         newbuild.finished_at === $scope.builds[$repoid].finished_at) {
+
                         $scope.pendingRepos[$repoid] = $repo
                     } else if (typeof($scope.pendingRepos[$repoid]) !== "undefined") {
                         $scope.pendingRepos[$repoid] = null;
@@ -100,13 +102,15 @@ angular.module('travisWallBoard.controllers').controller(
              *
              * @param {Object} $repo
              */
-            $scope.loadBuildsForRepo = function ($repo, $user) {
+            $scope.loadBuildsForRepo = function ($repo, $user, $first) {
                 var slug = $repo.slug.replace($user.name + '/', "");
                 TravisBuilds.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getBuilds(
                     {slug: slug}, function ($response) {
                         var newbuild = $travisWallboardService.getBuildsForRepo(slug, $repo.id, $response);
 
-                        $scope.checkUpdateFinished(newbuild, $repo.id, $repo);
+                        if ($first !== true) {
+                            $scope.checkUpdateFinished(newbuild, $repo.id, $repo);
+                        }
 
                         $scope.builds[$repo.id] = newbuild;
                         errors = 0;
@@ -166,14 +170,14 @@ angular.module('travisWallBoard.controllers').controller(
 
                         angular.forEach(
                             $updatedRepos, function ($repo) {
-                                $scope.loadBuildsForRepo($repo, $user);
+                                $scope.loadBuildsForRepo($repo, $user, false);
                             }
                         );
 
                         angular.forEach(
                             $scope.pendingRepos,
                             function ($repo) {
-                                $scope.loadBuildsForRepo($repo, $user);
+                                $scope.loadBuildsForRepo($repo, $user, false);
                             }
                         );
                     },
