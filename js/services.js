@@ -12,7 +12,12 @@
                 var getBuildData = function ($name, $commit, $build) {
                     var $buildData = {};
                     $buildData.name = $name;
-                    $buildData.state = $build.state;
+
+                    if (typeof($build.state) !== 'undefined') {
+                        $buildData.state = $build.state;
+                    } else {
+                        $build.state = 'passed';
+                    }
                     $buildData.finished_at = $build.finished_at;
                     $buildData.started_at = $build.started_at;
                     $buildData.is_pr = $build.pull_request;
