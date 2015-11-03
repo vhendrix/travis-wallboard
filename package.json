@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-babel": "^6.0.0",
     "grunt-contrib-jshint": "~0.11.2",
     "jasmine-core": "^2.2.0",
     "karma": "^0.12.28",
@@ -13,6 +14,7 @@
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.5",
     "karma-verbose-reporter": "0.0.2",
-    "karma-verbose-summary-reporter": "0.0.1"
+    "karma-verbose-summary-reporter": "0.0.1",
+    "load-grunt-tasks": "^3.3.0"
   }
 }

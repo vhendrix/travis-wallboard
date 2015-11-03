@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/Menu/MenuModel.js"],"names":[],"mappings":"AAAA,MAAM,IAAI,CAAC;AACP,eAAW,CAAC,IAAI,EAAE;AACd,YAAI,CAAC,IAAI,GAAG,IAAI,CAAA;KACnB;CACJ","file":"MenuModel.js","sourcesContent":["class Menu {\n    constructor(name) {\n        this.name = name\n    }\n}\n"]}
