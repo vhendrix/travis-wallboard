@@ -81,7 +81,7 @@ angular.module('travisWallBoard.controllers').controller(
              * @param newbuild
              * @param $repoid
              */
-            $scope.checkUpdateFinished = function (newbuild, $repoid) {
+            $scope.checkUpdateFinished = function (newbuild, $repoid, $repo) {
                 if (typeof $scope.builds[$repo.id] !== "undefined") {
                     if (
                         newbuild.state == $scope.builds[$repoid].state &&
@@ -106,7 +106,7 @@ angular.module('travisWallBoard.controllers').controller(
                     {slug: slug}, function ($response) {
                         var newbuild = $travisWallboardService.getBuildsForRepo(slug, $repo.id, $response);
 
-                        $scope.checkUpdateFinished(newbuild, $repo.id);
+                        $scope.checkUpdateFinished(newbuild, $repo.id, $repo);
 
                         $scope.builds[$repo.id] = newbuild;
                         errors = 0;
