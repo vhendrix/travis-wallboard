@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('travisWallBoard.controllers').controller('ProjectController', ['$scope', 'twsettings', 'TravisWallboardService', 'DisplayFunctions', '$interval', 'TravisBuilds', '$routeParams', function ($scope, twsettings, $travisWallboardService, DisplayFunctions, $interval, TravisBuilds, routeParams) {
   // Standard interval 1 second (1000 milisecond).
   var interval = 1000;

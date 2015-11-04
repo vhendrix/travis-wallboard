@@ -1,6 +1,7 @@
 angular.module('travisWallBoard.objects', [])
   .provider(
   'twsettings', function () {
+    let helper = new Helper();
     var data = {
       useMocks: false,
       private_uri: 'https://api.travis-ci.com/',
@@ -12,12 +13,12 @@ angular.module('travisWallBoard.objects', [])
 
       setUsers: function ($users) {
         this.users = $users;
-        TW.helpers.setCookie('userData', JSON.stringify($users), 750);
+        helper.setCookie('userData', JSON.stringify($users), 750);
       },
 
       setProjects: function ($projects) {
         this.projects = $projects;
-        TW.helpers.setCookie('projectData', JSON.stringify($projects), 750);
+        helper.setCookie('projectData', JSON.stringify($projects), 750);
       },
 
       getToken: function (isPrivate, token) {
@@ -27,7 +28,6 @@ angular.module('travisWallBoard.objects', [])
           return null;
         }
       },
-
 
       getSlug: function () {
         return this.slug;
@@ -46,10 +46,10 @@ angular.module('travisWallBoard.objects', [])
 
     return {
       loadUserData: function () {
-        data.users = JSON.parse(TW.helpers.getCookie('userData'));
+        data.users = JSON.parse(helper.getCookie('userData'));
       },
       loadProjectData: function () {
-        data.projects = JSON.parse(TW.helpers.getCookie('projectData'));
+        data.projects = JSON.parse(helper.getCookie('projectData'));
         if (data.projects == null) {
           data.projects = {};
         }

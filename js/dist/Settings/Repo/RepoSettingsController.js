@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('travisWallBoard.controllers').controller('RepoSettingsController', ['$scope', 'twsettings', 'TravisWallboardService', 'md5', 'TravisRepos', function ($scope, twsettings, $travisWallboardService, md5, TravisRepos) {
     $scope.users = twsettings.data.users || [];
     $scope.repos = $scope.repos || twsettings.data.projects;
@@ -15,7 +17,7 @@ angular.module('travisWallBoard.controllers').controller('RepoSettingsController
      */
     $scope.loadRepos = function () {
         angular.forEach(twsettings.data.users, function ($user) {
-            if (!TW.helpers.isEmpty($user.name)) {
+            if (!helper.isEmpty($user.name)) {
                 var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
                 resource.getRepos(function (response) {
                     var newRepos = $travisWallboardService.getProjectsFromResponse(response);
@@ -25,7 +27,7 @@ angular.module('travisWallBoard.controllers').controller('RepoSettingsController
                     if ($user.isPrivate) {
                         name += ' private';
                     }
-                    if (TW.helpers.isEmpty($scope.repos[name])) {
+                    if (helper.isEmpty($scope.repos[name])) {
                         $scope.repos[name] = newRepos;
                     }
                 });

@@ -25,7 +25,7 @@ angular.module('travisWallBoard.controllers').controller(
                 angular.forEach(
                     twsettings.data.users,
                     function ($user) {
-                        if (!TW.helpers.isEmpty($user.name)) {
+                        if (!helper.isEmpty($user.name)) {
                             var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
                             resource.getRepos(
                                 function (response) {
@@ -36,7 +36,7 @@ angular.module('travisWallBoard.controllers').controller(
                                     if($user.isPrivate) {
                                         name += ' private';
                                     }
-                                    if (TW.helpers.isEmpty($scope.repos[name])) {
+                                    if (helper.isEmpty($scope.repos[name])) {
                                         $scope.repos[name] = newRepos;
                                     }
                                 }

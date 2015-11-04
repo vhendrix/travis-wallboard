@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * travisWallBoard,controller App
  *
@@ -6,6 +8,8 @@
 angular.module('travisWallBoard.controllers').controller('ReposController', ['$scope', 'twsettings', 'TravisWallboardService', 'DisplayFunctions', '$interval', 'TravisRepos', 'TravisBuilds', '$routeParams', function ($scope, twsettings, $travisWallboardService, DisplayFunctions, $interval, TravisRepos, TravisBuilds, routeParams) {
     // Number of errors counted.
     var errors = 0;
+
+    var helper = new Helper();
 
     // Standard interval 1 second (1000 milisecond).
     var interval = 1000;
@@ -97,12 +101,12 @@ angular.module('travisWallBoard.controllers').controller('ReposController', ['$s
      */
     $scope.loadRepos = function () {
         angular.forEach(twsettings.data.users, function ($user) {
-            if (!TW.helpers.isEmpty($user.name)) {
+            if (!helper.isEmpty($user.name)) {
                 var resource = TravisRepos.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token);
                 resource.getRepos(function (response) {
                     errors = 0;
                     var newRepos = $travisWallboardService.getReposFromResponse(response, $user);
-                    $scope.repos = TW.helpers.mergeObjects($scope.repos, newRepos);
+                    $scope.repos = helper.mergeObjects($scope.repos, newRepos);
                     $scope.loadBuilds(newRepos, $user);
                 }, $scope.handleErrors);
             }

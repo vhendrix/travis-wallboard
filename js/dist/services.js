@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
     'use strict';
 
@@ -5,7 +7,7 @@
 
         var $building = {};
 
-        var getBuildData = function ($name, $commit, $build) {
+        var getBuildData = function getBuildData($name, $commit, $build) {
             var $buildData = {};
             $buildData.name = $name;
 
@@ -163,10 +165,10 @@
         };
     }]).factory('DisplayFunctions', function () {
         return {
-            isFailed: function (state) {
+            isFailed: function isFailed(state) {
                 return state === 'failed' || state === 'error' || state === 'errored';
             },
-            getErrorsClass: function (builds) {
+            getErrorsClass: function getErrorsClass(builds) {
                 var count = 0;
                 angular.forEach(builds, function (build) {
                     if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
@@ -189,7 +191,7 @@
                 }
             },
 
-            showModal: function (builds) {
+            showModal: function showModal(builds) {
                 var failed = false;
                 angular.forEach(builds, function (build) {
                     if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
@@ -208,7 +210,7 @@
                 return failed;
             },
 
-            recentError: function (finishedAt) {
+            recentError: function recentError(finishedAt) {
                 var dt = new Date(Date.parse(finishedAt));
                 var now = new Date();
 
@@ -222,11 +224,11 @@
                 return false;
             },
 
-            isBuilding: function (state) {
+            isBuilding: function isBuilding(state) {
                 return state === 'started' || state === 'created' || state === 'received';
             },
 
-            isPassing: function (state) {
+            isPassing: function isPassing(state) {
                 return state === 'passed' || state === 'canceled';
             }
         };

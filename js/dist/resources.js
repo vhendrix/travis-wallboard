@@ -1,9 +1,11 @@
+'use strict';
+
 (function () {
   'use strict';
 
   angular.module('travisWallBoard.resources', ['ngResource']).factory('TravisRepos', function ($resource, twsettings) {
     return {
-      resource: function (name, uri, isPrivate, token) {
+      resource: function resource(name, uri, isPrivate, token) {
         return $resource(uri + 'repos/' + name, {}, {
           'getRepos': {
             params: { active: true },
@@ -17,7 +19,7 @@
     };
   }).factory('TravisBuild', function ($resource, twsettings) {
     return {
-      resource: function () {
+      resource: function resource() {
         return $resource(twsettings.data.getUri('repos') + twsettings.data.slug + "/:slug/builds/:buildid", { slug: '@slug', buildid: '@buildid' }, {
           'getBuild': {
             params: { slug: 0, buildid: 0 },
@@ -31,7 +33,7 @@
     };
   }).factory('TravisBuilds', function ($resource, twsettings) {
     return {
-      resource: function (name, uri, isPrivate, token) {
+      resource: function resource(name, uri, isPrivate, token) {
         return $resource(uri + 'repos/' + name + "/:slug/builds", { slug: '@slug', 'event_type': 'push' }, {
           'getBuilds': {
             params: { slug: 0, 'event_type': 'push' },

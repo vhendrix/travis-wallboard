@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../src/Controllers/Controllers.js"],"names":[],"mappings":"AAAA,OAAO,CAAC,MAAM,CAAC,6BAA6B,EAAE,EAAE,CAAC,CAAC","file":"Controllers.js","sourcesContent":["angular.module('travisWallBoard.controllers', []);\n"]}
+{"version":3,"sources":["../../src/Controllers/Controllers.js"],"names":[],"mappings":";;AAAA,OAAO,CAAC,MAAM,CAAC,6BAA6B,EAAE,EAAE,CAAC,CAAC","file":"Controllers.js","sourcesContent":["angular.module('travisWallBoard.controllers', []);\n"]}

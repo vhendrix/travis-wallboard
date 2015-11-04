@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('travisWallBoard.controllers').controller('SettingsController', ['$scope', 'twsettings', 'md5', 'TravisToken', function ($scope, twsettings, md5, TravisToken) {
   $scope.users = twsettings.data.users || [];
 

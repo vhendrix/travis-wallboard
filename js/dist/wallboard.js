@@ -1,10 +1,12 @@
+'use strict';
+
 (function () {
   'use strict';
 
   var isMenuHidden = true;
   var isMenuAnimating = false;
 
-  var getAgo = function (dateString) {
+  var getAgo = function getAgo(dateString) {
     var dt = new Date(Date.parse(dateString));
     var now = new Date();
 

@@ -1,4 +1,7 @@
+'use strict';
+
 angular.module('travisWallBoard.objects', []).provider('twsettings', function () {
+  var helper = new Helper();
   var data = {
     useMocks: false,
     private_uri: 'https://api.travis-ci.com/',
@@ -8,17 +11,17 @@ angular.module('travisWallBoard.objects', []).provider('twsettings', function ()
     //holds what repos use what connection data.
     repos: {},
 
-    setUsers: function ($users) {
+    setUsers: function setUsers($users) {
       this.users = $users;
-      TW.helpers.setCookie('userData', JSON.stringify($users), 750);
+      helper.setCookie('userData', JSON.stringify($users), 750);
     },
 
-    setProjects: function ($projects) {
+    setProjects: function setProjects($projects) {
       this.projects = $projects;
-      TW.helpers.setCookie('projectData', JSON.stringify($projects), 750);
+      helper.setCookie('projectData', JSON.stringify($projects), 750);
     },
 
-    getToken: function (isPrivate, token) {
+    getToken: function getToken(isPrivate, token) {
       if (isPrivate === "YES") {
         return 'token ' + token;
       } else {
@@ -26,11 +29,11 @@ angular.module('travisWallBoard.objects', []).provider('twsettings', function ()
       }
     },
 
-    getSlug: function () {
+    getSlug: function getSlug() {
       return this.slug;
     },
 
-    getUri: function ($user) {
+    getUri: function getUri($user) {
       if (this.useMocks) {
         return '/Mocks/MockServer.php/?slug=';
       } else if ($user.isPrivate === "YES") {
@@ -42,16 +45,16 @@ angular.module('travisWallBoard.objects', []).provider('twsettings', function ()
   };
 
   return {
-    loadUserData: function () {
-      data.users = JSON.parse(TW.helpers.getCookie('userData'));
+    loadUserData: function loadUserData() {
+      data.users = JSON.parse(helper.getCookie('userData'));
     },
-    loadProjectData: function () {
-      data.projects = JSON.parse(TW.helpers.getCookie('projectData'));
+    loadProjectData: function loadProjectData() {
+      data.projects = JSON.parse(helper.getCookie('projectData'));
       if (data.projects == null) {
         data.projects = {};
       }
     },
-    $get: function () {
+    $get: function $get() {
       return {
         data: data
       };
