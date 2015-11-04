@@ -1,8 +1,8 @@
 <div class="{{build.state | stateClass}} ablock">
     <div>
-        <img class="commiter" src="http://www.gravatar.com/avatar/{{ build.committer_email | gravatar }}">
+        <img class="commiter" src="http://www.gravatar.com/avatar/{{ build.commit.committer.email | gravatar }}">
     </div>
-    <h2><span ng-if="build.is_pr">PR: </span>{{build.name}}</h2>
+    <h2><span ng-if="build.isPr">PR: </span>{{build.name}}</h2>
 
     <p class="lead">
         <strong>{{build.branch}}</strong>
@@ -14,8 +14,8 @@
     <span class="glyphicon glyphicon-hourglass spin"></span>
 
     <div class="truncate">
-        {{build.commit_message}}
+        {{build.commit.message}}
     </div>
 
-    <p>Build started  <span class="time" data-finished_at="{{build.started_at}}">{{build.started_at | timeAgo}}</span> ago.</p>
+    <p>Build started  <span class="time" data-finished_at="{{build.startedAt}}">{{build.startedAt | timeAgo}}</span> ago.</p>
 </div>

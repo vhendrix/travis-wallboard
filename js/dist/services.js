@@ -195,7 +195,7 @@
                 var failed = false;
                 angular.forEach(builds, function (build) {
                     if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
-                        var dt = new Date(Date.parse(build.finished_at));
+                        var dt = new Date(Date.parse(build.finishedAt));
                         var now = new Date();
 
                         var diff = now.getTime() - dt.getTime();

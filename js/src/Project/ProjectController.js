@@ -80,7 +80,7 @@ angular.module('travisWallBoard.controllers').controller(
             $user.token
         ).getBuildsForProject(
             {slug: slug}, function (response) {
-              $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
+              $scope.builds = response.builds;
             },
             $scope.handleErrors
         );

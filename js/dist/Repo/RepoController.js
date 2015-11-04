@@ -85,14 +85,18 @@ angular.module('travisWallBoard.controllers').controller('ReposController', ['$s
     $scope.loadBuildsForRepo = function ($repo, $user, $first) {
         var slug = $repo.slug.replace($user.name + '/', "");
         TravisBuilds.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getBuilds({ slug: slug }, function ($response) {
-            var newbuild = $travisWallboardService.getBuildsForRepo(slug, $repo.id, $response);
 
-            if ($first !== true) {
-                $scope.checkUpdateFinished(newbuild, $repo.id, $repo);
+            if (typeof $response.builds !== 'undefined' && typeof $response.builds[0] !== 'undefined') {
+                var newbuild = $response.builds[0];
+                newbuild.name = slug;
+
+                if ($first !== true) {
+                    $scope.checkUpdateFinished(newbuild, $repo.id, $repo);
+                }
+
+                $scope.builds[$repo.id] = newbuild;
+                errors = 0;
             }
-
-            $scope.builds[$repo.id] = newbuild;
-            errors = 0;
         }, $scope.handleErrors);
     };
 

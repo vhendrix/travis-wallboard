@@ -1,4 +1,9 @@
 class Helper {
+
+    constructor() {
+        this.useLocalStorage = null;
+    }
+
     /**
      * Checks if the given object is empty or not.
      *
@@ -34,19 +39,7 @@ class Helper {
      * @returns {*}
      */
     getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1, c.length);
-            }
-
-            if (c.indexOf(nameEQ) === 0) {
-                return c.substring(nameEQ.length, c.length);
-            }
-        }
-        return null;
+        JSON.parse($.cookie(name));
     }
 
     /**
@@ -57,16 +50,50 @@ class Helper {
      * @param days
      */
     setCookie(name, value, days) {
-        var expires;
+        if (typeof(value) !== "string") {
+            value = JSON.stringify(value);
+        }
+        $.cookie(name, value, {expires: days, path: '/'});
 
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toGMTString();
+    }
+
+    setToLocalStorage(name, value) {
+        console.debug(value);
+        if (typeof(value) !== "string") {
+            value = JSON.stringify(value);
         }
-        else {
-            expires = "";
+        window.localStorage.setItem(name, value);
+    }
+
+    getFromLocalStorage(name) {
+        let data = window.localStorage.getItem(name);
+
+
+        try {
+            return JSON.parse(data);
         }
-        document.cookie = name + "=" + value + expires + "; path=/";
+        catch (e) {
+            return data;
+        }
+    }
+
+    getPersistentValue(name) {
+        if (this.hasLocalStorage()) {
+            return this.getFromLocalStorage(name);
+        } else {
+            return this.getCookie(name);
+        }
+    }
+
+    setPersistentValue(name, value) {
+        if (this.hasLocalStorage()) {
+            return this.setToLocalStorage(name, value);
+        } else {
+            return this.setCookie(name, value, 700);
+        }
+    }
+
+    hasLocalStorage() {
+        return typeof(Storage) !== "undefined";
     }
 }

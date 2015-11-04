@@ -58,7 +58,7 @@ angular.module('travisWallBoard.controllers').controller('ProjectController', ['
 
   $scope.loadBuild = function ($user, slug) {
     TravisBuilds.resource($user.name, twsettings.data.getUri($user), $user.isPrivate, $user.token).getBuildsForProject({ slug: slug }, function (response) {
-      $scope.builds = $travisWallboardService.getBuildsForProject(slug, response);
+      $scope.builds = response.builds;
     }, $scope.handleErrors);
   };
 

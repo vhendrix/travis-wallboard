@@ -17,8 +17,14 @@ module.exports = function (grunt) {
                         "js/dist/filters.js": "js/src/filters.js",
                         "js/dist/helpers.js": "js/src/helpers.js",
                         "js/dist/resources.js": "js/src/resources.js",
+                        "js/dist/Repo/Build/BuildRepository.js": "js/src/Repo/Build/BuildRepository.js",
                         "js/dist/services.js": "js/src/services.js",
                         "js/dist/wallboard.js": "js/src/wallboard.js",
+
+                        "js/dist/Repo/Build/BuildModel.js":      "js/src/Repo/Build/BuildModel.js",
+
+                        "js/dist/Repo/Build/CommitModel.js":     "js/src/Repo/Build/CommitModel.js",
+                        "js/dist/Repo/Build/CommitterModel.js":   "js/src/Repo/Build/CommitterModel.js",
 
                         // Controllers
 
@@ -58,7 +64,7 @@ module.exports = function (grunt) {
                     mangle: false,
                     sourceMap: true
                 },
-                my_target: {
+                production: {
                     files: {
                         'js/wallboard.min.js': [
                             "js/dist/app.js",
@@ -66,9 +72,9 @@ module.exports = function (grunt) {
                             "js/dist/filters.js",
                             "js/dist/helpers.js",
                             "js/dist/resources.js",
+                            "js/dist/Repo/Build/BuildRepository.js",
                             "js/dist/services.js",
                             "js/dist/wallboard.js",
-
                             // Controllers
 
                             "js/dist/Controllers/Controllers.js",
@@ -97,7 +103,60 @@ module.exports = function (grunt) {
 
                             // Settings
 
-                            "js/dist/Settings/Repo/RepoSettingsController.js"
+                            "js/dist/Settings/Repo/RepoSettingsController.js",
+                            "js/dist/Repo/Build/BuildModel.js",
+                            "js/dist/Repo/Build/CommitModel.js",
+                            "js/dist/Repo/Build/CommitterModel.js"
+                        ]
+                    }
+                },
+                develop: {
+                    options: {
+                        compress: false,
+                        beautify: true
+                    },
+                    files: {
+                        'js/wallboard.combined.js': [
+                            "js/dist/app.js",
+                            "js/dist/directives.js",
+                            "js/dist/filters.js",
+                            "js/dist/helpers.js",
+                            "js/dist/resources.js",
+                            "js/dist/Repo/Build/BuildRepository.js",
+                            "js/dist/services.js",
+                            "js/dist/wallboard.js",
+                            // Controllers
+
+                            "js/dist/Controllers/Controllers.js",
+                            "js/dist/Controllers/TestController.js",
+
+                            // Objects
+
+                            "js/dist/Objects/Objects.js",
+
+                            // Project
+
+                            "js/dist/Project/ProjectController.js",
+
+                            // Menu
+
+                            "js/dist/Menu/MenuController.js",
+                            "js/dist/Menu/MenuModel.js",
+
+                            // Repo
+
+                            "js/dist/Repo/RepoController.js",
+
+                            // Settings
+
+                            "js/dist/Settings/SettingsController.js",
+
+                            // Settings
+
+                            "js/dist/Settings/Repo/RepoSettingsController.js",
+                            "js/dist/Repo/Build/BuildModel.js",
+                            "js/dist/Repo/Build/CommitModel.js",
+                            "js/dist/Repo/Build/CommitterModel.js"
                         ]
                     }
                 }

@@ -7,17 +7,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Helper = (function () {
     function Helper() {
         _classCallCheck(this, Helper);
+
+        this.useLocalStorage = null;
     }
+
+    /**
+     * Checks if the given object is empty or not.
+     *
+     * @param obj
+     * @returns {boolean}
+     */
 
     _createClass(Helper, [{
         key: "isEmpty",
-
-        /**
-         * Checks if the given object is empty or not.
-         *
-         * @param obj
-         * @returns {boolean}
-         */
         value: function isEmpty(obj) {
             return typeof obj === 'undefined' || obj === null || obj === "" || obj === 0;
         }
@@ -53,19 +55,7 @@ var Helper = (function () {
     }, {
         key: "getCookie",
         value: function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') {
-                    c = c.substring(1, c.length);
-                }
-
-                if (c.indexOf(nameEQ) === 0) {
-                    return c.substring(nameEQ.length, c.length);
-                }
-            }
-            return null;
+            JSON.parse($.cookie(name));
         }
 
         /**
@@ -79,16 +69,53 @@ var Helper = (function () {
     }, {
         key: "setCookie",
         value: function setCookie(name, value, days) {
-            var expires;
-
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-                expires = "; expires=" + date.toGMTString();
-            } else {
-                expires = "";
+            if (typeof value !== "string") {
+                value = JSON.stringify(value);
             }
-            document.cookie = name + "=" + value + expires + "; path=/";
+            $.cookie(name, value, { expires: days, path: '/' });
+        }
+    }, {
+        key: "setToLocalStorage",
+        value: function setToLocalStorage(name, value) {
+            console.debug(value);
+            if (typeof value !== "string") {
+                value = JSON.stringify(value);
+            }
+            window.localStorage.setItem(name, value);
+        }
+    }, {
+        key: "getFromLocalStorage",
+        value: function getFromLocalStorage(name) {
+            var data = window.localStorage.getItem(name);
+
+            try {
+                return JSON.parse(data);
+            } catch (e) {
+                return data;
+            }
+        }
+    }, {
+        key: "getPersistentValue",
+        value: function getPersistentValue(name) {
+            if (this.hasLocalStorage()) {
+                return this.getFromLocalStorage(name);
+            } else {
+                return this.getCookie(name);
+            }
+        }
+    }, {
+        key: "setPersistentValue",
+        value: function setPersistentValue(name, value) {
+            if (this.hasLocalStorage()) {
+                return this.setToLocalStorage(name, value);
+            } else {
+                return this.setCookie(name, value, 700);
+            }
+        }
+    }, {
+        key: "hasLocalStorage",
+        value: function hasLocalStorage() {
+            return typeof Storage !== "undefined";
         }
     }]);
 
