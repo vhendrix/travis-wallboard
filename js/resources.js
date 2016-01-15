@@ -6,11 +6,11 @@
       return {
         resource: function (name, uri, isPrivate, token) {
           return $resource(
-            uri + 'repos/' + name,
+            uri + 'repos',
             {},
             {
               'getRepos': {
-                params: {active: true},
+                params: {active: true, search: name},
                 method: 'GET', headers: {
                   'Accept': 'application/vnd.travis-ci.2+json',
                   'Authorization': twsettings.data.getToken(isPrivate, token)
