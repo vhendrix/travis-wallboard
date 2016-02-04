@@ -1,24 +1,74 @@
 {
-  "name": "travis-wallboard",
+  "name": "angular2-es6-todomvc",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "gulp test",
+    "webdriver-update": "webdriver-manager update"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/aterlamia/travis-wallboard.git"
+    "url": "git+https://github.com/blacksonic/angular2-es6-todomvc.git"
+  },
+  "author": {
+    "name": "blacksonic",
+    "email": "soos.gabor86@gmail.com"
+  },
+  "license": "ISC",
+  "keywords": [
+    "angular2",
+    "todomvc",
+    "es6"
+  ],
+  "description": "Angular 2 TodoMVC application in ES6.",
+  "engines": {
+    "node": "4.2.4"
+  },
+  "dependencies": {
+    "koa": "1.1.2",
+    "koa-static": "2.0.0"
   },
   "devDependencies": {
-    "babelify": "6.0.1",
-    "grunt": "~0.4.1",
-    "grunt-babel": "^6.0.0",
-    "grunt-browserify": "3.6.0",
-    "grunt-contrib-htmlmin": "0.4.0",
-    "grunt-contrib-jshint": "~0.11.2",
-    "grunt-contrib-uglify": "^0.10.0",
-    "jasmine-core": "^2.2.0",
-    "karma": "^0.12.28",
-    "karma-chrome-launcher": "^0.1.7",
-    "karma-firefox-launcher": "^0.1.4",
-    "karma-jasmine": "^0.3.5",
-    "karma-verbose-reporter": "0.0.2",
-    "karma-verbose-summary-reporter": "0.0.1",
-    "load-grunt-tasks": "^3.3.0"
+    "angular2": "2.0.0-beta.1",
+    "babel-core": "6.4.0",
+    "babel-loader": "6.2.1",
+    "babel-plugin-angular2-annotations": "5.0.0",
+    "babel-plugin-transform-class-properties": "6.4.0",
+    "babel-plugin-transform-decorators-legacy": "1.3.4",
+    "babel-plugin-transform-flow-strip-types": "6.4.0",
+    "babel-preset-es2015": "6.3.13",
+    "css-loader": "0.23.1",
+    "del": "2.2.0",
+    "es6-promise": "3.0.2",
+    "es6-shim": "0.33.13",
+    "extract-text-webpack-plugin": "1.0.1",
+    "gulp": "3.9.0",
+    "gulp-delete-lines": "0.0.7",
+    "gulp-nodemon": "2.0.6",
+    "gulp-protractor": "2.1.0",
+    "gulp-util": "3.0.7",
+    "gulp-watch": "4.3.5",
+    "html-loader": "0.4.0",
+    "jasmine-core": "2.4.1",
+    "karma": "0.13.19",
+    "karma-jasmine": "0.3.6",
+    "karma-phantomjs-launcher": "0.2.3",
+    "karma-sourcemap-loader": "0.3.6",
+    "karma-webpack": "1.7.0",
+    "localStorage": "1.0.3",
+    "mini-lr": "0.1.8",
+    "node-uuid": "1.4.7",
+    "phantomjs": "1.9.19",
+    "phantomjs-polyfill": "0.0.1",
+    "protractor": "3.0.0",
+    "reflect-metadata": "0.1.2",
+    "run-sequence": "1.1.5",
+    "rxjs": "5.0.0-beta.0",
+    "style-loader": "0.13.0",
+    "todomvc-app-css": "^2.0.0",
+    "todomvc-common": "^1.0.1",
+    "webpack": "1.12.10",
+    "zone.js": "0.5.10"
   }
 }
