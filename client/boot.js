@@ -11,20 +11,22 @@ import {Request} from './app/services/request';
 import {Menu} from './app/components/Menu/menu.component';
 import {Wallboard} from './app/components/Wallboard/wallboard.component';
 import {HTTP_PROVIDERS} from 'angular2/http';
-import Test from './app/components/Test/test.component';
 
 if (ENVIRONMENT == 'production') {
-  enableProdMode();
+    enableProdMode();
 }
 
 bootstrap(Menu, [
-  HTTP_PROVIDERS,
-  ROUTER_PROVIDERS,
-  provide(LocationStrategy, { useClass: HashLocationStrategy })
+    HTTP_PROVIDERS,
+    ROUTER_PROVIDERS,
+    provide(LocationStrategy, {useClass: HashLocationStrategy})
 ]);
 
 bootstrap(Wallboard, [
-  HTTP_PROVIDERS,
-  ROUTER_PROVIDERS,
-  provide(LocationStrategy, { useClass: HashLocationStrategy })
+    HTTP_PROVIDERS,
+    ROUTER_PROVIDERS,
+    Store,
+    Request,
+    Settings,
+    provide(LocationStrategy, {useClass: HashLocationStrategy})
 ]);

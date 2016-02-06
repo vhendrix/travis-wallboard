@@ -12,4 +12,12 @@ export class RepoSettings {
     getName() {
         return this.name;
     }
+
+    getToken() {
+        return this.token;
+    }
+
+    getIncludePublic() {
+        return this.includePublic;
+    }
 }

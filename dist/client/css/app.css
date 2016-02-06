@@ -1,8 +1,24 @@
 /* app css stylesheet */
-
-body {
-    overflow-x: hidden;
+html {
+    height: 100vh;
     background-color: #333333;
+}
+body {
+    min-height: 100vh;
+    background-color: #333333;
+}
+
+section.main, section.settingsForm {
+    overflow-x: hidden;
+    background-color: #444444;
+    min-height: 100vh;
+}
+
+section.settingsForm {
+    margin-left: 15%;
+    margin-right: 15%;
+    padding: 20px;
+
 }
 
 .tw-menu {

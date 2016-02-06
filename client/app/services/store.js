@@ -69,6 +69,6 @@ export class Store {
     }
 
      hasLocalStorage() {
-        return typeof(Storage) !== "undefined";
+            return typeof(Storage) !== "undefined";
     }
 }
