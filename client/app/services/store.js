@@ -1,5 +1,5 @@
 'use strict';
-
+import {RepoSettings}    from '../components/Settings/reposettings.model';
 export class Store {
     useLocalStorage = false;
 
@@ -13,7 +13,7 @@ export class Store {
      * @param name
      * @returns {*}
      */
-     getCookie(name) {
+    getCookie(name) {
         return JSON.parse($.cookie(name));
     }
 
@@ -24,7 +24,7 @@ export class Store {
      * @param value
      * @param days
      */
-     setCookie(name, value, days) {
+    setCookie(name, value, days) {
         if (typeof(value) !== "string") {
             value = JSON.stringify(value);
         }
@@ -32,7 +32,7 @@ export class Store {
 
     }
 
-     setToLocalStorage(name, value) {
+    setToLocalStorage(name, value) {
         console.debug(value);
         if (typeof(value) !== "string") {
             value = JSON.stringify(value);
@@ -40,7 +40,7 @@ export class Store {
         window.localStorage.setItem(name, value);
     }
 
-     getFromLocalStorage(name) {
+    getFromLocalStorage(name) {
         let data = window.localStorage.getItem(name);
 
 
@@ -68,7 +68,20 @@ export class Store {
         }
     }
 
-     hasLocalStorage() {
-            return typeof(Storage) !== "undefined";
+    hasLocalStorage() {
+        return typeof(Storage) !== "undefined";
+    }
+
+    /**
+     * Get all saved user/repos
+     * @returns {RepoSettings}
+     */
+    getUsers() {
+        let repos = this.getValue('users').map((settings) => {
+            let ret = new RepoSettings(settings.name, settings.token, settings.includePublic);
+            return ret;
+        });
+
+        return repos;
     }
 }
