@@ -1,0 +1,18 @@
+<div *ngIf="build.isBuilding()"  class=" col col-md-3">
+    <div class="{{build.getState() | stateClass}} ablock">
+        <div>
+            <img class="commiter" src="{{ build.getCommit().getCommitterEmail() | gravatar }}">
+        </div>
+        <h2><span *ngIf="build.isPr()">PR: </span>{{build.getName()}}</h2>
+
+        <p class="lead">
+            <strong>{{build.getCommit().getBranch()}}</strong>
+        </p>
+
+        <div class="truncate">
+            {{build.getCommit().getMessage()}}
+        </div>
+        <p>Build started  <span class="time" [attr.data-finished_at]="build.getStartedAt()">{{build.getStartedAt() | timeAgo}}</span> ago.</p>
+    </div>
+</div>
+

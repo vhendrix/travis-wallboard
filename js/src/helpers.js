@@ -1,10 +1,35 @@
-'use strict';
-import {RepoSettings}    from '../components/Settings/reposettings.model';
-export class Store {
-    useLocalStorage = false;
+class Helper {
 
     constructor() {
-        this.useLocalStorage = this.hasLocalStorage();
+        this.useLocalStorage = null;
+    }
+
+    /**
+     * Checks if the given object is empty or not.
+     *
+     * @param obj
+     * @returns {boolean}
+     */
+    isEmpty(obj) {
+        return (typeof obj === 'undefined') || obj === null || obj === "" || obj === 0;
+    }
+
+    /**
+     * Merge the attributes of two obj  ects.
+     *
+     * @param obj1
+     * @param obj2
+     * @returns {{}}
+     */
+    mergeObjects(obj1, obj2) {
+        var obj3 = {};
+        for (var attrname1 in obj1) {
+            obj3[attrname1] = obj1[attrname1];
+        }
+        for (var attrname2 in obj2) {
+            obj3[attrname2] = obj2[attrname2];
+        }
+        return obj3;
     }
 
     /**
@@ -14,7 +39,7 @@ export class Store {
      * @returns {*}
      */
     getCookie(name) {
-        return JSON.parse($.cookie(name));
+        JSON.parse($.cookie(name));
     }
 
     /**
@@ -52,7 +77,7 @@ export class Store {
         }
     }
 
-    getValue(name) {
+    getPersistentValue(name) {
         if (this.hasLocalStorage()) {
             return this.getFromLocalStorage(name);
         } else {
@@ -60,7 +85,7 @@ export class Store {
         }
     }
 
-    setValue(name, value) {
+    setPersistentValue(name, value) {
         if (this.hasLocalStorage()) {
             return this.setToLocalStorage(name, value);
         } else {
@@ -70,19 +95,5 @@ export class Store {
 
     hasLocalStorage() {
         return typeof(Storage) !== "undefined";
-    }
-
-    /**
-     * Get all settings for repositories.
-     *
-     * @returns {RepoSettings}
-     */
-    getRepoSettings() {
-        let repos = this.getValue('users').map((settings) => {
-            let ret = new RepoSettings(settings.name, settings.token, settings.includePublic);
-            return ret;
-        });
-
-        return repos;
     }
 }

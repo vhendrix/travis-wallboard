@@ -1,4 +1,5 @@
 local-config.js
 test.php
+mocks/jsons/*
 node_modules/*
 .idea

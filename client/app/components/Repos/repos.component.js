@@ -9,25 +9,101 @@ import {RepoSettings}    from '../Settings/reposettings.model';
 import {ReposService} from './repos.service';
 import {StatusSuccessComponent} from '../status/status.success.component';
 import {StatusFailedComponent} from '../status/status.failed.component';
+import {StatusPendingComponent} from '../status/status.pending.component';
+
+import {ArraySortPipe} from '../../pipes/arrayfilter';
+
+
+import {
+    OnDestroy
+} from 'angular2/core';
 @Component({
     template: appTemplate,
-    directives: [StatusSuccessComponent, StatusFailedComponent]
+    directives: [StatusSuccessComponent, StatusFailedComponent, StatusPendingComponent],
+    pipes: [ArraySortPipe]
 })
 
 
-export class ReposComponent {
+export class ReposComponent implements OnDestroy {
     builds = {};
     buildsArray = [];
+    timer;
+    interval = 1000;
+    repoSettings;
 
     constructor(store:Store, request:Request, reposService:ReposService, cdr:ChangeDetectorRef) {
         this.store = store;
         this.request = request;
         this.reposService = reposService;
         this.cdr = cdr;
-        this.loadLatestBuildForRepos();
+        this.repoSettings = this.store.getRepoSettings();
+
+        this.init(true);
+        this.timer = setInterval(() => {
+            this.init();
+        }, this.interval);
+
+
     }
 
-    destructor() {
+    /**
+     * Initializes builds and repos.
+     */
+    init(first) {
+        var that = this;
+        this.repoSettings.forEach((repoSetting) => {
+            let shouldUpdate = repoSetting.shouldUpdate(that.interval);
+            console.debug('REPO COMPONENT: should update ' + repoSetting.getName() + " :: " + shouldUpdate);
+            if (first || (!that.isEmpty(repoSetting.name) && shouldUpdate)) {
+                var resource = that.request.loadProjectData(repoSetting);
+                resource.subscribe(project => that.checkBuildsForProject(project, repoSetting));
+            }
+        });
+    }
+
+    /**
+     * Get the builds for a given Project.
+     *
+     * @param projects
+     * @param {RepoSettings} repoSettings
+     */
+    checkBuildsForProject(projects, repoSettings:RepoSettings) {
+        let updateableProjects = this.reposService.getProjectsToUpdate(repoSettings.getName(), projects);
+
+        this.updatePending();
+
+        this.loadBuildsForProjects(updateableProjects, repoSettings, true);
+    }
+
+    checkRepos() {
+        var that = this;
+        this.repoSettings.forEach(function (repoSetting) {
+            if (!that.isEmpty(repoSetting.name) && repoSetting.shouldUpdate(that.interval)) {
+                var resource = that.request.loadProjectData(repoSetting, false);
+                resource.subscribe(project => that.checkBuildsForProject(project, repoSetting));
+            }
+        });
+    }
+
+    /**
+     * Loads builds for a given repository and sets this to the scope.
+     *
+     * @param {Object} project
+     * @param {RepoSettings} userSettings
+     * @param {Boolean} $first
+     */
+    loadBuildsForProjects(projects, userSettings:RepoSettings, $first) {
+        var that = this;
+        Object.keys(projects).forEach(function (key) {
+            let rep = projects[key];
+            let slug = rep.getSlug().replace(userSettings.getName() + '/', "");
+
+            var resource = that.request.getTravisBuilds(userSettings, slug);
+            resource.subscribe(build => that.updateBuild(rep, build, slug));
+        });
+    };
+
+    ngOnDestroy() {
         clearInterval(this.timer);
     }
 
@@ -35,27 +111,11 @@ export class ReposComponent {
         return (val === "" || typeof(val) === "undefined" || val === null);
     }
 
-    loadLatestBuildForRepos() {
-        var that = this;
-        var projects = this.store.getUsers();
-
-        projects.forEach(function (userSettings) {
-            if (!that.isEmpty(userSettings.name)) {
-                var resource = that.request.loadProjectData(userSettings, false);
-                resource.subscribe(project => that.checkBuildsForProject(project, userSettings));
-            }
-        });
-    }
 
     getBuilds() {
-
         return Array.from(this.builds);
     }
 
-    checkBuildsForProject(project, userSettings) {
-        this.reposService.setRepos(project);
-        this.loadBuildsForProject(project, userSettings)
-    }
 
     transform(dict:Object):Array {
         var a = [];
@@ -72,29 +132,17 @@ export class ReposComponent {
         if (typeof(builds) !== 'undefined' && typeof(builds[0]) !== 'undefined') {
             var newbuild = builds[0];
             newbuild.name = slug;
-            this.builds[repo.id] = newbuild;
+            this.builds[repo.getId()] = newbuild;
             this.errors = 0;
         }
-
         this.buildsArray = this.transform(this.builds);
         this.cdr.detectChanges();
     }
 
-    /**
-     * Loads builds for a given repository and sets this to the scope.
-     *
-     * @param {Object} project
-     */
-    loadBuildsForProject(project, userSettings:RepoSettings, $first) {
 
-        var that = this;
-
-        project.forEach(function (rep) {
-            let slug = rep.slug.replace(userSettings.getName() + '/', "");
-            var resource = that.request.getTravisBuilds(userSettings, slug, false);
-            resource.subscribe(build => that.updateBuild(rep, build, slug));
-        });
-    };
+    updatePending() {
+        this.reposService.getPending(this.builds);
+    }
 }
 
 

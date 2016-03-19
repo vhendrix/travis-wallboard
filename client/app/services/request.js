@@ -7,6 +7,7 @@ import 'rxjs/Rx';
 // Models.
 import {Build} from '../components/Builds/build.model'
 import {Commit} from '../components/Builds/commit.model'
+import {RepoSettings} from '../components/Settings/reposettings.model'
 import {Project} from '../components/Project/project.model'
 @Injectable()
 
@@ -16,12 +17,26 @@ export class Request {
         this.settings = settings;
     }
 
-    loadProjectData(settings, isPrivate) {
-        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.name) + '?active=true';
+    /**
+     * Load project data from travis.
+     *
+     * @param {RepoSettings} settings
+     * @returns {Observable<R>}
+     */
+    loadProjectData(settings:RepoSettings) {
+
+
+        // Protected does not need repo slug
+        if (settings.isPrivate()) {
+            var uri = this.settings.getUri(settings) + 'repos' + '?active=true';
+        } else {
+            var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.name) + '?active=true';
+        }
+
         //var uri = "./mocks/mock.js?";
         var headers = new Headers({
             'Accept': this.settings.getAcceptHeader(),
-            'Authorization': this.settings.getToken(isPrivate, settings.getToken())
+            'Authorization': this.settings.getToken(settings.isPrivate(), settings.getToken())
         });
         var options = new RequestOptions({headers: headers});
 
@@ -46,27 +61,77 @@ export class Request {
                     }
                 }
 
-            return repositories;
+                return repositories;
             }
         );
     }
 
-    getTravisToken(token) {
-        var uri = "https://api.travis-ci.com/auth/github?github_token=" + token;
+    /**
+     * Fet a travis access token from a git hub token.
+     *
+     * @param {String} gitHubToken
+     * @returns {Observable<R>}
+     */
+    getTravisToken(gitHubToken:String) {
+        var uri = "https://api.travis-ci.com/auth/github?github_token=" + gitHubToken;
 
         var headers = new Headers({'Accept': this.settings.getAcceptHeader()});
         var options = new RequestOptions({headers: headers});
 
-        var params = JSON.stringify({github_token: token});
+        var params = JSON.stringify({github_token: gitHubToken});
         return this.http.post(uri, params, options).map(res => res.json());
     }
 
-    getTravisBuilds(settings, slug, isPrivate) {
-        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.getName()) + "/" + encodeURI(slug) + "/builds?event_type=push";
-        var uri = "./mocks/mockbuild.js?";
+    /**
+     *
+     * @param {RepoSettings} settings
+     * @param {String} slug
+     * @returns {Observable<R>}
+     */
+    getTravisBuild(settings:RepoSettings, slug:String, buildId) {
+        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.getName()) + "/" + encodeURI(slug) + "/builds/" + buildId;
         var headers = new Headers({
             'Accept': this.settings.getAcceptHeader(),
-            'Authorization': this.settings.getToken(isPrivate, settings.getToken())
+            'Authorization': this.settings.getToken(settings.isPrivate(), settings.getToken())
+        });
+        var options = new RequestOptions({headers: headers});
+
+        return this.http.get(uri, options).map(res => {
+            let data = res.json().build;
+            let commit = res.json().commit;
+
+            let commitModel = new Commit(
+                commit.id,
+                commit.branch,
+                commit.committer_email,
+                commit.committer_name,
+                commit.message,
+                commit.pull_request_number
+            );
+            return new Build(
+                data.id,
+                data.number,
+                slug,
+                data.state,
+                data.started_at,
+                data.finished_at,
+                data.pull_request_number !== null,
+                commitModel
+            );
+        });
+    }
+
+    /**
+     *
+     * @param {RepoSettings} settings
+     * @param {String} slug
+     * @returns {Observable<R>}
+     */
+    getTravisBuilds(settings:RepoSettings, slug:String) {
+        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.getName()) + "/" + encodeURI(slug) + "/builds?event_type=push";
+        var headers = new Headers({
+            'Accept': this.settings.getAcceptHeader(),
+            'Authorization': this.settings.getToken(settings.isPrivate(), settings.getToken())
         });
         var options = new RequestOptions({headers: headers});
 
@@ -96,7 +161,6 @@ export class Request {
                     data.pull_request_number !== null,
                     commitModel
                 );
-                console.debug(build);
                 builds.push(build);
             }
             return builds;

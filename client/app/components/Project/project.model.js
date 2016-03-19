@@ -23,38 +23,52 @@ export class Project {
     }
 
     getId() {
-        return _id;
+        return this._id;
     }
 
     getActive() {
-        return _active;
+        return this._active;
     }
 
     getSlug() {
-        return _slug;
+        return this._slug;
     }
 
     getDescription() {
-        return _description;
+        return this._description;
     }
 
     getLastBuildStartedAt() {
-        return _lastBuildStartedAt;
+        return this._lastBuildStartedAt;
     }
 
     getLastBuildFinishedAt() {
-        return _lastBuildFinishedAt;
+        return this._lastBuildFinishedAt;
     }
 
     getLastBuildId() {
-        return _lastBuildId;
+        return this._lastBuildId;
     }
 
     getLastBuildNr() {
-        return _lastBuildNr;
+        return this._lastBuildNr;
     }
 
     getLastBuildState() {
-        return _lastBuildState;
+        return this._lastBuildState;
+    }
+
+    equals(project:Project) {
+        return  (
+            this.getId() === project.getId() &&
+            this.getActive() === project.getActive() &&
+            this.getSlug() === project.getSlug() &&
+            this.getLastBuildState() === project.getLastBuildState() &&
+            this.getLastBuildStartedAt() === project.getLastBuildStartedAt() &&
+            this.getLastBuildFinishedAt() === project.getLastBuildFinishedAt() &&
+            this.getLastBuildNr() === project.getLastBuildNr() &&
+            this.getLastBuildId() === project.getLastBuildId() &&
+            this.getDescription() === project.getDescription()
+        );
     }
 }

@@ -1,10 +1,11 @@
 import {Injectable} from 'angular2/core';
 import {Store} from './store';
+import {RepoSettings} from '../components/Settings/reposettings.model'
 
 @Injectable()
 
 export class Settings {
-    useMocks = false;
+    useMocks = true;
     private_uri = 'https://api.travis-ci.com/';
     opensource_uri = 'https://api.travis-ci.org/';
     users = [];
@@ -26,7 +27,7 @@ export class Settings {
     }
 
     getToken(isPrivate, token) {
-        if (isPrivate === "YES") {
+        if (isPrivate == true) {
             return 'token ' + token;
         } else {
             return null;
@@ -41,10 +42,14 @@ export class Settings {
         return this.slug;
     }
 
-    getUri($user) {
+    getUri(repoSettings:RepoSettings) {
         if (this.useMocks) {
-            return '/Mocks/MockServer.php/?slug=';
-        } else if ($user.isPrivate === "YES") {
+            if (repoSettings.isPrivate()) {
+                return 'http://localhost:9002/mock.php?type=private&path=';
+            } else {
+                return 'http://localhost:9002/mock.php?type=protected&path=';
+            }
+        } else if (repoSettings.isPrivate()) {
             return this.private_uri;
         } else {
             return this.opensource_uri;

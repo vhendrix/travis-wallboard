@@ -1,4 +1,5 @@
 <div class="container-fluid row">
-        <failed-item *ngFor="#build of buildsArray"  [build]="build.val"></failed-item>
-        <success-item *ngFor="#build of buildsArray"  [build]="build.val"></success-item>
+        <pending-item *ngFor="#build of buildsArray | arraySort"  [build]="build.val"></pending-item>
+        <failed-item *ngFor="#build of buildsArray | arraySort"  [build]="build.val"></failed-item>
+        <success-item *ngFor="#build of buildsArray | arraySort"  [build]="build.val"></success-item>
 </div>

@@ -1,7 +1,6 @@
 <section class="settingsForm">
     <h3>Base settings:</h3>
 
-
     <form (ngSubmit)="saveUsers()" class="form-inline">
         <div class="panel-group" id="accordion" role="tablist"
              [attr.aria-multiselectable]="true">
@@ -22,8 +21,6 @@
                             <input [(ngModel)]="user.name" type="text" class="form-control" placeholder="User name">
                             <label>Token</label>
                             <input [(ngModel)]="user.token" type="text" class="form-control" placeholder="Token">
-                            <label>Include public</label>
-                            <input [(ngModel)]="user.includePublic" type="checkbox" class="form-control">
                         </div>
                     </div>
                 </div>

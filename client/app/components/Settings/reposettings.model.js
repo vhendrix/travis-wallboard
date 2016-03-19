@@ -1,12 +1,12 @@
 export class RepoSettings {
     name = "";
     token = "";
-    includePublic = false;
+    lastUpdate;
 
-    constructor(name:string, token:string, includePublic:bool) {
+    constructor(name:string, token:string) {
         this.name = name;
         this.token = token;
-        this.includePublic = includePublic;
+        this.refreshRate = 30;
     }
 
     getName() {
@@ -17,7 +17,17 @@ export class RepoSettings {
         return this.token;
     }
 
-    getIncludePublic() {
-        return this.includePublic;
+        isPrivate() {
+        return typeof(this.token) !== "undefined" && this.token != "";
+    }
+
+    shouldUpdate(interval) {
+        if (typeof this.lastUpdate === "undefined" || this.lastUpdate >= (this.refreshRate * interval)) {
+            this.lastUpdate = 0;
+            return true;
+        } else {
+            this.lastUpdate += interval;
+            return false;
+        }
     }
 }

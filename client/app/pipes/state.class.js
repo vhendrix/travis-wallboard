@@ -5,7 +5,6 @@ import {Pipe, PipeTransform} from 'angular2/core';
 export class StateClass implements PipeTransform {
     transform(state, args) {
         var blockClass = '';
-        console.debug(state);
         if (state === 'failed') {
             blockClass = 'btn-danger text-danger';
         } else if (state === 'passed' || state === 'finished') {

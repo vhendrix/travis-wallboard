@@ -37,7 +37,7 @@ export class Build {
         return this._state;
     }
 
-    geStartedAt() {
+    getStartedAt() {
         return this._startedAt;
     }
 
