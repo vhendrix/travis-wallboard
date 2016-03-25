@@ -70,7 +70,7 @@ export class ReposComponent implements OnDestroy {
     checkBuildsForProject(projects, repoSettings:RepoSettings) {
         let updateableProjects = this.reposService.getProjectsToUpdate(repoSettings.getName(), projects);
 
-        this.updatePending();
+        this.updatePending(repoSettings);
 
         this.loadBuildsForProjects(updateableProjects, repoSettings, true);
     }
@@ -140,8 +140,8 @@ export class ReposComponent implements OnDestroy {
     }
 
 
-    updatePending() {
-        this.reposService.getPending(this.builds);
+    updatePending(repoSettings:RepoSettings) {
+        this.reposService.getPending(this.builds, repoSettings);
     }
 }
 

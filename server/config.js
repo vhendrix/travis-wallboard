@@ -5,6 +5,6 @@ let environment = process.env.NODE_ENV || 'production';
 let localStaticPath = environment == 'production' ? '../client' : '../dist/client';
 module.exports = {
   env: environment,
-  port: process.env.PORT || 9001,
+  port: process.env.PORT || 9004,
   staticPath: path.resolve(__dirname, localStaticPath)
 };

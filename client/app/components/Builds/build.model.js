@@ -9,8 +9,9 @@ export class Build {
     _finishedAt;
     _isPr;
     _commit;
+x    _type;
 
-    constructor(id, number, name, state, startedAt, finishedAt, isPr, commit:Commit) {
+    constructor(id, number, name, state, startedAt, finishedAt, isPr, type, commit:Commit) {
         this._id = id;
         this._number = number;
         this._name = name;
@@ -18,11 +19,16 @@ export class Build {
         this._startedAt = startedAt;
         this._finishedAt = finishedAt;
         this._isPr = isPr;
+        this._type = type;
         this._commit = commit;
     }
 
     getId() {
         return this._id;
+    }
+
+    getType() {
+        return this._type;
     }
 
     getNumber() {

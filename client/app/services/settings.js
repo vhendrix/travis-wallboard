@@ -5,7 +5,7 @@ import {RepoSettings} from '../components/Settings/reposettings.model'
 @Injectable()
 
 export class Settings {
-    useMocks = true;
+    useMocks = false;
     private_uri = 'https://api.travis-ci.com/';
     opensource_uri = 'https://api.travis-ci.org/';
     users = [];

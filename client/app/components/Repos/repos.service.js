@@ -1,22 +1,48 @@
 'use strict';
+
+import {Request} from "../../services/request";
+
 export class ReposService {
     repos = {};
     previousRepos = {};
-
-    constructor() {
-
+    retrievedBuilds = {};
+    pendingProjects = [];
+    constructor(request:Request) {
+        this.request = request;
     }
 
-    getPending(builds) {
+    updateBuild(project, build, slug) {
+        this.retrievedBuilds[slug] = {};
+        this.retrievedBuilds[slug].id = build.getId();
+        this.retrievedBuilds[slug].type = build.getType();
+
+        if (build.getType() === "push") {
+            this.pendingProjects.push(project);
+        }
+    }
+
+    getPending(builds, repoSettings) {
         let selfBuilds = builds;
         Object.keys(this.repos).forEach((key) => {
             let repo = this.repos[key];
             Object.keys(repo).forEach((rkey) => {
                 if (typeof(builds[rkey]) !== 'undefined') {
-                    var project = repo[rkey];
-                    console.debug(rkey);
-                    console.debug(project);
-                    console.debug(builds[rkey]);
+                    let project = repo[rkey];
+                    let build = selfBuilds[rkey];
+
+                    if (
+                        project.getLastBuildState() !== build.getState()
+                        && (typeof(this.retrievedBuilds[project.getSlug()]) === "undefined"
+                            || this.retrievedBuilds[project.getSlug()].id !== project.getLastBuildId()
+                        )
+                    ) {
+                        var resource = this.request.getTravisBuild(repoSettings, project.getSlug(), project.getLastBuildId());
+                        resource.subscribe(build => this.updateBuild(project, build, project.getSlug()));
+
+                        console.debug('REPO SERVCE -- PENDING: different states for' + project.getSlug());
+                        console.debug('REPO SERVCE -- PENDING: state project = ' + project.getLastBuildState() + ' for build id ' + project.getLastBuildId());
+                        console.debug('REPO SERVCE -- PENDING: state build = ' + build.getState() + ' for build id ' + build.getId());
+                    }
                 }
             }, this);
         }, this);
@@ -33,10 +59,13 @@ export class ReposService {
             this.repos[repo] = this.mergeObjects(this.repos[repo], projects);
         }
 
-        let updatableProjects = [];
+        let updatableProjects = this.pendingProjects || [];
+
+        // Reset pendingProjects.
+        this.pendingProjects = [];
 
         if (typeof this.previousRepos[repo] === "undefined") {
-            console.debug('REPO SERVICE: empty list so returning all');
+            console.debug('REPO SERVICE -- UPDATE: empty list so returning all');
             return this.repos[repo];
         }
 
@@ -50,7 +79,6 @@ export class ReposService {
                 updatableProjects.push(project);
             }
         });
-
         return updatableProjects;
     }
 

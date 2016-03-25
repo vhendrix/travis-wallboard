@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === "OPTIONS") {
     print 'Content-Type, Authorization, Accept, If-None-Match, If-Modified-Since, X-User-Agent, Travis-API-Version';
 } else {
     $headers = getallheaders();
-    $filename = str_replace(['/', '\\', ' ', '?', '=', '&'], '', $headers['Authorization'] . $_GET['path']) . '.json';
+    $filename = str_replace(['/', '\\', ' ', '?', '=', '&'], '-', $headers['Authorization'] . $_GET['path']) . '.json';
     if (!file_exists(__DIR__ . '/jsons/' . $filename)) {
         if ($_GET['type'] == 'private') {
             $url = 'https://api.travis-ci.com/';
@@ -29,9 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === "OPTIONS") {
         curl_setopt($s, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($s, CURLOPT_FOLLOWLOCATION, TRUE);
 
-//        $json = curl_exec($s);
+        $json = curl_exec($s);
         curl_close($s);
-
         file_put_contents(__DIR__ . '/jsons/' . $filename, $json);
     } else{
         $json = file_get_contents(__DIR__ . '/jsons/' . $filename);

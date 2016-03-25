@@ -24,16 +24,13 @@ export class Request {
      * @returns {Observable<R>}
      */
     loadProjectData(settings:RepoSettings) {
-
-
-        // Protected does not need repo slug
+        // Protected does not need repo slug.
         if (settings.isPrivate()) {
             var uri = this.settings.getUri(settings) + 'repos' + '?active=true';
         } else {
             var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.name) + '?active=true';
         }
 
-        //var uri = "./mocks/mock.js?";
         var headers = new Headers({
             'Accept': this.settings.getAcceptHeader(),
             'Authorization': this.settings.getToken(settings.isPrivate(), settings.getToken())
@@ -83,13 +80,16 @@ export class Request {
     }
 
     /**
+     * Retrieve a single travis build.
      *
      * @param {RepoSettings} settings
      * @param {String} slug
+     * @param {Integer} buildId
      * @returns {Observable<R>}
      */
     getTravisBuild(settings:RepoSettings, slug:String, buildId) {
-        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.getName()) + "/" + encodeURI(slug) + "/builds/" + buildId;
+        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(slug) + "/builds/" + buildId;
+
         var headers = new Headers({
             'Accept': this.settings.getAcceptHeader(),
             'Authorization': this.settings.getToken(settings.isPrivate(), settings.getToken())
@@ -97,27 +97,7 @@ export class Request {
         var options = new RequestOptions({headers: headers});
 
         return this.http.get(uri, options).map(res => {
-            let data = res.json().build;
-            let commit = res.json().commit;
-
-            let commitModel = new Commit(
-                commit.id,
-                commit.branch,
-                commit.committer_email,
-                commit.committer_name,
-                commit.message,
-                commit.pull_request_number
-            );
-            return new Build(
-                data.id,
-                data.number,
-                slug,
-                data.state,
-                data.started_at,
-                data.finished_at,
-                data.pull_request_number !== null,
-                commitModel
-            );
+            return this.createBuildModel(res.json().build, res.json().commit, slug);
         });
     }
 
@@ -125,6 +105,7 @@ export class Request {
      *
      * @param {RepoSettings} settings
      * @param {String} slug
+     *
      * @returns {Observable<R>}
      */
     getTravisBuilds(settings:RepoSettings, slug:String) {
@@ -141,30 +122,41 @@ export class Request {
             let builds = [];
 
             for (let index in buildsData) {
-                let data = buildsData[index];
-                let commit = commitsData[index];
-                let commitModel = new Commit(
-                    commit.id,
-                    commit.branch,
-                    commit.committer_email,
-                    commit.committer_name,
-                    commit.message,
-                    commit.pull_request_number
-                );
-                let build = new Build(
-                    data.id,
-                    data.number,
-                    slug,
-                    data.state,
-                    data.started_at,
-                    data.finished_at,
-                    data.pull_request_number !== null,
-                    commitModel
-                );
+                let build = this.createBuildModel(buildsData[index], commitsData[index], slug);
                 builds.push(build);
             }
             return builds;
         });
+    }
+
+    /**
+     * Create a build mode from the retreived data.
+     *
+     * @param {Object} data
+     * @param {Object} commit
+     *
+     * @returns {Build} Build object.
+     */
+    createBuildModel(data, commit, slug) {
+        let commitModel = new Commit(
+            commit.id,
+            commit.branch,
+            commit.committer_email,
+            commit.committer_name,
+            commit.message,
+            commit.pull_request_number
+        );
+        return new Build(
+            data.id,
+            data.number,
+            slug,
+            data.state,
+            data.started_at,
+            data.finished_at,
+            data.pull_request_number !== null,
+            data.event_type,
+            commitModel
+        );
     }
 
     handleError(error:Response) {
