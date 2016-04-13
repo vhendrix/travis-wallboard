@@ -9,6 +9,10 @@
             <strong>{{build.getCommit().getBranch()}}</strong>
         </p>
 
+        <p>
+            Build started by {{build.getCommit().getCommitterEmail()}}
+        </p>
+
         <div class="truncate">
             {{build.getCommit().getMessage()}}
         </div>

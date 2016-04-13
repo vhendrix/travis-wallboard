@@ -13,10 +13,7 @@ import {StatusPendingComponent} from '../status/status.pending.component';
 
 import {ArraySortPipe} from '../../pipes/arrayfilter';
 
-
-import {
-    OnDestroy
-} from 'angular2/core';
+import {OnDestroy,OnInit} from 'angular2/core';
 @Component({
     template: appTemplate,
     directives: [StatusSuccessComponent, StatusFailedComponent, StatusPendingComponent],
@@ -24,7 +21,7 @@ import {
 })
 
 
-export class ReposComponent implements OnDestroy {
+export class ReposComponent implements OnDestroy, OnInit {
     builds = {};
     buildsArray = [];
     timer;
@@ -37,13 +34,6 @@ export class ReposComponent implements OnDestroy {
         this.reposService = reposService;
         this.cdr = cdr;
         this.repoSettings = this.store.getRepoSettings();
-
-        this.init(true);
-        this.timer = setInterval(() => {
-            this.init();
-        }, this.interval);
-
-
     }
 
     /**
@@ -53,8 +43,8 @@ export class ReposComponent implements OnDestroy {
         var that = this;
         this.repoSettings.forEach((repoSetting) => {
             let shouldUpdate = repoSetting.shouldUpdate(that.interval);
-            console.debug('REPO COMPONENT: should update ' + repoSetting.getName() + " :: " + shouldUpdate);
             if (first || (!that.isEmpty(repoSetting.name) && shouldUpdate)) {
+                console.debug('REPO COMPONENT: should update ' + repoSetting.getKey() + " :: " + shouldUpdate);
                 var resource = that.request.loadProjectData(repoSetting);
                 resource.subscribe(project => that.checkBuildsForProject(project, repoSetting));
             }
@@ -68,7 +58,7 @@ export class ReposComponent implements OnDestroy {
      * @param {RepoSettings} repoSettings
      */
     checkBuildsForProject(projects, repoSettings:RepoSettings) {
-        let updateableProjects = this.reposService.getProjectsToUpdate(repoSettings.getName(), projects);
+        let updateableProjects = this.reposService.getProjectsToUpdate(repoSettings, projects);
 
         this.updatePending(repoSettings);
 
@@ -79,7 +69,7 @@ export class ReposComponent implements OnDestroy {
         var that = this;
         this.repoSettings.forEach(function (repoSetting) {
             if (!that.isEmpty(repoSetting.name) && repoSetting.shouldUpdate(that.interval)) {
-                var resource = that.request.loadProjectData(repoSetting, false);
+                var resource = that.request.loadProjectData(repoSetting);
                 resource.subscribe(project => that.checkBuildsForProject(project, repoSetting));
             }
         });
@@ -103,8 +93,18 @@ export class ReposComponent implements OnDestroy {
         });
     };
 
+    ngOnInit() {
+        this.init(true);
+        this.timer = setInterval(() => {
+            this.init();
+        }, this.interval);
+
+        console.debug('REPO COMPONENT: Added interval');
+    }
+
     ngOnDestroy() {
         clearInterval(this.timer);
+        console.debug('REPO COMPONENT: Removed interval');
     }
 
     isEmpty(val) {
@@ -115,7 +115,6 @@ export class ReposComponent implements OnDestroy {
     getBuilds() {
         return Array.from(this.builds);
     }
-
 
     transform(dict:Object):Array {
         var a = [];

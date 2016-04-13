@@ -18,6 +18,20 @@ export class SettingsComponent {
     store = null;
     request = null;
 
+    refreshrates = [
+        {value: 15, label: '15 sec'},
+        {value: 30, label: '30 sec'},
+        {value: 60, label: '1 min'},
+        {value: 90, label: '1.5 min'},
+        {value: 120, label: '2 min'},
+        {value: 150, label: '2.5 min'},
+        {value: 180, label: '3 min'},
+        {value: 300, label: '5 min'},
+        {value: 600, label: '10 min'},
+        {value: 1800, label: '30 min'},
+        {value: 3600, label: '1 hour'}
+    ];
+
     constructor(store:Store, request:Request) {
         this.store = store;
         this.request = request;
@@ -31,7 +45,7 @@ export class SettingsComponent {
 
     newUser() {
         this.users = this.users || [];
-        this.users.push(new RepoSettings('', '', false));
+        this.users.push(new RepoSettings('', '', 30));
     }
 
     getUsers() {
@@ -69,27 +83,25 @@ export class SettingsComponent {
     }
 
     getTitle(user:RepoSettings, i:Number) {
-        var privateRepo = "";
-        var publicRepo = "";
+        var access = "";
         if (user.token !== "") {
-            privateRepo = " Private ";
+            access = " Private ";
+        } else {
+            access = " Public ";
         }
 
-        if (user.includePublic !== false) {
-            if (user.token !== "") {
-                publicRepo += "and";
-            }
-            publicRepo += " Public ";
-        }
 
         if (user.name === "") {
             return "New repo " + i;
         }
 
-        if (privateRepo !== "" || publicRepo !== "") {
-            return user.name + " Repository (" + privateRepo + publicRepo + ')';
-        }
-        return user.name + " Repository"
+
+        return user.name + " Repository (" + access + ')';
+
+    }
+
+    remove(index) {
+        this.users.splice(index, 1);
     }
 }
 

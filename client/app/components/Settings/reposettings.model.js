@@ -3,10 +3,10 @@ export class RepoSettings {
     token = "";
     lastUpdate;
 
-    constructor(name:string, token:string) {
+    constructor(name:string, token:string, refreshRate:Number) {
         this.name = name;
         this.token = token;
-        this.refreshRate = 30;
+        this.refreshRate = refreshRate;
     }
 
     getName() {
@@ -17,7 +17,15 @@ export class RepoSettings {
         return this.token;
     }
 
-        isPrivate() {
+    getKey() {
+        let postfix = "";
+        if (this.isPrivate()) {
+            postfix = '_private';
+        }
+        return this.getName() + postfix;
+    }
+
+    isPrivate() {
         return typeof(this.token) !== "undefined" && this.token != "";
     }
 

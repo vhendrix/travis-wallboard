@@ -1,12 +1,14 @@
 'use strict';
 
 import {Request} from "../../services/request";
+import {RepoSettings}    from '../Settings/reposettings.model';
 
 export class ReposService {
     repos = {};
     previousRepos = {};
     retrievedBuilds = {};
     pendingProjects = [];
+
     constructor(request:Request) {
         this.request = request;
     }
@@ -21,42 +23,42 @@ export class ReposService {
         }
     }
 
-    getPending(builds, repoSettings) {
-        let selfBuilds = builds;
-        Object.keys(this.repos).forEach((key) => {
-            let repo = this.repos[key];
-            Object.keys(repo).forEach((rkey) => {
-                if (typeof(builds[rkey]) !== 'undefined') {
-                    let project = repo[rkey];
-                    let build = selfBuilds[rkey];
+    getPending(builds, repoSettings:RepoSettings) {
+        let selfBuilds =    builds;
+        let repo = this.repos[repoSettings.getKey()];
+        Object.keys(repo).forEach((rkey) => {
+            if (typeof(builds[rkey]) !== 'undefined') {
+                let project = repo[rkey];
+                let build = selfBuilds[rkey];
 
-                    if (
-                        project.getLastBuildState() !== build.getState()
-                        && (typeof(this.retrievedBuilds[project.getSlug()]) === "undefined"
-                            || this.retrievedBuilds[project.getSlug()].id !== project.getLastBuildId()
-                        )
-                    ) {
-                        var resource = this.request.getTravisBuild(repoSettings, project.getSlug(), project.getLastBuildId());
-                        resource.subscribe(build => this.updateBuild(project, build, project.getSlug()));
+                if (
+                    project.getLastBuildState() !== build.getState()
+                    && (typeof(this.retrievedBuilds[project.getSlug()]) === "undefined"
+                        || this.retrievedBuilds[project.getSlug()].id !== project.getLastBuildId()
+                    )
+                ) {
+                    var resource = this.request.getTravisBuild(repoSettings, project.getSlug(), project.getLastBuildId());
+                    resource.subscribe(build => this.updateBuild(project, build, project.getSlug()));
 
-                        console.debug('REPO SERVCE -- PENDING: different states for' + project.getSlug());
-                        console.debug('REPO SERVCE -- PENDING: state project = ' + project.getLastBuildState() + ' for build id ' + project.getLastBuildId());
-                        console.debug('REPO SERVCE -- PENDING: state build = ' + build.getState() + ' for build id ' + build.getId());
-                    }
+                    console.debug('REPO SERVCE -- PENDING: different states for' + project.getSlug() + ' on ' + repoSettings.getKey());
+                    console.debug('REPO SERVCE -- PENDING: state project = ' + project.getLastBuildState() + ' for build id ' + project.getLastBuildId() + ' on ' + repoSettings.getKey());
+                    console.debug('REPO SERVCE -- PENDING: state build = ' + build.getState() + ' for build id ' + build.getId() + ' on ' + repoSettings.getKey());
                 }
-            }, this);
+            }
         }, this);
 
     }
 
-    getProjectsToUpdate(repo, projects) {
+    getProjectsToUpdate(repoSettings:RepoSettings, projects) {
         var that = this;
+        let repoKey = repoSettings.getKey();
+
         projects = this.toObject(projects);
-        if (typeof(this.repos[repo]) === "undefined") {
-            this.repos[repo] = projects;
+        if (typeof(this.repos[repoKey]) === "undefined") {
+            this.repos[repoKey] = projects;
         } else {
             this.previousRepos = this.clone(this.repos);
-            this.repos[repo] = this.mergeObjects(this.repos[repo], projects);
+            this.repos[repoKey] = this.mergeObjects(this.repos[repoKey], projects);
         }
 
         let updatableProjects = this.pendingProjects || [];
@@ -64,16 +66,16 @@ export class ReposService {
         // Reset pendingProjects.
         this.pendingProjects = [];
 
-        if (typeof this.previousRepos[repo] === "undefined") {
-            console.debug('REPO SERVICE -- UPDATE: empty list so returning all');
-            return this.repos[repo];
+        if (typeof this.previousRepos[repoKey] === "undefined") {
+            console.debug('REPO SERVICE -- UPDATE: empty list so returning all for ' + repoKey);
+            return this.repos[repoKey];
         }
 
-        Object.keys(this.repos[repo]).forEach((key) => {
-            var project = that.repos[repo][key];
+        Object.keys(this.repos[repoKey]).forEach((key) => {
+            var project = that.repos[repoKey][key];
             if (
-                typeof(that.previousRepos[repo][project.getId()]) === "undefined"
-                || project.equals(that.previousRepos[repo][project.getId()]) === false
+                typeof(that.previousRepos[repoKey][project.getId()]) === "undefined"
+                || project.equals(that.previousRepos[repoKey][project.getId()]) === false
             ) {
                 console.debug('REPO SERVICE: difference for repo ' + project.getSlug());
                 updatableProjects.push(project);
@@ -83,7 +85,7 @@ export class ReposService {
     }
 
     /**
-     * Create a assosiative array for projects.
+     * Create a associative array for projects.
      *
      * @param projects
      * @returns {{}}

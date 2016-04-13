@@ -22,7 +22,6 @@ export class StatusPendingComponent {
 
     test ="finished";
     getStuff() {
-        debugger;
         console.debug(this);
     }
 }

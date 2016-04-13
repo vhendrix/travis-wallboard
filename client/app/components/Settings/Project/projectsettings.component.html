@@ -1,0 +1,21 @@
+<section class="settingsForm">
+    <h3>Repo settings:</h3>
+    <div style="display:none" id="repo-success" role="alert" class="alert alert-success">
+        <strong>Saved:</strong> Your settings were saved.
+    </div>
+
+    <form ng-submit="submit()" class="form-inline">
+        <div class='project-settings' *ngFor="#setting of settings; #i = index">
+            <h3 >{{setting.getName()    }}</h3>
+
+            <div class='project-settings' *ngFor="#project of setting.getSettings(); #j = index">
+                <div class="form-group">
+                    <label>{{project.name}}</label>
+                    <input type="checkbox" [(ngModel)]="project.enabled" class="form-control">
+                </div>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</section>

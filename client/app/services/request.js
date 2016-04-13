@@ -106,10 +106,18 @@ export class Request {
      * @param {RepoSettings} settings
      * @param {String} slug
      *
+     * @param all
      * @returns {Observable<R>}
      */
-    getTravisBuilds(settings:RepoSettings, slug:String) {
-        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.getName()) + "/" + encodeURI(slug) + "/builds?event_type=push";
+    getTravisBuilds(settings:RepoSettings, slug:String, all) {
+        if (typeof all === 'undefined') {
+            all = false;
+        }
+        var uri = this.settings.getUri(settings) + 'repos/' + encodeURI(settings.getName()) + "/" + encodeURI(slug) + "/builds";
+
+        if (all == false) {
+            uri += '?event_type=push';
+        }
         var headers = new Headers({
             'Accept': this.settings.getAcceptHeader(),
             'Authorization': this.settings.getToken(settings.isPrivate(), settings.getToken())
@@ -154,6 +162,7 @@ export class Request {
             data.started_at,
             data.finished_at,
             data.pull_request_number !== null,
+            data.pull_request_number,
             data.event_type,
             commitModel
         );

@@ -32,35 +32,36 @@ gulp.task('client-test-dev', clientTestTask(false));
 
 gulp.task('clean', cleanTask());
 
-gulp.task('serve', function(done) {
-  runSequence(
-    'clean',
-    ['client-build', 'client-copy','libraries-copy', 'livereload'],
-    'server-start',
-    done
-  )
+gulp.task('serve', function (done) {
+    runSequence(
+        'clean',
+        ['client-build', 'client-copy', 'libraries-copy', 'livereload'],
+        'server-start',
+        done
+    )
 });
 
-gulp.task('test', function(done) {
-  runSequence(
-    'client-test',
-    done
-  )
+gulp.task('test', function (done) {
+    runSequence(
+        'client-test',
+        done
+    )
 });
 
-gulp.task('test-dev', function(done) {
-  runSequence(
-    'client-test-dev',
-    done
-  )
+gulp.task('test-dev', function (done) {
+    runSequence(
+        'client-test-dev',
+        done
+    )
 });
 
 gulp.task('test-e2e', protractorTask());
 
-gulp.task('dist', function(done) {
-  runSequence(
-    'clean',
-    ['client-build-dist', 'client-copy-dist', 'server-copy-dist', 'general-copy-dist'],
-    done
-  );
+gulp.task('dist', function (done) {
+    runSequence(
+        'clean',
+        ['client-build-dist', 'client-copy-dist', 'libraries-copy-dist'],
+        'general-copy-dist',
+        done
+    );
 });

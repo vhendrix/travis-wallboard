@@ -18,8 +18,8 @@ module.exports = {
     destination: 'dist/server'
   },
   general: {
-    source: ['package.json', 'Procfile'],
-    destination: 'dist'
+    source: ['dist/client/boot.js', 'dist/client/**', 'dist/client/**/**'],
+    destination: 'dist/server'
   },
   liveReload: {
     port: 35729

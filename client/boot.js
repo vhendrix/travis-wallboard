@@ -20,6 +20,9 @@ if (ENVIRONMENT == 'production') {
 bootstrap(Menu, [
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
+    Store,
+    Request,
+    Settings,
     provide(LocationStrategy, {useClass: HashLocationStrategy})
 ]);
 

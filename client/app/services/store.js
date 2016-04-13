@@ -33,7 +33,6 @@ export class Store {
     }
 
     setToLocalStorage(name, value) {
-        console.debug(value);
         if (typeof(value) !== "string") {
             value = JSON.stringify(value);
         }
@@ -78,10 +77,14 @@ export class Store {
      * @returns {RepoSettings}
      */
     getRepoSettings() {
-        let repos = this.getValue('users').map((settings) => {
-            let ret = new RepoSettings(settings.name, settings.token, settings.includePublic);
-            return ret;
-        });
+        let users =  this.getValue('users');
+        let repos = [];
+        if (typeof users !== 'undefined' && users !== null) {
+            repos = users.map((settings) => {
+                let ret = new RepoSettings(settings.name, settings.token, settings.refreshRate);
+                return ret;
+            });
+        }
 
         return repos;
     }
