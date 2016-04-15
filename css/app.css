@@ -21,7 +21,7 @@ section.settingsForm {
 
 }
 
-.tw-menu {
+.top-menu {
     position: absolute;
     top: -52px;
     width: 100%;
@@ -358,4 +358,60 @@ td.closed {
     text-overflow: ellipsis;
     padding-bottom: 10px;
     font-style: italic;
+}
+
+
+.build-success-item {
+    background-image: url(/css/green.png);
+}
+
+.build-failed-item {
+    background-image: url(/css/red.png);
+}
+
+.build-pending-item {
+    background-image: url(/css/blue.png);
+}
+
+.build-error-item {
+    background-image: url(/css/orange.png);
+}
+
+.build-canceled-item {
+    background-image: url(/css/gray.png);
+}
+
+
+.build-item .ablock {
+    color: snow;
+}
+
+.other-rows .large-view {
+    display:    none;
+}
+
+
+.other-rows .ablock {
+    height: 155px;
+    overflow: hidden;
+}
+
+.other-rows .ablock h2 {
+    font-size: 21px;
+}
+
+.other-rows .commiter {
+    height: 70px;
+    width: 70px;
+}
+
+.first-row .ablock {
+    height: 350px;
+}
+
+.first-row .commiter {
+    height: 170px;
+    width: 170px;
+    left: -10px;
+    top: -12px;
 }
