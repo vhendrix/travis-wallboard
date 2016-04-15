@@ -1,0 +1,38 @@
+<section class="settingsForm">
+    <h3>Base settings:  <button (click)="newUser()">New User</button></h3>
+
+    <form (ngSubmit)="saveUsers()" class="form-inline">
+        <div class="panel-group" id="accordion" role="tablist"
+             [attr.aria-multiselectable]="true">
+            <div *ngFor="#user of getUsers();  #i = index" class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading{{i}}">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}"
+                           [attr.aria-expanded]="true" [attr.aria-controls]="getCollapse(i)">
+                            {{getTitle(user, i)}}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse{{i}}" class="panel-collapse collapse" role="tabpanel"
+                     [attr.aria-labelledby]="getHeading(i)">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input [(ngModel)]="user.name" type="text" class="form-control name" placeholder="User name">
+                        </div>
+                        <div class="form-group">
+                            <label>Img</label>
+                            <input [(ngModel)]="user.img" type="text" class="form-control token" placeholder="Img">
+                        </div>
+                        <div class="form-group">
+                            <button (click)="remove(i)">
+                                x
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</section>

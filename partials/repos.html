@@ -4,16 +4,16 @@
 
 <div class="container-fluid row">
     <div ng-repeat="(key, build) in builds" class=" col col-md-3"
-         ng-if="displayFunctions.isFailed(build.state) && !displayFunctions.recentError(build.finished_at)">
+         ng-if="build.isFailed() && !build.hasRecentError()">
         <div travis-build type="fail"></div>
     </div>
 
-    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="displayFunctions.isBuilding(build.state)">
+    <div ng-repeat="(key, build) in builds" class=" col col-md-3" ng-if="build.isBuilding()">
         <div travis-build type="building"></div>
     </div>
 
     <div ng-repeat="(key, build) in builds | orderObjectByReverse:'finished_at'" class=" col col-md-3"
-         ng-if="displayFunctions.isPassing(build.state)">
+         ng-if="build.isPassing()">
         <div travis-build type="success"></div>
     </div>
 </div>

@@ -1,4 +1,6 @@
 local-config.js
 test.php
+mock/jsons/*.json
 node_modules/*
 .idea
+dist

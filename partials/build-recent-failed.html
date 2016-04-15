@@ -1,28 +1,28 @@
 <div class="row">
     <div ng-repeat="(key, build) in builds" class=" col {{displayFunctions.getErrorsClass(builds)}}"
-         ng-if="displayFunctions.isFailed(build.state) && displayFunctions.recentError(build.finished_at)">
+         ng-if="build.isFailed() && displayFunctions.recentError(build.finishedAt)">
         <div class="{{build.state | stateClass}} ablock ">
             <div class="leftcol">
-                <h2><span ng-if="build.is_pr">PR: </span>{{build.name}}</h2>
+                <h2><span ng-if="build.isPr">PR: </span>{{build.name}}</h2>
 
                 <p class="lead">
                     <strong>{{build.branch}}</strong>
                 </p>
 
                 <p>
-                    Build broken with state: {{build.state}} by {{build.committer_name}}
+                    Build broken with state: {{build.state}} by {{build.commit.committer.name}}
                 </p>
                 <span style="font-size: 30px" class="glyphicon glyphicon-remove"></span>
 
                 <div class="truncate">
-                    {{build.commit_message}}
+                    {{build.commit.message}}
                 </div>
 
-                <p>Build broke {{build.finished_at | timeAgo}} ago.</p>
+                <p>Build broke {{build.finishedAt | timeAgo}} ago.</p>
             </div>
             <div class="rightcol">
                 <div>
-                    <img src="http://www.gravatar.com/avatar/{{ build.committer_email | gravatar }}">
+                    <img src="http://www.gravatar.com/avatar/{{ build.commit.committer.email | gravatar }}">
                 </div>
                 <div></div>
             </div>

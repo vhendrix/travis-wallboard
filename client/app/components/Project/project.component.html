@@ -1,0 +1,7 @@
+<div class="container-fluid row">
+    <div *ngFor="#build of builds">
+        <pending-item [build]="build.val"></pending-item>
+        <failed-item [build]="build.val"></failed-item>
+        <success-item [build]="build.val"></success-item>
+    </div>
+</div>
