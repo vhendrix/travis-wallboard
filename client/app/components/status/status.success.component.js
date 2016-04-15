@@ -19,10 +19,20 @@ import appTemplate from './status.success.html';
 export class StatusSuccessComponent {
     @Input()
     build;
+    getBuild() {
+        return this.build.val;
+    }
 
-    test ="finished";
-    getStuff() {
-        debugger;
-        console.debug(this);
+    getClasses() {
+        let index = this.build.index;
+        if(index <=3) {
+            return 'col-md-4 first-row';
+        } else if(index > 3 && index <=7) {
+            return 'col-md-3 second-row';
+        } else if(index >7 && index <=13) {
+            return 'col-md-2 third-row';
+        } else {
+            return 'col-md-1 other-rows';
+        }
     }
 }

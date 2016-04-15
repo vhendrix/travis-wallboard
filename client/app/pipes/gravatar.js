@@ -10,10 +10,12 @@ export class Gravatar implements PipeTransform {
         let store = new Store();
         let settings = store.getValue('user-settings');
 
-        for (let i = 0; i < settings.length; i ++) {
-            let setting = settings[i];
-            if (setting.name === email) {
-                return setting.img;
+        if (settings !== null) {
+            for (let i = 0; i < settings.length; i++) {
+                let setting = settings[i];
+                if (setting.name === email) {
+                    return setting.img;
+                }
             }
         }
         let baseUrl = 'http://www.gravatar.com/avatar/';

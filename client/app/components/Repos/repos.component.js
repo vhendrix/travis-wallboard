@@ -23,7 +23,9 @@ import {OnDestroy,OnInit} from 'angular2/core';
 
 export class ReposComponent implements OnDestroy, OnInit {
     builds = {};
-    buildsArray = [];
+    successBuildsArray = [];
+    failedBuildsArray = [];
+    pendingBuildsArray = [];
     timer;
     interval = 1000;
     repoSettings;
@@ -97,6 +99,8 @@ export class ReposComponent implements OnDestroy, OnInit {
         this.init(true);
         this.timer = setInterval(() => {
             this.init();
+            this.adjustToScreenHeight()
+
         }, this.interval);
 
         console.debug('REPO COMPONENT: Added interval');
@@ -111,22 +115,6 @@ export class ReposComponent implements OnDestroy, OnInit {
         return (val === "" || typeof(val) === "undefined" || val === null);
     }
 
-
-    getBuilds() {
-        return Array.from(this.builds);
-    }
-
-    transform(dict:Object):Array {
-        var a = [];
-        for (var key in dict) {
-            if (dict.hasOwnProperty(key)) {
-                a.push({key: key, val: dict[key]});
-            }
-        }
-
-        return a;
-    }
-
     updateBuild(repo, builds, slug) {
         if (typeof(builds) !== 'undefined' && typeof(builds[0]) !== 'undefined') {
             var newbuild = builds[0];
@@ -134,11 +122,52 @@ export class ReposComponent implements OnDestroy, OnInit {
             this.builds[repo.getId()] = newbuild;
             this.errors = 0;
         }
-        this.buildsArray = this.transform(this.builds);
+
+        this.pendingBuildsArray = [];
+        this.failedBuildsArray = [];
+        this.successBuildsArray = [];
+        Object.keys(this.builds).forEach((build:Build) => {
+            if (this.builds[build].isPassing()) {
+                this.successBuildsArray.push({key: build, val: this.builds[build]})
+            } else if (this.builds[build].isFailed()) {
+                this.failedBuildsArray.push({key: build, val: this.builds[build]})
+            } else if (this.builds[build].isBuilding()) {
+                this.pendingBuildsArray.push({key: build, val: this.builds[build]})
+            }
+        });
+
+        let sort = new ArraySortPipe();
+
+        this.pendingBuildsArray = sort.transform(this.pendingBuildsArray);
+        this.failedBuildsArray = sort.transform(this.failedBuildsArray);
+        this.successBuildsArray = sort.transform(this.successBuildsArray);
+
+
+        let index =1;
+
+        this.pendingBuildsArray.forEach((build) => {
+            build.index = index;
+            index++
+        });
+        this.failedBuildsArray.forEach((build) => {
+            build.index = index;
+            index++
+        });
+        this.successBuildsArray.forEach((build) => {
+            build.index = index;
+            index++
+        });
+
         this.cdr.detectChanges();
     }
 
 
+    adjustToScreenHeight() {
+        // Try to set opimal height to show 4 rows on screen
+        // 745 Is height of rows 2,3,4 inclusive margines.
+        let firstRowHeight = $(window).height() - 805;
+        $('.first-row .ablock').height(firstRowHeight);
+    }
     updatePending(repoSettings:RepoSettings) {
         this.reposService.getPending(this.builds, repoSettings);
     }

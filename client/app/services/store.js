@@ -1,5 +1,9 @@
 'use strict';
+
+import {Injectable} from 'angular2/core';
 import {RepoSettings}    from '../components/Settings/reposettings.model';
+@Injectable()
+
 export class Store {
     useLocalStorage = false;
 
@@ -14,7 +18,11 @@ export class Store {
      * @returns {*}
      */
     getCookie(name) {
-        return JSON.parse($.cookie(name));
+        let value = $.cookie(name);
+        if(typeof value === 'undefined') {
+            return null;
+        }
+        return JSON.parse();
     }
 
     /**

@@ -1,22 +1,24 @@
-<div *ngIf="build.isBuilding()"  class=" col col-md-3">
-    <div class="{{build.getState() | stateClass}} ablock">
+<div *ngIf="getBuild().isBuilding()"  class="build-item col {{getClasses()}} {{index}}">
+    <div class="{{getBuild().getState() | stateClass}} ablock">
         <div>
-            <img class="commiter" src="{{ build.getCommit().getCommitterEmail() | gravatar }}">
+            <img class="commiter" src="{{ getBuild().getCommit().getCommitterEmail() | gravatar }}">
         </div>
-        <h2><span *ngIf="build.isPr()">PR: </span>{{build.getName()}}</h2>
+        <h2><span *ngIf="getBuild().isPr()">PR: </span>{{getBuild().getName()}}</h2>
 
-        <p class="lead">
-            <strong>{{build.getCommit().getBranch()}}</strong>
-        </p>
+        <section class="large-view">
+            <p class="lead">
+                <strong>{{getBuild().getCommit().getBranch()}}</strong>
+            </p>
 
-        <p>
-            Build started by {{build.getCommit().getCommitterEmail()}}
-        </p>
+            <p>
+                Build started by {{getBuild().getCommit().getCommitterEmail()}}
+            </p>
 
-        <div class="truncate">
-            {{build.getCommit().getMessage()}}
-        </div>
-        <p>Build started  <span class="time" [attr.data-finished_at]="build.getStartedAt()">{{build.getStartedAt() | timeAgo}}</span> ago.</p>
+            <div class="truncate">
+                {{getBuild().getCommit().getMessage()}}
+            </div>
+        </section>
+        <p>Build started  <span class="time" [attr.data-finished_at]="getBuild().getStartedAt()">{{getBuild().getStartedAt() | timeAgo}}</span> ago.</p>
     </div>
 </div>
 

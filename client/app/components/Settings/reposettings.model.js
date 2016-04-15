@@ -6,7 +6,7 @@ export class RepoSettings {
     constructor(name:string, token:string, refreshRate:Number) {
         this.name = name;
         this.token = token;
-        this.refreshRate = refreshRate;
+        this.refreshRate = refreshRate || 60;
     }
 
     getName() {
@@ -26,7 +26,7 @@ export class RepoSettings {
     }
 
     isPrivate() {
-        return typeof(this.token) !== "undefined" && this.token != "";
+        return typeof(this.token) !== "undefined" && this.token != "" && this.token != null;
     }
 
     shouldUpdate(interval) {

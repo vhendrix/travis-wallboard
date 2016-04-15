@@ -6,15 +6,15 @@ export class StateClass implements PipeTransform {
     transform(state, args) {
         var blockClass = '';
         if (state === 'failed') {
-            blockClass = 'btn-danger text-danger';
+            blockClass = 'build-failed-item';
         } else if (state === 'passed' || state === 'finished') {
-            blockClass = 'btn-success text-success';
+            blockClass = 'build-success-item';
         } else if (state === 'started' || state === 'received' || state === 'created') {
-            blockClass = 'btn-info text-info';
+            blockClass = 'build-pending-item';
         } else if (state === 'canceled') {
-            blockClass = 'btn-info text-info text-canceled';
+            blockClass = 'build-canceled-item';
         } else {
-            blockClass = 'btn-warning';
+            blockClass = 'build-error-item';
         }
 
         return blockClass;

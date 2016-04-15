@@ -1,5 +1,5 @@
 <div class="container-fluid row">
-        <pending-item *ngFor="#build of buildsArray | arraySort"  [build]="build.val"></pending-item>
-        <failed-item *ngFor="#build of buildsArray | arraySort"  [build]="build.val"></failed-item>
-        <success-item *ngFor="#build of buildsArray | arraySort"  [build]="build.val"></success-item>
+        <pending-item *ngFor="#build of pendingBuildsArray | arraySort"  [build]="build" [pos]="build"></pending-item>
+        <failed-item *ngFor="#build of failedBuildsArray | arraySort"  [build]="build" [pos]="build"></failed-item>
+        <success-item *ngFor="#build of successBuildsArray | arraySort"  [build]="build" [pos]="build"></success-item>
 </div>

@@ -2,16 +2,12 @@
 
 module.exports = {
   client: {
-    source: ['client/**/*.{html,css,ico}', '!**/app/**'],
+    source: ['client/**/*.{html,css,ico,png}', '!**/app/**', 'client/wallboard.js'],
     destination: 'dist/client'
   },
   libraries: {
     source: ['client/Libraries/**'],
     destination: 'dist/client/Libraries'
-  },
-  mocks: {
-    source: ['client/mocks/*.{js,json}'],
-    destination: 'dist/client/mocks'
   },
   server: {
     source: ['server/**/*.{js,json}', '!server/**/*.spec.*'],
@@ -19,7 +15,7 @@ module.exports = {
   },
   general: {
     source: ['dist/client/boot.js', 'dist/client/**', 'dist/client/**/**'],
-    destination: 'dist/server'
+    destination: ''
   },
   liveReload: {
     port: 35729

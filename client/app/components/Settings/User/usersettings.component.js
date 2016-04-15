@@ -3,6 +3,7 @@ import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {NgForm}    from 'angular2/common';
 import {UserSettings}    from './usersettings.model';
 import {Store} from "../../../services/store";
+import {Settings} from "../../../services/settings";
 import {Request} from "../../../services/request";
 
 import appTemplate from './usersettings.component.html';
@@ -17,9 +18,10 @@ export class UserSettingsComponent {
     store = null;
     request = null;
 
-    constructor(store:Store, request:Request) {
+    constructor(store:Store, request:Request, settings:Settings) {
         this.store = store;
         this.request = request;
+        this.settings = settings;
 
         this.loadUsers();
 

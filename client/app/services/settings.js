@@ -1,7 +1,6 @@
 import {Injectable} from 'angular2/core';
-import {Store} from './store';
 import {RepoSettings} from '../components/Settings/reposettings.model'
-
+import {Store} from './store';
 @Injectable()
 
 export class Settings {
@@ -15,10 +14,37 @@ export class Settings {
     slug = "";
     acceptHeader = 'application/vnd.travis-ci.2+json';
 
+    constructor(store:Store) {
+        this.store = store;
 
-    setUsers($users) {
-        this.users = $users;
-        TW.helpers.setCookie('userData', JSON.stringify($users), 750);
+        this.migrateOldUsers();
+        this.users = this.store.getValue('users');
+    }
+
+    migrateOldUsers() {
+        let oldUsers = this.store.getCookie('userData');
+        let newUsers = [];
+        if (typeof oldUsers !== 'undefined' && oldUsers !== null) {
+            console.debug('SETTINGS: Old settings found migrating:');
+            oldUsers.forEach((user) => {
+                console.debug('SETTINGS: migrated '+ user.name + ' token.' + user.token);
+                let newUser = new RepoSettings(user.name,user.token);
+                newUsers.push(newUser);
+            });
+            this.store.setValue('users', JSON.stringify(newUsers));
+            this.store.setCookie('userData', null, -222);
+        }
+
+    }
+
+    setUsers(users) {
+        this.users = users;
+
+        this.store.setValue('user-settings', users);
+    }
+
+    getUsers() {
+        return this.users;
     }
 
     setProjects($projects) {
@@ -54,10 +80,6 @@ export class Settings {
         } else {
             return this.opensource_uri;
         }
-    }
-
-    loadUserData() {
-        data.users = JSON.parse(TW.helpers.getCookie('userData'));
     }
 
     loadProjectData() {
