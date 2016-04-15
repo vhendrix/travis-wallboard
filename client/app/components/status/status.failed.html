@@ -1,0 +1,23 @@
+<div *ngIf="getBuild().isFailed()"  class="build-item col {{getClasses()}}  {{index}}">
+    <div class="{{getBuild().getState() | stateClass}} ablock">
+        <div>
+            <img class="commiter" src="{{ getBuild().getCommit().getCommitterEmail() | gravatar }}">
+        </div>
+        <h2><span *ngIf="getBuild().isPr()">PR: </span>{{getBuild().getName()}}</h2>
+
+        <section class="large-view">
+            <p class="lead">
+                <strong>{{getBuild().getCommit().getBranch()}}</strong>
+            </p>
+
+            <p>
+                Last failed build by {{getBuild().getCommit().getCommitterEmail()}}
+            </p>
+
+            <div class="truncate">
+                {{getBuild().getCommit().getMessage()}}
+            </div>
+        </section>
+        <p>Build failed <span class="time" [attr.data-finished_at]="getBuild().getFinishedAt()">{{getBuild().getFinishedAt() | timeAgo}}</span> ago.</p>
+    </div>
+</div>
