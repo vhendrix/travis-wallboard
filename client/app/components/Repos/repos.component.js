@@ -166,7 +166,7 @@ export class ReposComponent implements OnDestroy, OnInit {
         // Try to set opimal height to show 4 rows on screen
         // 745 Is height of rows 2,3,4 inclusive margines.
         let firstRowHeight = $(window).height() - 805;
-        $('.first-row .ablock').height(firstRowHeight);
+        $('.first-row .ablock').height(Math.max(firstRowHeight, 280));
     }
     updatePending(repoSettings:RepoSettings) {
         this.reposService.getPending(this.builds, repoSettings);

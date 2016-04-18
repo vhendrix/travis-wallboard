@@ -22,7 +22,7 @@ export class Store {
         if(typeof value === 'undefined') {
             return null;
         }
-        return JSON.parse();
+        return JSON.parse(value);
     }
 
     /**
