@@ -362,23 +362,23 @@ td.closed {
 
 
 .build-success-item {
-    background-image: url(/css/green.png);
+    background-image: url(../css/green.png);
 }
 
 .build-failed-item {
-    background-image: url(/css/red.png);
+    background-image: url(../css/red.png);
 }
 
 .build-pending-item {
-    background-image: url(/css/blue.png);
+    background-image: url(../css/blue.png);
 }
 
 .build-error-item {
-    background-image: url(/css/orange.png);
+    background-image: url(../css/orange.png);
 }
 
 .build-canceled-item {
-    background-image: url(/css/gray.png);
+    background-image: url(../css/gray.png);
 }
 
 

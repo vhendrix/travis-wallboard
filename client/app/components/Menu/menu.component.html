@@ -2,23 +2,23 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="travis-wallboard/#repos">Travis Wallboard v1.0</a>
+                <a class="navbar-brand" href="/#repos">Travis Wallboard v1.0</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="travis-wallboard/#/repos">All Repos <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="/#/repos">All Repos <span class="sr-only">(current)</span></a></li>
                     <li>
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Settings <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li> <a href="travis-wallboard/#/settings">Settings</a></li>
-                            <li> <a href="travis-wallboard/#/project-settings">Project Settings</a></li>
-                            <li> <a href="travis-wallboard/#/user-settings">User Settings</a></li>
+                            <li> <a href="/#/settings">Settings</a></li>
+                            <li> <a href="/#/project-settings">Project Settings</a></li>
+                            <li> <a href="/#/user-settings">User Settings</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Projects <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li *ngFor="#project of projects;"> <a href="travis-wallboard/#project/{{project.path}}">{{project.slug}}</a></li>
+                            <li *ngFor="#project of projects;"> <a href="/#project/{{project.path}}">{{project.slug}}</a></li>
                         </ul>
                     </li>
                 </ul>
