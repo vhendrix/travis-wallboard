@@ -213,6 +213,7 @@
                     angular.forEach(
                         builds, function (build) {
                             if (build.state === 'failed' || build.state === 'error' || build.state === 'errored') {
+                                console.log(build);
                                 var dt = new Date(Date.parse(build.finishedAt));
                                 var now = new Date();
 

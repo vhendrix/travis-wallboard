@@ -70,6 +70,9 @@
     "todomvc-app-css": "^2.0.0",
     "todomvc-common": "^1.0.1",
     "webpack": "1.12.10",
-    "zone.js": "0.5.10"
+    "zone.js": "0.5.10",
+    "grunt": "~1.0.1",
+    "grunt-contrib-connect": "~1.0.2",
+    "load-grunt-tasks": "~3.5.0"
   }
 }

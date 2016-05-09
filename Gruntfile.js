@@ -178,9 +178,10 @@ module.exports = function (grunt) {
 
     require("load-grunt-tasks")(grunt);
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-uglify')
-    grunt.registerTask('test', ['jshint']);
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    //grunt.loadNpmTasks('grunt-contrib-jshint');
+    //grunt.loadNpmTasks('grunt-contrib-uglify')
+    //grunt.registerTask('test', ['jshint']);
     grunt.registerTask('default', ['test']);
-    grunt.registerTask('babelgen', ['babel', 'uglify']);
+    //grunt.registerTask('babelgen', ['babel', 'uglify']);
 };
